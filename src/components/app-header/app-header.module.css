@@ -1,0 +1,20 @@
+header {
+    background-color: #1C1C21;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    width: 80%;
+    height: 88px;
+}
+nav {
+    display: flex;
+    width: 90%;
+}
+
+div .menu_item {
+    width: 200px;
+}
