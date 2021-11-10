@@ -1,20 +1,48 @@
 header {
-    background-color: #1C1C21;
 }
 
 header .container {
+    background-color: #1C1C21;
+    height: 88px;
+
+}
+nav {
+    max-width: 1280px;
+    overflow: hidden;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 auto;
-    width: 80%;
-    height: 88px;
-}
-nav {
-    display: flex;
-    width: 90%;
 }
 
-div .menu_item {
-    width: 200px;
+.menu_item {
+    color: #8585ad;
+    display: flex;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    padding: 20px 20px 21px;
+    cursor: pointer;
 }
+
+.active {
+    color: #ffffff !important;
+}
+
+.inactive {
+}
+
+.topdiv{
+    width: 33%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+.topdiv:nth-child(2) {
+    justify-content: center;
+}
+
+.topdiv:nth-child(3) {
+    justify-content: flex-end;
+}
+

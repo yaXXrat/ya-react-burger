@@ -1,7 +1,7 @@
 import {React, useRef, useState} from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import clsn from 'classnames';
+import classNames from 'classnames';
 import style from './burger-ingredients.module.css';
 
 import BurgerIngredientGroup from './burger-ingredient-group/burger-ingredient-group';
@@ -33,7 +33,7 @@ const BurgerIngredients = () => {
     
     return (
         <div className={style['burger-ingredients']}>
-            <div className={clsn(style['burger-ingredients-title'],'mt-10 mb-5 text text_type_main-medium ')}>
+            <div className={classNames(style['burger-ingredients-title'],'mt-10 mb-5 text text_type_main-large ')}>
                 Соберите бургер
             </div>
             <div className={style['burger-ingredients-selector']}>

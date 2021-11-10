@@ -1,11 +1,9 @@
 .burger-ingredient-parent-group
 {
-    width: 600px;
-    left: 0px;
     height: auto;
 }
 .burger-ingredients-group {
-    width: 600px;
-    left: 0px;
+    flex-wrap: wrap;
+    display: flex;
     height: auto;
 }

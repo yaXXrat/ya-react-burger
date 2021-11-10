@@ -8,21 +8,28 @@ const AppHeader = () => {
       <header>
         <div className={style.container}>
           <nav>
-              <MenuItem
-                Icon={BurgerIcon}
-                text="Конструктор"
-              />
-              <MenuItem
-                Icon={ListIcon}
-                text="Лента заказов"
-              />
-              <div>
-                <Logo />
+              <div className={style.topdiv}>
+                  <MenuItem
+                    Icon={BurgerIcon}
+                    text="Конструктор"
+                    active={true}
+                  />
+                  <MenuItem
+                    Icon={ListIcon}
+                    text="Лента заказов"
+                    active={false}
+                  />
               </div>
-              <MenuItem
-                Icon={ProfileIcon}
-                text="Личный кабинет"
-              />
+              <div className={style.topdiv}>
+                    <Logo />
+              </div>
+              <div className={style.topdiv}>
+                <MenuItem
+                    Icon={ProfileIcon}
+                    text="Личный кабинет"
+                    active={false}
+                  />
+              </div>
           </nav>
         </div>
       </header>    

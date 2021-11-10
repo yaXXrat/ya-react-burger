@@ -1,25 +1,27 @@
 import React from 'react'
 import {
+    Counter,
     CurrencyIcon,
-  } from '@ya.praktikum/react-developer-burger-ui-components';
-import clsn from 'classnames';
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import classNames from 'classnames';
 import style from './burger-ingredient.module.css';
 
 import PropTypes from "prop-types";
 
-const BurgerIngredient = ( { data: { image, name, price }, className }) => {
+const BurgerIngredient = ( { data: { _id, image, name, price }, className }) => {
     return (
-        <div className={clsn(style[className])}>
+        <div className={classNames(style[className])}>
+            { (_id === "60666c42cc7b410027a1a9b1"|| _id === "60666c42cc7b410027a1a9b9") && <Counter count={1} size="default" />}
             <img
                 alt={name}
-                className={style['burger-ingredient-image']}
+                className={classNames(style['burger-ingredient-image'] )}
                 src={image}
             />            
-            <div className={clsn(style['burger-ingredient-price'])}>{price}</div>
-            <div className={clsn(style['burger-ingredient-currency'])}>
+            <div className={style.price}>
+                <span className={classNames(style['burger-ingredient-price'], "text text_type_digits-default")}>{price}&nbsp;
                 <CurrencyIcon type={'primary'} />
-            </div>
-            <div className={clsn(style['burger-ingredient-title'])}>{name}</div>
+            </span></div>
+            <div className={classNames(style['burger-ingredient-title'], "text text_type_main-small")}>{name}</div>
         </div>
 
     );
