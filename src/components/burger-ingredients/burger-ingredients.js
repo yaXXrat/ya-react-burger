@@ -51,7 +51,7 @@ const BurgerIngredients = ({ displayIngredientInfo }) => {
             </div>
             <div className={style['burger-ingredients-group-container']}>
             {ingredientGroupsTypes.map((group) => (
-                <div ref={ingredientsRef[group]}>
+                <div key={group} ref={ingredientsRef[group]}>
                     <BurgerIngredientGroup
                         key={group} 
                         title={ingredientGroups[group]}
