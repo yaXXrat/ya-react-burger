@@ -8,26 +8,28 @@ import style from './burger-ingredient.module.css';
 
 import PropTypes from "prop-types";
 
-const BurgerIngredient = ( { data: { _id, image, name, price }, className }) => {
+const BurgerIngredient = ( { ingredient, className, displayIngredientInfo }) => {
     return (
         <div className={classNames(style[className])}>
-            { (_id === "60666c42cc7b410027a1a9b1"|| _id === "60666c42cc7b410027a1a9b9") && <Counter count={1} size="default" />}
+            { (ingredient._id === "60666c42cc7b410027a1a9b1"|| ingredient._id === "60666c42cc7b410027a1a9b9") && <Counter count={1} size="default" />}
             <img
-                alt={name}
+                alt={ingredient.name}
                 className={classNames(style['burger-ingredient-image'] )}
-                src={image}
+                src={ingredient.image}
+                onClick={() => displayIngredientInfo(ingredient)}
             />            
             <div className={style.price}>
-                <span className={classNames(style['burger-ingredient-price'], "text text_type_digits-default")}>{price}&nbsp;
+                <span className={classNames(style['burger-ingredient-price'], "text text_type_digits-default")}>{ingredient.price}&nbsp;
                 <CurrencyIcon type={'primary'} />
             </span></div>
-            <div className={classNames(style['burger-ingredient-title'], "text text_type_main-small")}>{name}</div>
+            <div className={classNames(style['burger-ingredient-title'], "text text_type_main-small")}>{ingredient.name}</div>
         </div>
 
     );
   };
   BurgerIngredient.propTypes = {
-    data: PropTypes.object.isRequired,
+    ingredient: PropTypes.object.isRequired,
     className: PropTypes.string.isRequired,
+    displayIngredientInfo: PropTypes.func.isRequired
   };
   export default BurgerIngredient;

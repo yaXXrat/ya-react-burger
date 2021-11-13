@@ -12,9 +12,10 @@ const ingredientGroups = {
     sauce: 'Соусы',
     main: 'Начинки'
 };
+
 const ingredientGroupsTypes = Object.keys(ingredientGroups);
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ displayIngredientInfo }) => {
     const [currentIngredientsType, setCurrentIngredientsType] = useState(ingredientGroupsTypes[0]);
     const filteredIngredientsData = (type) => {
         return ingredientsData.filter(item => item.type === type);
@@ -49,17 +50,18 @@ const BurgerIngredients = () => {
             ))}
             </div>
             <div className={style['burger-ingredients-group-container']}>
-            {ingredientGroupsTypes.map((type,idx) => (
-                <div ref={ingredientsRef[type]}>
+            {ingredientGroupsTypes.map((group) => (
+                <div ref={ingredientsRef[group]}>
                     <BurgerIngredientGroup
-                        key={idx} 
-                        title={ingredientGroups[type]}
-                        ingredients={filteredIngredientsData(type)}
+                        key={group} 
+                        title={ingredientGroups[group]}
+                        ingredients={filteredIngredientsData(group)}
+                        displayIngredientInfo={displayIngredientInfo}
                     />
                 </div>
             ))}
             </div>
-      </div>
+        </div>
     )
 }
 

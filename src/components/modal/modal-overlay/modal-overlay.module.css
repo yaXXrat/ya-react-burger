@@ -1,0 +1,15 @@
+.open {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 300px;
+    width: 600px;
+    height: 600px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .close {
+    display: none;
+  }
