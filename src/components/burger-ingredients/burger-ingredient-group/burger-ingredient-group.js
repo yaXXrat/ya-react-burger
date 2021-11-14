@@ -3,6 +3,9 @@ import React from 'react'
 import style from './burger-ingredient-group.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 
+import PropTypes from "prop-types";
+
+
 const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) => {
     return (
         <>
@@ -18,6 +21,12 @@ const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) =
             </div>
         </>
     );
+};
+
+BurgerIngredientGroup.propTypes = {
+    title: PropTypes.string.isRequired,
+    ingredients: PropTypes.node.isRequired,
+    displayIngredientInfo: PropTypes.func.isRequired,
   };
-  
-  export default BurgerIngredientGroup;
+
+export default BurgerIngredientGroup;

@@ -28,7 +28,12 @@ const BurgerIngredient = ( { ingredient, className, displayIngredientInfo }) => 
     );
   };
   BurgerIngredient.propTypes = {
-    ingredient: PropTypes.object.isRequired,
+    ingredient: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+        price: PropTypes.string.isRequired,
+    }).isRequired,
     className: PropTypes.string.isRequired,
     displayIngredientInfo: PropTypes.func.isRequired
   };
