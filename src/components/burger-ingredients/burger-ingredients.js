@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import style from './burger-ingredients.module.css';
 
 import BurgerIngredientGroup from './burger-ingredient-group/burger-ingredient-group';
-import ingredientsData from '../../utils/data';
 
 const ingredientGroups = {
     bun: 'Булки',
@@ -15,7 +14,7 @@ const ingredientGroups = {
 
 const ingredientGroupsTypes = Object.keys(ingredientGroups);
 
-const BurgerIngredients = ({ displayIngredientInfo }) => {
+const BurgerIngredients = ({ ingredientsData, displayIngredientInfo }) => {
     const [currentIngredientsType, setCurrentIngredientsType] = useState(ingredientGroupsTypes[0]);
     const filteredIngredientsData = (type) => {
         return ingredientsData.filter(item => item.type === type);

@@ -2,7 +2,7 @@ import style from "./burger-ingredient-details.module.css"
 import PropTypes from "prop-types";
 import classNames from 'classnames';
 
-const BurgerIngredientDetails = ({ ingredient }) => {
+const IngredientDetails = ({ ingredient }) => {
   return (
       <div>
         <div
@@ -47,7 +47,7 @@ const BurgerIngredientDetails = ({ ingredient }) => {
   );
 };
 
-BurgerIngredientDetails.propTypes = {
+IngredientDetails.propTypes = {
   ingredient: PropTypes.object.isRequired,
 };
-export default BurgerIngredientDetails;
+export default IngredientDetails;
