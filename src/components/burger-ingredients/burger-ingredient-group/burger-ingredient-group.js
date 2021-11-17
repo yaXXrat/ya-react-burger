@@ -25,7 +25,7 @@ const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) =
 
 BurgerIngredientGroup.propTypes = {
     title: PropTypes.string.isRequired,
-    ingredients: PropTypes.node.isRequired,
+    ingredients: PropTypes.array.isRequired,
     displayIngredientInfo: PropTypes.func.isRequired,
   };
 

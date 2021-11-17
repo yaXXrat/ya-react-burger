@@ -7,8 +7,18 @@
     margin-top: 100px;
 }
 
+.main-block{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bun{
+    margin-left: 28px;
+}
+
 .group{
-    height: 442px;
+    max-height: 442px;
     overflow: auto;
     display: flex;
     flex-direction: column;

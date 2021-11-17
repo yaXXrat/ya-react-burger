@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 const BurgerIngredient = ( { ingredient, className, displayIngredientInfo }) => {
     return (
         <div className={classNames(style[className])}>
-            { (ingredient._id === "60666c42cc7b410027a1a9b1"|| ingredient._id === "60666c42cc7b410027a1a9b9") && <Counter count={1} size="default" />}
+            { (ingredient.name === "Краторная булка N-200i"|| ingredient.name === "Соус фирменный Space Sauce") && <Counter count={1} size="default" />}
             <img
                 alt={ingredient.name}
                 className={classNames(style['burger-ingredient-image'] )}
@@ -32,7 +32,7 @@ const BurgerIngredient = ( { ingredient, className, displayIngredientInfo }) => 
         name: PropTypes.string.isRequired,
         _id: PropTypes.string.isRequired,
         image: PropTypes.string.isRequired,
-        price: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
     }).isRequired,
     className: PropTypes.string.isRequired,
     displayIngredientInfo: PropTypes.func.isRequired

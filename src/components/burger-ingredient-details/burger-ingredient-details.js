@@ -6,39 +6,38 @@ const IngredientDetails = ({ ingredient }) => {
   return (
       <div>
         <div
-          className={classNames(style['burger-ingredient-details-image'], 'text', 'text_type_main-large')}
+          className={classNames('text', 'text_type_main-large', style.details)}
         >
           Детали ингредиента
         </div>
-        <div className={style.ingredient}>
+        <div>
           <img 
             src={ingredient.image_large} 
             alt={ingredient.name}
+            className={style['ingredient-image']}
           />
-          <h3>{ingredient.name}</h3>
-          <ul>
-            <li 
-              className={classNames(style['burger-ingredient-details-image'], 'text', 'text_type_main-default')}
-            >
-              <h3>Калории, ккал</h3>{" "}
+          <h3 className={classNames(style['burger-ingredient-details-image'], 'text', 'text_type_main-medium', 'pb-8')}>{ingredient.name}</h3>
+          <ul className={classNames('text_color_inactive', 'text', 'text_type_main-default', 'mb-5', style['ingredient-details'])}>
+            <li>
+              <h3 className={classNames('text', 'text_type_main-default')}>Калории, ккал</h3>
               <span className="text text_type_digits-default">
                 {ingredient.calories}
               </span>
             </li>
-            <li className="text text_type_main-default">
-              <h3>Белки, г</h3>{" "}
+            <li>
+              <h3 className={classNames('text', 'text_type_main-default')}>Белки, г</h3>
               <span className="text text_type_digits-default">
                 {ingredient.proteins}
               </span>
             </li>
-            <li className="text text_type_main-default">
-              <h3>Жиры, г</h3>{" "}
+            <li>
+              <h3 className={classNames('text', 'text_type_main-default')}>Жиры, г</h3>
               <span className="text text_type_digits-default">
                 {ingredient.fat}
               </span>
             </li>
-            <li className="text text_type_main-default">
-              <h3>Углеводы, г</h3>{" "}
+            <li>
+              <h3 className={classNames('text', 'text_type_main-default')}>Углеводы, г</h3>
               <span className="text text_type_digits-default">
                 {ingredient.carbohydrates}
               </span>

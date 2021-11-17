@@ -7,8 +7,8 @@ const BurgerConstructor = ({displayOrderInfo}) => {
 
         <div className={style['burger-constructor']}>
 
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px'}}>
-        <div style={{marginLeft: '28px'}}><ConstructorElement
+    <div className={style['main-block']}>
+        <div className={style.bun}><ConstructorElement
             type="top"
             isLocked={true}
             text="Краторная булка N-200i (верх)"
@@ -58,7 +58,7 @@ const BurgerConstructor = ({displayOrderInfo}) => {
         </div>
 
 
-        <div style={{marginLeft: '28px'}}><ConstructorElement
+        <div className={style.bun}><ConstructorElement
             type="bottom"
             isLocked={true}
             text="Краторная булка N-200i (низ)"

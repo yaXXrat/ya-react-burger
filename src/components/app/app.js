@@ -48,13 +48,13 @@ function App() {
       <AppHeader />
       <div className={style.main_blocks}>
         <BurgerIngredients ingredientsData={data} displayIngredientInfo={displayIngredientInfo}/>
-        <BurgerConstructor displayOrderInfo={displayOrderInfo} />
+        <BurgerConstructor ingredientsData={data} displayOrderInfo={displayOrderInfo} />
       </div>
-      <Modal isOpen={isIngredientDetailsOpen} onClose={hideIngredientInfo}>
+      <Modal isOpen={isIngredientDetailsOpen} onClose={hideIngredientInfo} modalClass={'ingredient-modal'}>
         <IngredientDetails ingredient={selectedIngredient} />
       </Modal>
-      <Modal isOpen={isOrderDetailsOpen} onClose={hideOrderInfo}>
-        <OrderDetails orderId={12547} />
+      <Modal isOpen={isOrderDetailsOpen} onClose={hideOrderInfo} modalClass={'order-modal'}>
+        <OrderDetails orderId={34536} />
       </Modal>
     </div>
   );
