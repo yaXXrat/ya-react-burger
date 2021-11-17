@@ -33,7 +33,9 @@ const IngredientDetails = ({ ingredient }) => {
             </li>
             <li className="text text_type_main-default">
               <h3>Жиры, г</h3>{" "}
-              <span className="text text_type_digits-default">{ingredient.fat}</span>
+              <span className="text text_type_digits-default">
+                {ingredient.fat}
+              </span>
             </li>
             <li className="text text_type_main-default">
               <h3>Углеводы, г</h3>{" "}
@@ -48,6 +50,13 @@ const IngredientDetails = ({ ingredient }) => {
 };
 
 IngredientDetails.propTypes = {
-  ingredient: PropTypes.object.isRequired,
+  ingredient: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    image_large: PropTypes.string.isRequired,
+    calories: PropTypes.number.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+}).isRequired,
 };
 export default IngredientDetails;
