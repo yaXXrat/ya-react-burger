@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import style from "./modal-overlay.module.css";
 import PropTypes from "prop-types";
 
-const ModalOverlay = ({ children, onClose }) => {
+const ModalOverlay = ({ onClose }) => {
   useEffect(() => {
     window.addEventListener("keydown", onClose);
     return () => {
@@ -27,14 +27,11 @@ const ModalOverlay = ({ children, onClose }) => {
       className={style.open}
       onClick={(e) => onModalClose(e)}
       onKeyDown={handleKeyDown}
-    >
-      {children}
-    </div>
+    />
   );
 };
 
 ModalOverlay.propTypes = {
-  children: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 export default ModalOverlay;
