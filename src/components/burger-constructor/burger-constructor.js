@@ -2,6 +2,8 @@ import React from 'react';
 import style from './burger-constructor.module.css';
 import {ConstructorElement, DragIcon,  Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
+import PropTypes from "prop-types";
+
 const BurgerConstructor = ({displayOrderInfo}) => {
     return (
 
@@ -84,5 +86,10 @@ const BurgerConstructor = ({displayOrderInfo}) => {
 
     )    
 }
+
+BurgerConstructor.propTypes = {
+    displayOrderInfo: PropTypes.func.isRequired
+  };
+
 
 export default BurgerConstructor;
