@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import style from './burger-ingredient.module.css';
 
 import PropTypes from "prop-types";
+import {ingredientPT} from '../proptypes';
 
 const BurgerIngredient = ( { ingredient, className, displayIngredientInfo }) => {
     return (
@@ -28,12 +29,7 @@ const BurgerIngredient = ( { ingredient, className, displayIngredientInfo }) => 
     );
   };
   BurgerIngredient.propTypes = {
-    ingredient: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        _id: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-    }).isRequired,
+    ingredient: ingredientPT.isRequired,
     className: PropTypes.string.isRequired,
     displayIngredientInfo: PropTypes.func.isRequired
   };
