@@ -25,14 +25,19 @@ function App() {
   });
   
   useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((results) => {
-        setData(results.data);
-      })
-      .catch((err) => {
-        console.log("Error happened during fetching!", err);
-      });
+    fetch(url).then((res) => {  
+      if (res.ok) {    
+        return res.json();  
+      } else {
+        throw new Error();  
+      }
+    })
+    .then((results) => {
+      setData(results.data);
+    })
+    .catch((err) => {
+      console.log("Error happened during fetching!", err);
+    });
   }, []);
 
   const displayIngredientInfo = (ingredient) => {
