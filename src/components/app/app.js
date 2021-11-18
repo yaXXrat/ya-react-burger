@@ -15,7 +15,14 @@ function App() {
   const [isIngredientDetailsOpen, setIngredientDetailsOpen] = useState(false);
   const [isOrderDetailsOpen, setOrderDetailsOpen] = useState(false);
 
-  const [selectedIngredient, setSelectedIngredient] = useState({});
+  const [selectedIngredient, setSelectedIngredient] = useState({
+    name: '',
+    image_large: '',
+    calories: 0,
+    proteins: 0,
+    fat: 0,
+    carbohydrates: 0,
+  });
   
   useEffect(() => {
     fetch(url)
