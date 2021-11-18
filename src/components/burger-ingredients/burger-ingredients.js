@@ -4,7 +4,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import classNames from 'classnames';
 import style from './burger-ingredients.module.css';
 
-import BurgerIngredientGroup from './burger-ingredient-group/burger-ingredient-group';
+import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-group';
 
 import PropTypes from "prop-types";
 
