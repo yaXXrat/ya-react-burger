@@ -1,4 +1,4 @@
-import style from "./burger-ingredient-details.module.css"
+import style from "./ingredient-details.module.css"
 import PropTypes from "prop-types";
 import classNames from 'classnames';
 
@@ -16,7 +16,7 @@ const IngredientDetails = ({ ingredient }) => {
             alt={ingredient.name}
             className={style['ingredient-image']}
           />
-          <h3 className={classNames(style['burger-ingredient-details-image'], 'text', 'text_type_main-medium', 'pb-8')}>{ingredient.name}</h3>
+          <h3 className={classNames(style['ingredient-details-image'], 'text', 'text_type_main-medium', 'pb-8')}>{ingredient.name}</h3>
           <ul className={classNames('text_color_inactive', 'text', 'text_type_main-default', 'mb-5', style['ingredient-details'])}>
             <li>
               <h3 className={classNames('text', 'text_type_main-default')}>Калории, ккал</h3>
