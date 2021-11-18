@@ -7,6 +7,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import IngredientDetails from '../burger-ingredient-details/burger-ingredient-details';
 import OrderDetails from '../order-details/order-details';
+import DisplayError from "../display-error/display-error";
 const url = `https://norma.nomoreparties.space/api/ingredients`;
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
 
   const [isIngredientDetailsOpen, setIngredientDetailsOpen] = useState(false);
   const [isOrderDetailsOpen, setOrderDetailsOpen] = useState(false);
+  const [isDisplayErrorOpen, setDisplayErrorOpen] = useState(false);
+  const [errorText, setErrorText] = useState('');
 
   const [selectedIngredient, setSelectedIngredient] = useState({
     name: '',
@@ -21,11 +24,11 @@ function App() {
     calories: 0,
     proteins: 0,
     fat: 0,
-    carbohydrates: 0,
+    carbohydrates: 0
   });
   
   useEffect(() => {
-    fetch(url).then((res) => {  
+    fetch(url).then((res) => {
       if (res.ok) {    
         return res.json();  
       } else {
@@ -35,8 +38,10 @@ function App() {
     .then((results) => {
       setData(results.data);
     })
-    .catch((err) => {
-      console.log("Error happened during fetching!", err);
+    .catch((e) => {
+      setErrorText(e.name + ': ' + e.message);
+      setDisplayErrorOpen( true);
+      console.log("Error happened during fetching!", e);
     });
   }, []);
 
@@ -55,6 +60,10 @@ function App() {
     setOrderDetailsOpen(false);
   };
 
+  const hideDisplayError = () =>{
+    setDisplayErrorOpen('')
+  };
+
   return (
     <div>
       <AppHeader />
@@ -62,11 +71,14 @@ function App() {
         <BurgerIngredients ingredientsData={data} displayIngredientInfo={displayIngredientInfo}/>
         <BurgerConstructor ingredientsData={data} displayOrderInfo={displayOrderInfo} />
       </div>
-      <Modal isOpen={isIngredientDetailsOpen} onClose={hideIngredientInfo} modalClass={'ingredient-modal'}>
+      <Modal isOpen={isIngredientDetailsOpen} onClose={hideIngredientInfo} className={style['ingredient-modal']}>
         <IngredientDetails ingredient={selectedIngredient} />
       </Modal>
-      <Modal isOpen={isOrderDetailsOpen} onClose={hideOrderInfo} modalClass={'order-modal'}>
+      <Modal isOpen={isOrderDetailsOpen} onClose={hideOrderInfo} className={style['order-modal']}>
         <OrderDetails orderId={34536} />
+      </Modal>
+      <Modal isOpen={isDisplayErrorOpen} onClose={hideDisplayError} className={style['error-modal']}>
+        <DisplayError error={errorText} />
       </Modal>
     </div>
   );
