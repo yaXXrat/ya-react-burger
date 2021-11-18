@@ -21,14 +21,12 @@ const Modal = ({ children, isOpen, onClose, className}) => {
     isOpen &&
     ReactDOM.createPortal(
       <>
-          <div className={classNames(style.wrapper)}>
             <div className={classNames(style.modal, className)}>
               <div className={classNames(style['close'], 'mt-10', 'mr-10')}>
                 <CloseIcon type="primary" onClick={onClose} />
               </div>
               {children}
             </div>
-          </div>
         <ModalOverlay onClose={onClose}>
         </ModalOverlay>
       </>,

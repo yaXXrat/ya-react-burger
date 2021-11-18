@@ -1,17 +1,10 @@
-.wrapper{
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1001;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .modal {
   position: absolute;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  z-index: 1001;
+  top: 50%;
+  left: 50%;
   width: 720px;
   background: #1c1c21;
   border: 0;

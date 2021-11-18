@@ -13,7 +13,6 @@ const url = `https://norma.nomoreparties.space/api/ingredients`;
 function App() {
   const [data, setData] = useState([]);
 
-  const [isIngredientDetailsOpen, setIngredientDetailsOpen] = useState(false);
   const [isOrderDetailsOpen, setOrderDetailsOpen] = useState(false);
   const [isDisplayErrorOpen, setDisplayErrorOpen] = useState(false);
   const [errorText, setErrorText] = useState('');
@@ -39,11 +38,10 @@ function App() {
   }, []);
 
   const displayIngredientInfo = (ingredient) => {
-    setIngredientDetailsOpen(true);
     setSelectedIngredient(ingredient);
   };
   const hideIngredientInfo = () => {
-    setIngredientDetailsOpen(false);
+    setSelectedIngredient(null)
   };
 
   const displayOrderInfo = () => {
@@ -54,7 +52,7 @@ function App() {
   };
 
   const hideDisplayError = () =>{
-    setDisplayErrorOpen('')
+    setDisplayErrorOpen(false);
   };
 
   return (
@@ -65,7 +63,7 @@ function App() {
         <BurgerConstructor ingredientsData={data} displayOrderInfo={displayOrderInfo} />
       </div>
       { selectedIngredient && (
-      <Modal isOpen={isIngredientDetailsOpen} onClose={hideIngredientInfo} className={style['ingredient-modal']}>
+      <Modal isOpen={selectedIngredient === null ? false : true} onClose={hideIngredientInfo} className={style['ingredient-modal']}>
         <IngredientDetails ingredient={selectedIngredient} />
       </Modal>
       )}
