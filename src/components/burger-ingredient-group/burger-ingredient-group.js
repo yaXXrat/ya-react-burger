@@ -4,6 +4,7 @@ import style from './burger-ingredient-group.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 
 import PropTypes from "prop-types";
+import {ingredientPT} from '../proptypes';
 
 
 const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) => {
@@ -25,7 +26,7 @@ const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) =
 
 BurgerIngredientGroup.propTypes = {
     title: PropTypes.string.isRequired,
-    ingredients: PropTypes.array.isRequired,
+    ingredients: PropTypes.arrayOf(ingredientPT).isRequired,
     displayIngredientInfo: PropTypes.func.isRequired,
   };
 

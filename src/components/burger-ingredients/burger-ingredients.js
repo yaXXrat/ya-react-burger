@@ -7,6 +7,7 @@ import style from './burger-ingredients.module.css';
 import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-group';
 
 import PropTypes from "prop-types";
+import {ingredientPT} from '../proptypes';
 
 const ingredientGroups = {
     bun: 'Булки',
@@ -68,7 +69,7 @@ const BurgerIngredients = ({ ingredientsData, displayIngredientInfo }) => {
 
 BurgerIngredients.propTypes = {
     displayIngredientInfo: PropTypes.func.isRequired,
-    ingredientsData: PropTypes.array.isRequired,
+    ingredientsData: PropTypes.arrayOf(ingredientPT).isRequired,
 };
 
 export default BurgerIngredients;
