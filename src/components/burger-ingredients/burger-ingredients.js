@@ -7,7 +7,7 @@ import style from './burger-ingredients.module.css';
 import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-group';
 
 import PropTypes from "prop-types";
-import {ingredientPT} from '../proptypes';
+import {ingredientPT} from '../../utils/proptypes';
 
 const ingredientGroups = {
     bun: 'Булки',

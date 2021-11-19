@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import style from './burger-ingredient.module.css';
 
 import PropTypes from "prop-types";
-import {ingredientPT} from '../proptypes';
+import {ingredientPT} from '../../utils/proptypes';
 
 const BurgerIngredient = ( { ingredient, className, displayIngredientInfo }) => {
     return (

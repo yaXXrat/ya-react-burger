@@ -1,5 +1,5 @@
 import style from "./ingredient-details.module.css"
-import {ingredientPT} from '../proptypes';
+import {ingredientPT} from '../../utils/proptypes';
 import classNames from 'classnames';
 
 const IngredientDetails = ({ ingredient }) => {
@@ -49,6 +49,6 @@ const IngredientDetails = ({ ingredient }) => {
 };
 
 IngredientDetails.propTypes = {
-  ingredient: ingredientPT,
+  ingredient: ingredientPT.isRequired,
 };
 export default IngredientDetails;

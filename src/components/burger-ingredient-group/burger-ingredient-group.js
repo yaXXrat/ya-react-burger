@@ -4,7 +4,7 @@ import style from './burger-ingredient-group.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 
 import PropTypes from "prop-types";
-import {ingredientPT} from '../proptypes';
+import {ingredientPT} from '../../utils/proptypes';
 
 
 const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) => {

@@ -24,7 +24,7 @@ function App() {
       if (res.ok) {    
         return res.json();  
       } else {
-        throw new Error();  
+        throw new Error("Error happened during fetching!");
       }
     })
     .then((results) => {
@@ -33,7 +33,7 @@ function App() {
     .catch((e) => {
       setErrorText(e.name + ': ' + e.message);
       setDisplayErrorOpen( true);
-      console.log("Error happened during fetching!", e);
+      console.log(e);
     });
   }, []);
 
@@ -63,16 +63,20 @@ function App() {
         <BurgerConstructor ingredientsData={data} displayOrderInfo={displayOrderInfo} />
       </div>
       { selectedIngredient && (
-      <Modal isOpen={selectedIngredient === null ? false : true} onClose={hideIngredientInfo} className={style['ingredient-modal']}>
+      <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>
         <IngredientDetails ingredient={selectedIngredient} />
       </Modal>
       )}
-      <Modal isOpen={isOrderDetailsOpen} onClose={hideOrderInfo} className={style['order-modal']}>
+      { isOrderDetailsOpen && (
+      <Modal onClose={hideOrderInfo} className={style['order-modal']}>
         <OrderDetails orderId={34536} />
       </Modal>
-      <Modal isOpen={isDisplayErrorOpen} onClose={hideDisplayError} className={style['error-modal']}>
+      )}
+      { isDisplayErrorOpen && (
+      <Modal onClose={hideDisplayError} className={style['error-modal']}>
         <DisplayError error={errorText} />
       </Modal>
+      )}
     </div>
   );
 }
