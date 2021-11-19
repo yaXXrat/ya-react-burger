@@ -4,17 +4,20 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import classNames from 'classnames';
 import style from './burger-ingredients.module.css';
 
-import BurgerIngredientGroup from './burger-ingredient-group/burger-ingredient-group';
-import ingredientsData from '../../utils/data';
+import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-group';
+
+import PropTypes from "prop-types";
+import {ingredientPT} from '../../utils/proptypes';
 
 const ingredientGroups = {
     bun: 'Булки',
     sauce: 'Соусы',
     main: 'Начинки'
 };
+
 const ingredientGroupsTypes = Object.keys(ingredientGroups);
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ ingredientsData, displayIngredientInfo }) => {
     const [currentIngredientsType, setCurrentIngredientsType] = useState(ingredientGroupsTypes[0]);
     const filteredIngredientsData = (type) => {
         return ingredientsData.filter(item => item.type === type);
@@ -49,18 +52,24 @@ const BurgerIngredients = () => {
             ))}
             </div>
             <div className={style['burger-ingredients-group-container']}>
-            {ingredientGroupsTypes.map((type,idx) => (
-                <div ref={ingredientsRef[type]}>
+            {ingredientGroupsTypes.map((group) => (
+                <div key={group} ref={ingredientsRef[group]}>
                     <BurgerIngredientGroup
-                        key={idx} 
-                        title={ingredientGroups[type]}
-                        ingredients={filteredIngredientsData(type)}
+                        key={group} 
+                        title={ingredientGroups[group]}
+                        ingredients={filteredIngredientsData(group)}
+                        displayIngredientInfo={displayIngredientInfo}
                     />
                 </div>
             ))}
             </div>
-      </div>
+        </div>
     )
 }
+
+BurgerIngredients.propTypes = {
+    displayIngredientInfo: PropTypes.func.isRequired,
+    ingredientsData: PropTypes.arrayOf(ingredientPT).isRequired,
+};
 
 export default BurgerIngredients;

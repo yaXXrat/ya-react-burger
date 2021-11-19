@@ -1,5 +1,6 @@
 import React from 'react'
 import style from './app-header.module.css'
+import PropTypes from "prop-types";
 
 const MenuItem = ({ Icon, text, active }) => {
     let classes = active ? style.active : "";
@@ -11,4 +12,10 @@ const MenuItem = ({ Icon, text, active }) => {
     )
 }
 
+MenuItem.propTypes = {
+    Icon: PropTypes.elementType.isRequired,
+    text: PropTypes.string.isRequired,
+    active: PropTypes.bool.isRequired,
+  };
+  
 export default MenuItem;

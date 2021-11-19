@@ -1,0 +1,12 @@
+.error{
+    width: 108px;
+    height: 104px;
+    margin:60px;
+}
+
+.order-h2 {
+    margin-bottom: 32px;
+    margin-top: 120px;
+    color: #f2f2f3;
+    text-shadow: 0 0 2px #f5f0f0, 0 0 20px #2346f1, 0 0 30px #101010;
+}
