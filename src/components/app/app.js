@@ -8,10 +8,14 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import DisplayError from "../display-error/display-error";
+
+import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
+
+
 const url = `https://norma.nomoreparties.space/api/ingredients`;
 
 function App() {
-  const [data, setData] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
 
   const [isOrderDetailsOpen, setOrderDetailsOpen] = useState(false);
   const [isDisplayErrorOpen, setDisplayErrorOpen] = useState(false);
@@ -28,7 +32,7 @@ function App() {
       }
     })
     .then((results) => {
-      setData(results.data);
+      setIngredients(results.data);
     })
     .catch((e) => {
       setErrorText(e.name + ': ' + e.message);
@@ -59,8 +63,10 @@ function App() {
     <div>
       <AppHeader />
       <div className={style.main_blocks}>
-        <BurgerIngredients ingredientsData={data} displayIngredientInfo={displayIngredientInfo}/>
-        <BurgerConstructor ingredientsData={data} displayOrderInfo={displayOrderInfo} />
+        <IngredientsDataContext.Provider value={ingredients} >
+          <BurgerIngredients displayIngredientInfo={displayIngredientInfo}/>
+          <BurgerConstructor displayOrderInfo={displayOrderInfo} />
+        </IngredientsDataContext.Provider>
       </div>
       { selectedIngredient && (
       <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>

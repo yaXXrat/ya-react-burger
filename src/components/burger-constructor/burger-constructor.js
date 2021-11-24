@@ -1,10 +1,45 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import style from './burger-constructor.module.css';
 import {ConstructorElement, DragIcon,  Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
 
 import PropTypes from "prop-types";
 
 const BurgerConstructor = ({displayOrderInfo}) => {
+    function randomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    const getBurgerIngredients = (allIngredients) => {
+        let randomCount = randomNumber(1, allIngredients.length - 1);
+        const result = [];
+        while (randomCount--){
+            const randomIndex = randomNumber(0, allIngredients.length - 1);
+            result.push(allIngredients[randomIndex]);
+        }
+        return result;
+    }
+
+    const getIngredients = (allIngredients) => {
+        return allIngredients.filter(ingredient => ingredient.type !== 'bun');
+    }
+
+    const getBun = (allIngredients) => {
+        return allIngredients.find(ingredient => ingredient.name === 'Флюоресцентная булка R2-D3');
+    }
+
+    const ingredientsData = useContext(IngredientsDataContext);
+    let burgerIngredients = [];
+    if (ingredientsData.length > 0){
+        burgerIngredients = getBurgerIngredients(getIngredients(ingredientsData));
+        burgerIngredients.unshift(getBun(ingredientsData))
+        burgerIngredients.push(getBun(ingredientsData))
+        console.log('Burger ingredients:')
+        burgerIngredients.forEach(item => {
+             console.log('item '+item.name)
+        })
+    }
+    
     return (
 
         <div className={style['burger-constructor']}>
