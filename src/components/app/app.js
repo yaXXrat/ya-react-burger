@@ -22,6 +22,10 @@ function App() {
   const [isOrderDetailsOpen, setOrderDetailsOpen] = useState(false);
   const [isDisplayErrorOpen, setDisplayErrorOpen] = useState(false);
   const [errorText, setErrorText] = useState('');
+  const [order, setOrder] = useState({
+    number: 0
+  });
+
 
   const [selectedIngredient, setSelectedIngredient] = useState(null);
 
@@ -113,6 +117,11 @@ function App() {
     setDisplayErrorOpen(false);
   };
 
+  const createOrder = (createdOrder) => {
+    console.log(createdOrder)
+    setOrder(createdOrder);
+  };
+
   return (
     <div>
       <AppHeader />
@@ -120,7 +129,12 @@ function App() {
         <IngredientsDataContext.Provider value={ingredients} >
           <SelectedDataContext.Provider value={selectedIngredients} >
             <BurgerIngredients displayIngredientInfo={displayIngredientInfo}/>
-            <BurgerConstructor displayOrderInfo={displayOrderInfo} />
+            <BurgerConstructor 
+                displayOrderInfo={displayOrderInfo} 
+                createOrder={createOrder} 
+                setErrorText={setErrorText} 
+                setDisplayErrorOpen={setDisplayErrorOpen} 
+            />
           </SelectedDataContext.Provider>
         </IngredientsDataContext.Provider>
       </div>
@@ -131,7 +145,7 @@ function App() {
       )}
       { isOrderDetailsOpen && (
       <Modal onClose={hideOrderInfo} className={style['order-modal']}>
-        <OrderDetails orderId={34536} />
+        <OrderDetails orderId={order.number} />
       </Modal>
       )}
       { isDisplayErrorOpen && (
