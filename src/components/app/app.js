@@ -23,7 +23,12 @@ function App() {
   const [isDisplayErrorOpen, setDisplayErrorOpen] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [order, setOrder] = useState({
-    number: 0
+    number: 0,
+    success: true,
+    name: "",
+    ingredients: [],
+    amount: 0,
+    date: undefined
   });
 
 

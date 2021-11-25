@@ -5,7 +5,7 @@ import { SelectedDataContext } from '../../services/selected-data-context.js';
 
 import PropTypes from "prop-types";
 
-const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders222";
+const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
 
 const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDisplayErrorOpen }) => {
 
@@ -16,7 +16,15 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
 
     function makeOrder() {
         const data = {"ingredients": selected.map(item => item._id)};
-        fetch(CREATE_ORDER_URL,{
+        let newOrder = {
+            number: 0,
+            success: true,
+            name: "",
+            ingredients: [data],
+            amount: totalPrice,
+            date: Date.now()
+        }
+    fetch(CREATE_ORDER_URL,{
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -32,8 +40,11 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
             }
           })
           .then((results) => {
+            newOrder.number = results.order.number
+            newOrder.name = results.name
+            newOrder.success = results.success
+            createOrder(newOrder);
             if(results.success){
-                createOrder(results.order);
                 displayOrderInfo()
             }else{
                 throw new Error("Error happened during order creation!");
