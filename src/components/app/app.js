@@ -28,11 +28,24 @@ function App() {
   useEffect(() => {
 
     const selectIngredients = (data) => {
+      let dataCounted = data;
+      data.forEach(function(obj, i) {
+        obj.count = 1;
+        dataCounted[i] = obj;
+      });
       let burgerIngredients = [];
       let burgerBun = {};
       if (data.length > 0){
-        burgerIngredients = getBurgerIngredients(getIngredients(data));
-        burgerBun = getBurgerBun(getBun(data));
+        burgerIngredients = getBurgerIngredients(getIngredients(dataCounted));
+        burgerBun = getBurgerBun(getBun(dataCounted));
+        burgerBun.count = 1;
+        let result=[];
+        burgerIngredients.forEach((item) => {
+          item._id in result ? result[item._id]++ : result[item._id] = 1;
+        });
+        burgerIngredients.forEach((item, i ) => {
+          burgerIngredients[i].count = result[item._id];
+        });
       }
       setSelectedIngredients([burgerBun, ...burgerIngredients]);
     }
