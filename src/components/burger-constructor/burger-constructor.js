@@ -1,107 +1,42 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import style from './burger-constructor.module.css';
 import {ConstructorElement, DragIcon,  Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
+import { SelectedDataContext } from '../../services/selected-data-context.js';
 
 import PropTypes from "prop-types";
 
 const BurgerConstructor = ({displayOrderInfo}) => {
-    function randomNumber(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
 
-    const getBurgerIngredients = (allIngredients) => {
-        let randomCount = randomNumber(1, allIngredients.length - 1);
-        const result = [];
-        while (randomCount--){
-            const randomIndex = randomNumber(0, allIngredients.length - 1);
-            result.push(allIngredients[randomIndex]);
-        }
-        return result;
-    }
+    const selected = useContext(SelectedDataContext);
 
-    const getIngredients = (allIngredients) => {
-        return allIngredients.filter(ingredient => ingredient.type !== 'bun');
-    }
-
-    const getBun = (allIngredients) => {
-        return allIngredients.find(ingredient => ingredient.name === 'Флюоресцентная булка R2-D3');
-    }
-
-    const ingredientsData = useContext(IngredientsDataContext);
-    let burgerIngredients = [];
-    if (ingredientsData.length > 0){
-        burgerIngredients = getBurgerIngredients(getIngredients(ingredientsData));
-        burgerIngredients.unshift(getBun(ingredientsData))
-        burgerIngredients.push(getBun(ingredientsData))
-        console.log('Burger ingredients:')
-        burgerIngredients.forEach(item => {
-             console.log('item '+item.name)
-        })
-    }
-    
     return (
-
         <div className={style['burger-constructor']}>
 
     <div className={style['main-block']}>
-        <div className={style.bun}><ConstructorElement
+        { selected[0] && selected[0]._id && <div className={style.bun}><ConstructorElement
             type="top"
             isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={20}
-            thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'}
-        /></div>
+            text={selected[0].name + ' (верх)'}
+            price={selected[0].price}
+            thumbnail={selected[0].image_mobile}
+        /></div>}
         <div className={style.group}>
-        <div><DragIcon type="primary" /> <ConstructorElement
-            text="Соус традиционный галактический"
-            price={15}
-            thumbnail={'https://code.s3.yandex.net/react/code/sauce-03-mobile.png'}
-        /></div>
-        <div><DragIcon type="primary" /> <ConstructorElement
-            text="Мясо бессмертных моллюсков Protostomia"
-            price={300}
-            thumbnail={'https://code.s3.yandex.net/react/code/meat-02-mobile.png'}
-        /></div><div><DragIcon type="primary" /> <ConstructorElement
-            text="Плоды Фалленианского дерева"
-            price={80}
-            thumbnail={'https://code.s3.yandex.net/react/code/sp_1-mobile.png'}
-        /></div>
-            <div><DragIcon type="primary" /> <ConstructorElement
-            text="Хрустящие минеральные кольца"
-            price={80}
-            thumbnail={'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png'}
-        /></div>
-            <div><DragIcon type="primary" /> <ConstructorElement
-            text="Хрустящие минеральные кольца"
-            price={80}
-            thumbnail={'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png'}
-        /></div>
-            <div><DragIcon type="primary" /> <ConstructorElement
-            text="Хрустящие минеральные кольца"
-            price={80}
-            thumbnail={'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png'}
-        /></div>
-            <div><DragIcon type="primary" /> <ConstructorElement
-            text="Хрустящие минеральные кольца"
-            price={80}
-            thumbnail={'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png'}
-        /></div>
-            <div><DragIcon type="primary" /> <ConstructorElement
-            text="Хрустящие минеральные кольца"
-            price={80}
-            thumbnail={'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png'}
-        /></div>
+            {selected.map((ingredient, i) => (
+                i > 0 && <div key={i}><DragIcon type="primary"/> <ConstructorElement
+                    text={ingredient.name.length > 15 ? ingredient.name: ingredient.name + " \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0 \u00A0 \u00A0 \u00A0"}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image_mobile}
+                /></div>
+            ))}
         </div>
 
-
-        <div className={style.bun}><ConstructorElement
+        { selected[0] && selected[0]._id && <div className={style.bun}><ConstructorElement
             type="bottom"
             isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={20}
-            thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'}
-        /></div>
+            text={selected[0].name + ' (низ)'}
+            price={selected[0].price}
+            thumbnail={selected[0].image_mobile}
+        /></div>}
     </div>
 
             <div className={style.sum}>
