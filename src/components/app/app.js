@@ -123,7 +123,6 @@ function App() {
   };
 
   const createOrder = (createdOrder) => {
-    console.log(createdOrder)
     setOrder(createdOrder);
   };
 

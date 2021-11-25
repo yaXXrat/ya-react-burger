@@ -24,7 +24,7 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
             amount: totalPrice,
             date: Date.now()
         }
-    fetch(CREATE_ORDER_URL,{
+        fetch(CREATE_ORDER_URL,{
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -106,8 +106,11 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
 }
 
 BurgerConstructor.propTypes = {
-    displayOrderInfo: PropTypes.func.isRequired
-  };
+    displayOrderInfo: PropTypes.func.isRequired,
+    createOrder: PropTypes.func.isRequired,
+    setErrorText: PropTypes.func.isRequired,
+    setDisplayErrorOpen: PropTypes.func.isRequired
+};
 
 
 export default BurgerConstructor;
