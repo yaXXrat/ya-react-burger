@@ -39,8 +39,8 @@
 }
 .group::-webkit-scrollbar-thumb {
     background: #8585AD;
-    border: 0px solid #2F2F37;
-    border-radius: 0px;
+    border: 0 solid #2F2F37;
+    border-radius: 0;
 }
 
 .sum{
@@ -52,3 +52,7 @@
 }
 
 .px40{ width: 40px}
+
+:global(.constructor-element){
+    width:488px !important;
+}

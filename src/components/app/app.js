@@ -36,19 +36,19 @@ function App() {
 
   useEffect(() => {
 
-    const selectIngredients = (data) => {
-      let dataCounted = data;
-      data.forEach(function(obj, i) {
+    const selectIngredients = (allIngredients) => {
+//      const dataCounted = [...allIngredients];
+      allIngredients.forEach(function(obj, i) {
         obj.count = 1;
-        dataCounted[i] = obj;
+        allIngredients[i] = obj;
       });
       let burgerIngredients = [];
       let burgerBun = {};
-      if (data.length > 0){
-        burgerIngredients = getBurgerIngredients(getIngredients(dataCounted));
-        burgerBun = getBurgerBun(getBun(dataCounted));
+      if (allIngredients.length > 0){
+        burgerIngredients = getBurgerIngredients(getIngredients(allIngredients));
+        burgerBun = getBurgerBun(getBun(allIngredients));
         burgerBun.count = 1;
-        let result=[];
+        const result=[];
         burgerIngredients.forEach((item) => {
           item._id in result ? result[item._id]++ : result[item._id] = 1;
         });

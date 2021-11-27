@@ -72,7 +72,8 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
         <div className={style.group}>
             {selected.map((ingredient, i) => (
                 i > 0 && <div key={uuidv4()}><DragIcon type="primary"/> <ConstructorElement
-                    text={ingredient.name.length > 15 ? ingredient.name: ingredient.name + " \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0 \u00A0 \u00A0 \u00A0"}
+//                    text={ingredient.name.length > 15 ? ingredient.name: ingredient.name + " \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0 \u00A0 \u00A0 \u00A0"}
+                    text={ingredient.name}
                     price={ingredient.price}
                     thumbnail={ingredient.image_mobile}
                 /></div>

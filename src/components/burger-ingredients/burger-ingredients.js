@@ -18,7 +18,9 @@ const ingredientGroups = {
 const ingredientGroupsTypes = Object.keys(ingredientGroups);
 
 const BurgerIngredients = ({ displayIngredientInfo }) => {
+
     const ingredientsData = useContext(IngredientsDataContext);
+
     const [currentIngredientsType, setCurrentIngredientsType] = useState(ingredientGroupsTypes[0]);
     const filteredIngredientsData = (type) => {
         return ingredientsData.filter(item => item.type === type);
@@ -41,7 +43,7 @@ const BurgerIngredients = ({ displayIngredientInfo }) => {
                 Соберите бургер
             </div>
             <div className={style['burger-ingredients-selector']}>
-            {ingredientGroupsTypes.map((type) => (
+            { ingredientGroupsTypes.map((type) => (
                 <Tab
                     key={type}
                     active={type === currentIngredientsType }
