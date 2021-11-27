@@ -27,8 +27,7 @@ function App() {
     success: true,
     name: "",
     ingredients: [],
-    amount: 0,
-    date: undefined
+    price: 0
   });
 
 
