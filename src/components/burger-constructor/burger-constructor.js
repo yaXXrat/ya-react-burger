@@ -5,6 +5,8 @@ import { SelectedDataContext } from '../../services/selected-data-context.js';
 
 import PropTypes from "prop-types";
 
+import { v4 as uuidv4 } from 'uuid';
+
 const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
 
 const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDisplayErrorOpen }) => {
@@ -15,14 +17,13 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
     let totalPrice = calcTotalPrice(selected)
 
     function makeOrder() {
-        const data = {"ingredients": selected.map(item => item._id)};
+        const ingredientsIDs = {"ingredients": selected.map(item => item._id)};
         let newOrder = {
             number: 0,
             success: true,
             name: "",
-            ingredients: [data],
-            amount: totalPrice,
-            date: Date.now()
+            ingredients: [ingredientsIDs],
+            price: totalPrice
         }
         fetch(CREATE_ORDER_URL,{
             method: 'POST',
@@ -30,7 +31,7 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(ingredientsIDs)
         })
         .then((res) => {
             if (res.ok) {
@@ -70,7 +71,7 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
         /></div>}
         <div className={style.group}>
             {selected.map((ingredient, i) => (
-                i > 0 && <div key={i}><DragIcon type="primary"/> <ConstructorElement
+                i > 0 && <div key={uuidv4()}><DragIcon type="primary"/> <ConstructorElement
                     text={ingredient.name.length > 15 ? ingredient.name: ingredient.name + " \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0 \u00A0 \u00A0 \u00A0"}
                     price={ingredient.price}
                     thumbnail={ingredient.image_mobile}
