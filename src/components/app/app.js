@@ -36,25 +36,22 @@ function App() {
   useEffect(() => {
 
     const selectIngredients = (allIngredients) => {
-//      const dataCounted = [...allIngredients];
-      allIngredients.forEach(function(obj, i) {
-        obj.count = 1;
-        allIngredients[i] = obj;
+      if(allIngredients.length === 0) return [];
+
+      allIngredients.forEach( (obj, i) => {
+        allIngredients[i].count = 1;
       });
-      let burgerIngredients = [];
-      let burgerBun = {};
-      if (allIngredients.length > 0){
-        burgerIngredients = getBurgerIngredients(getIngredients(allIngredients));
-        burgerBun = getBurgerBun(getBun(allIngredients));
-        burgerBun.count = 1;
-        const result=[];
-        burgerIngredients.forEach((item) => {
-          item._id in result ? result[item._id]++ : result[item._id] = 1;
-        });
-        burgerIngredients.forEach((item, i ) => {
-          burgerIngredients[i].count = result[item._id];
-        });
-      }
+
+      const burgerIngredients = getBurgerIngredients(getIngredients(allIngredients));
+      const burgerBun = getBurgerBun(getBun(allIngredients));
+      burgerBun.count = 1;
+      const result=[];
+      burgerIngredients.forEach((item) => {
+        item._id in result ? result[item._id]++ : result[item._id] = 1;
+      });
+      burgerIngredients.forEach((item, i ) => {
+        burgerIngredients[i].count = result[item._id];
+      });
       setSelectedIngredients([burgerBun, ...burgerIngredients]);
     }
 
