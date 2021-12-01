@@ -1,4 +1,4 @@
-import {React, useRef, useState} from 'react'
+import {React, useRef, useState, useContext} from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import classNames from 'classnames';
@@ -7,7 +7,7 @@ import style from './burger-ingredients.module.css';
 import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-group';
 
 import PropTypes from "prop-types";
-import {ingredientPT} from '../../utils/proptypes';
+import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
 
 const ingredientGroups = {
     bun: 'Булки',
@@ -17,7 +17,10 @@ const ingredientGroups = {
 
 const ingredientGroupsTypes = Object.keys(ingredientGroups);
 
-const BurgerIngredients = ({ ingredientsData, displayIngredientInfo }) => {
+const BurgerIngredients = ({ displayIngredientInfo }) => {
+
+    const ingredientsData = useContext(IngredientsDataContext);
+
     const [currentIngredientsType, setCurrentIngredientsType] = useState(ingredientGroupsTypes[0]);
     const filteredIngredientsData = (type) => {
         return ingredientsData.filter(item => item.type === type);
@@ -40,7 +43,7 @@ const BurgerIngredients = ({ ingredientsData, displayIngredientInfo }) => {
                 Соберите бургер
             </div>
             <div className={style['burger-ingredients-selector']}>
-            {ingredientGroupsTypes.map((type) => (
+            { ingredientGroupsTypes.map((type) => (
                 <Tab
                     key={type}
                     active={type === currentIngredientsType }
@@ -68,8 +71,7 @@ const BurgerIngredients = ({ ingredientsData, displayIngredientInfo }) => {
 }
 
 BurgerIngredients.propTypes = {
-    displayIngredientInfo: PropTypes.func.isRequired,
-    ingredientsData: PropTypes.arrayOf(ingredientPT).isRequired,
+    displayIngredientInfo: PropTypes.func.isRequired
 };
 
 export default BurgerIngredients;

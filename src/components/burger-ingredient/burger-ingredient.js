@@ -9,10 +9,10 @@ import style from './burger-ingredient.module.css';
 import PropTypes from "prop-types";
 import {ingredientPT} from '../../utils/proptypes';
 
-const BurgerIngredient = ( { ingredient, className, displayIngredientInfo }) => {
+const BurgerIngredient = ( { ingredient, className, displayIngredientInfo, selectedCount }) => {
     return (
         <div className={classNames(style[className])}>
-            { (ingredient.name === "Краторная булка N-200i"|| ingredient.name === "Соус фирменный Space Sauce") && <Counter count={1} size="default" />}
+            { (selectedCount !== 0) && <Counter count={selectedCount} size="default" />}
             <img
                 alt={ingredient.name}
                 className={classNames(style['burger-ingredient-image'] )}
