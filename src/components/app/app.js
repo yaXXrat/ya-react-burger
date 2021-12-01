@@ -11,7 +11,13 @@ import DisplayError from "../display-error/display-error";
 
 import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
 import { SelectedDataContext } from '../../services/selected-data-context.js';
+import {useDispatch, useSelector} from "react-redux";
 
+import {
+  LOAD_INGREDIENTS,
+  LOAD_INGREDIENTS_SUCCESS,
+  LOAD_INGREDIENTS_FAILED
+} from '../../services/actions/actions';
 
 const url = `https://norma.nomoreparties.space/api/ingredients`;
 
@@ -30,8 +36,10 @@ function App() {
     price: 0
   });
 
+  const dispatch = useDispatch();
 
   const [selectedIngredient, setSelectedIngredient] = useState(null);
+
 
   useEffect(() => {
 
@@ -71,22 +79,26 @@ function App() {
     }
 
     fetch(url).then((res) => {
+      dispatch({type: LOAD_INGREDIENTS});
       if (res.ok) {
         return res.json();
       } else {
         throw new Error("Error happened during fetching!");
       }
     })
-    .then((results) => {
+    .then((results) =>
+    {
+      dispatch({type: LOAD_INGREDIENTS_SUCCESS, ingredients: results.data});
       setIngredients(results.data);
       selectIngredients(results.data);
     })
     .catch((e) => {
+      dispatch({type: LOAD_INGREDIENTS_FAILED, errorMessage: e});
       setErrorText(e.name + ': ' + e.message);
       setDisplayErrorOpen( true);
       console.log(e);
     });
-  }, []);
+  }, [dispatch]);
 
   function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
