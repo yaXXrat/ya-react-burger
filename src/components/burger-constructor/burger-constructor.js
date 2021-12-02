@@ -1,13 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import style from './burger-constructor.module.css';
-import {ConstructorElement, DragIcon,  Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {ConstructorElement, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import PropTypes from "prop-types";
 
 import { v4 as uuidv4 } from 'uuid';
 
 import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS } from '../../services/actions/orderActions';
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
 const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
 
@@ -76,12 +77,7 @@ const BurgerConstructor = ({ displayOrderInfo, setErrorText, setDisplayErrorOpen
         /></div>}
         <div className={style.group}>
             {selected.map((ingredient, i) => (
-                i > 0 && <div key={uuidv4()}><DragIcon type="primary"/> <ConstructorElement
-//                    text={ingredient.name.length > 15 ? ingredient.name: ingredient.name + " \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \u00A0 \u00A0 \u00A0 \u00A0"}
-                    text={ingredient.name}
-                    price={ingredient.price}
-                    thumbnail={ingredient.image_mobile}
-                /></div>
+                i > 0 && <div key={uuidv4()}><BurgerConstructorItem ingredient={ingredient}/></div>
             ))}
         </div>
 

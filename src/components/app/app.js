@@ -51,11 +51,11 @@ function App() {
       burgerIngredients.forEach((item) => {
         item._id in result ? result[item._id]++ : result[item._id] = 1;
       });
+      dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerBun})
       burgerIngredients.forEach((item, i ) => {
         burgerIngredients[i].count = result[item._id];
         dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerIngredients[i]})
       });
-      dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerBun})
       setSelectedIngredients([burgerBun, ...burgerIngredients]);
     }
 
@@ -109,6 +109,7 @@ function App() {
   }
 
   const displayIngredientInfo = (ingredient) => {
+    dispatch({type: SET_ORDER_INGREDIENT, ingredient: ingredient})
     setSelectedIngredient(ingredient);
   };
   const hideIngredientInfo = () => {

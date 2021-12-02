@@ -1,6 +1,7 @@
 import {
     ERASE_ORDER,    
     MAKE_ORDER_SUCCESS,
+    REMOVE_ORDER_INGREDIENT,
 //    SET_ORDER_INGREDIENTS,
     SET_ORDER_INGREDIENT,
 //    MAKE_ORDER ,
@@ -29,6 +30,14 @@ export const orderReducer = (state = initialState, action) => {
                     ...state.orderIngredients,
                     action.ingredient
                 ]
+            }
+        case REMOVE_ORDER_INGREDIENT:
+            const newIngredients = [...state.orderIngredients];
+            let idx = newIngredients.indexOf(action.ingredient);
+            newIngredients.splice(idx, 1);            
+            return {
+                ...state,
+                orderIngredients: newIngredients
             }
         case MAKE_ORDER_SUCCESS:
             return {
