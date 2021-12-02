@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { MAKE_ORDER_SUCCESS } from '../../services/actions/orderActions';
+import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS } from '../../services/actions/orderActions';
 
 const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
 
-const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDisplayErrorOpen }) => {
+const BurgerConstructor = ({ displayOrderInfo, setErrorText, setDisplayErrorOpen }) => {
 
     const dispatch = useDispatch();
     const selected = useSelector(store => store.orderIngredients.orderIngredients);
@@ -28,6 +28,7 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
             ingredients: [ingredientsIDs],
             price: totalPrice
         }
+        dispatch({type:MAKE_ORDER});
         fetch(CREATE_ORDER_URL,{
             method: 'POST',
             headers: {
@@ -48,7 +49,6 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
             newOrder.name = results.name
             newOrder.success = results.success
             dispatch({type:MAKE_ORDER_SUCCESS, order: newOrder});
-            createOrder();
             if(results.success){
                 displayOrderInfo()
             }else{
@@ -56,6 +56,7 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
             }
           })
           .catch((e) => {
+            dispatch({type:MAKE_ORDER_FAILED, error: e});
             setErrorText(e.name + ': ' + e.message);
             setDisplayErrorOpen( true);
             console.log(e);
@@ -113,7 +114,6 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
 
 BurgerConstructor.propTypes = {
     displayOrderInfo: PropTypes.func.isRequired,
-    createOrder: PropTypes.func.isRequired,
     setErrorText: PropTypes.func.isRequired,
     setDisplayErrorOpen: PropTypes.func.isRequired
 };

@@ -11,14 +11,14 @@ import DisplayError from "../display-error/display-error";
 
 import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
 import { SelectedDataContext } from '../../services/selected-data-context.js';
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   LOAD_INGREDIENTS,
   LOAD_INGREDIENTS_SUCCESS,
   LOAD_INGREDIENTS_FAILED
 } from '../../services/actions/actions';
-import { SET_ORDER_INGREDIENT } from '../../services/actions/orderActions';
+import { ERASE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/orderActions';
 
 const url = `https://norma.nomoreparties.space/api/ingredients`;
 
@@ -119,15 +119,12 @@ function App() {
     setOrderDetailsOpen(true);
   };
   const hideOrderInfo = () => {
+    dispatch({type: ERASE_ORDER});
     setOrderDetailsOpen(false);
   };
 
   const hideDisplayError = () =>{
     setDisplayErrorOpen(false);
-  };
-
-  const createOrder = () => {
-    displayOrderInfo()
   };
 
   return (
@@ -139,7 +136,6 @@ function App() {
             <BurgerIngredients displayIngredientInfo={displayIngredientInfo}/>
             <BurgerConstructor 
                 displayOrderInfo={displayOrderInfo} 
-                createOrder={createOrder} 
                 setErrorText={setErrorText} 
                 setDisplayErrorOpen={setDisplayErrorOpen} 
             />

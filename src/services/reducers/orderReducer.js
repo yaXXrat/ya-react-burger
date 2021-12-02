@@ -1,4 +1,5 @@
 import {
+    ERASE_ORDER,    
     MAKE_ORDER_SUCCESS,
 //    SET_ORDER_INGREDIENTS,
     SET_ORDER_INGREDIENT,
@@ -8,6 +9,7 @@ import {
 } from '../actions/orderActions';
 
 export const initialState = {
+    orderCreated: false,
     orderIngredients: [],
     currentOrder:{
         number: 0,
@@ -29,12 +31,20 @@ export const orderReducer = (state = initialState, action) => {
                 ]
             }
         case MAKE_ORDER_SUCCESS:
-            return{
+            return {
                 ...state,
+                orderCreated: true,
                 currentOrder: {
                     ...state.currentOrder,
                     ...action.order
                 }
+            }
+        case ERASE_ORDER:
+            return {
+                ...state,
+                orderCreated: false,
+                orderIngredients: [],
+                currentOrder: {}
             }
         default: return state;
     }
