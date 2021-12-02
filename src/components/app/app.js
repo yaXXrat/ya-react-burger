@@ -11,12 +11,16 @@ import DisplayError from "../display-error/display-error";
 
 import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
 import { SelectedDataContext } from '../../services/selected-data-context.js';
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {
   LOAD_INGREDIENTS,
   LOAD_INGREDIENTS_SUCCESS,
-  LOAD_INGREDIENTS_FAILED
+  LOAD_INGREDIENTS_FAILED,
+  SET_CURRENT_INGREDIENT,
+  RESET_CURRENT_INGREDIENT,
+  SET_ERROR_MESSAGE,
+  RESET_ERROR_MESSAGE,
 } from '../../services/actions/actions';
 import { ERASE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/orderActions';
 
@@ -27,13 +31,10 @@ function App() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   const [isOrderDetailsOpen, setOrderDetailsOpen] = useState(false);
-  const [isDisplayErrorOpen, setDisplayErrorOpen] = useState(false);
-  const [errorText, setErrorText] = useState('');
-  
+
   const dispatch = useDispatch();
-
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
-
+  const selectedIngredient = useSelector(store => store.burgerIngredients.selectedIngredient);
+  const errorMessage = useSelector(store => store.burgerIngredients.errorMessage);
 
   useEffect(() => {
 
@@ -90,8 +91,7 @@ function App() {
     })
     .catch((e) => {
       dispatch({type: LOAD_INGREDIENTS_FAILED, errorMessage: e});
-      setErrorText(e.name + ': ' + e.message);
-      setDisplayErrorOpen( true);
+      dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
       console.log(e);
     });
   }, [dispatch]);
@@ -110,10 +110,10 @@ function App() {
 
   const displayIngredientInfo = (ingredient) => {
     dispatch({type: SET_ORDER_INGREDIENT, ingredient: ingredient})
-    setSelectedIngredient(ingredient);
+    dispatch({type: SET_CURRENT_INGREDIENT, id: ingredient._id})
   };
   const hideIngredientInfo = () => {
-    setSelectedIngredient(null)
+    dispatch({type: RESET_CURRENT_INGREDIENT})
   };
 
   const displayOrderInfo = () => {
@@ -125,7 +125,7 @@ function App() {
   };
 
   const hideDisplayError = () =>{
-    setDisplayErrorOpen(false);
+    dispatch({type: RESET_ERROR_MESSAGE});
   };
 
   return (
@@ -137,13 +137,11 @@ function App() {
             <BurgerIngredients displayIngredientInfo={displayIngredientInfo}/>
             <BurgerConstructor 
                 displayOrderInfo={displayOrderInfo} 
-                setErrorText={setErrorText} 
-                setDisplayErrorOpen={setDisplayErrorOpen} 
             />
           </SelectedDataContext.Provider>
         </IngredientsDataContext.Provider>
       </div>
-      { selectedIngredient && (
+      { Object.keys(selectedIngredient).length > 0 && (
       <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>
         <IngredientDetails ingredient={selectedIngredient} />
       </Modal>
@@ -153,9 +151,9 @@ function App() {
         <OrderDetails />
       </Modal>
       )}
-      { isDisplayErrorOpen && (
+      { errorMessage && (
       <Modal onClose={hideDisplayError} className={style['error-modal']}>
-        <DisplayError error={errorText} />
+        <DisplayError error={errorMessage} />
       </Modal>
       )}
     </div>

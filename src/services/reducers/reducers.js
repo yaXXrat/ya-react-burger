@@ -2,12 +2,16 @@ import {
 //LOAD_INGREDIENTS,
 LOAD_INGREDIENTS_SUCCESS,
 //LOAD_INGREDIENTS_FAILED ,
-SET_CURRENT_INGREDIENT
+SET_CURRENT_INGREDIENT,
+RESET_CURRENT_INGREDIENT,
+SET_ERROR_MESSAGE,
+RESET_ERROR_MESSAGE
 } from '../actions/actions.js';
 
 export const initialState = {
     selectedIngredient: {},
-    allIngredients: []
+    allIngredients: [],
+    errorMessage: ''
 };
 
 export const burgerIngredientsReducer = (state = initialState, action) => {
@@ -24,9 +28,23 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 selectedIngredient: {
-                    ...state.selectedIngredient,
                     ...state.allIngredients.find( item =>  item._id === action.id )
                 }
+            }
+        case RESET_CURRENT_INGREDIENT:
+            return {
+                ...state,
+                selectedIngredient: {}
+            }
+        case SET_ERROR_MESSAGE:
+            return {
+                ...state,
+                errorMessage: action.errorMessage
+            }
+        case RESET_ERROR_MESSAGE:
+            return {
+                ...state,
+                errorMessage: ''
             }
         default: return state;
     }

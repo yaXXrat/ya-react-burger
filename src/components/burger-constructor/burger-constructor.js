@@ -7,12 +7,16 @@ import PropTypes from "prop-types";
 
 import { v4 as uuidv4 } from 'uuid';
 
+import {
+    SET_ERROR_MESSAGE
+} from '../../services/actions/actions';
+
 import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS } from '../../services/actions/orderActions';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
 const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
 
-const BurgerConstructor = ({ displayOrderInfo, setErrorText, setDisplayErrorOpen }) => {
+const BurgerConstructor = ({ displayOrderInfo}) => {
 
     const dispatch = useDispatch();
     const selected = useSelector(store => store.orderIngredients.orderIngredients);
@@ -58,9 +62,7 @@ const BurgerConstructor = ({ displayOrderInfo, setErrorText, setDisplayErrorOpen
           })
           .catch((e) => {
             dispatch({type:MAKE_ORDER_FAILED, error: e});
-            setErrorText(e.name + ': ' + e.message);
-            setDisplayErrorOpen( true);
-            console.log(e);
+            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
           });
     }
 
@@ -109,9 +111,7 @@ const BurgerConstructor = ({ displayOrderInfo, setErrorText, setDisplayErrorOpen
 }
 
 BurgerConstructor.propTypes = {
-    displayOrderInfo: PropTypes.func.isRequired,
-    setErrorText: PropTypes.func.isRequired,
-    setDisplayErrorOpen: PropTypes.func.isRequired
+    displayOrderInfo: PropTypes.func.isRequired
 };
 
 
