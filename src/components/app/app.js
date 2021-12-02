@@ -11,13 +11,14 @@ import DisplayError from "../display-error/display-error";
 
 import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
 import { SelectedDataContext } from '../../services/selected-data-context.js';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 import {
   LOAD_INGREDIENTS,
   LOAD_INGREDIENTS_SUCCESS,
   LOAD_INGREDIENTS_FAILED
 } from '../../services/actions/actions';
+import { SET_ORDER_INGREDIENT } from '../../services/actions/orderActions';
 
 const url = `https://norma.nomoreparties.space/api/ingredients`;
 
@@ -28,14 +29,7 @@ function App() {
   const [isOrderDetailsOpen, setOrderDetailsOpen] = useState(false);
   const [isDisplayErrorOpen, setDisplayErrorOpen] = useState(false);
   const [errorText, setErrorText] = useState('');
-  const [order, setOrder] = useState({
-    number: 0,
-    success: true,
-    name: "",
-    ingredients: [],
-    price: 0
-  });
-
+  
   const dispatch = useDispatch();
 
   const [selectedIngredient, setSelectedIngredient] = useState(null);
@@ -59,7 +53,9 @@ function App() {
       });
       burgerIngredients.forEach((item, i ) => {
         burgerIngredients[i].count = result[item._id];
+        dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerIngredients[i]})
       });
+      dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerBun})
       setSelectedIngredients([burgerBun, ...burgerIngredients]);
     }
 
@@ -130,8 +126,8 @@ function App() {
     setDisplayErrorOpen(false);
   };
 
-  const createOrder = (createdOrder) => {
-    setOrder(createdOrder);
+  const createOrder = () => {
+    displayOrderInfo()
   };
 
   return (
@@ -157,7 +153,7 @@ function App() {
       )}
       { isOrderDetailsOpen && (
       <Modal onClose={hideOrderInfo} className={style['order-modal']}>
-        <OrderDetails orderId={order.number} />
+        <OrderDetails />
       </Modal>
       )}
       { isDisplayErrorOpen && (

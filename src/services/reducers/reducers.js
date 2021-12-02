@@ -1,16 +1,11 @@
 import {
-LOAD_INGREDIENTS,
+//LOAD_INGREDIENTS,
 LOAD_INGREDIENTS_SUCCESS,
-LOAD_INGREDIENTS_FAILED ,
-MAKE_ORDER ,
-MAKE_ORDER_SUCCESS,
-MAKE_ORDER_FAILED,
+//LOAD_INGREDIENTS_FAILED ,
 SET_CURRENT_INGREDIENT
 } from '../actions/actions.js';
-import {combineReducers} from "redux";
 
 export const initialState = {
-    orderInitialState: {},
     selectedIngredient: {},
     allIngredients: []
 };

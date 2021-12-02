@@ -1,17 +1,20 @@
-import React, {useContext} from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import style from './burger-constructor.module.css';
 import {ConstructorElement, DragIcon,  Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import { SelectedDataContext } from '../../services/selected-data-context.js';
 
 import PropTypes from "prop-types";
 
 import { v4 as uuidv4 } from 'uuid';
 
+import { MAKE_ORDER_SUCCESS } from '../../services/actions/orderActions';
+
 const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
 
 const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDisplayErrorOpen }) => {
 
-    const selected = useContext(SelectedDataContext);
+    const dispatch = useDispatch();
+    const selected = useSelector(store => store.orderIngredients.orderIngredients);
 
     const calcTotalPrice = (ingredients) => ingredients.reduce((acc, current) => acc + current.price, 0);
     let totalPrice = calcTotalPrice(selected)
@@ -44,7 +47,8 @@ const BurgerConstructor = ({ displayOrderInfo, createOrder, setErrorText, setDis
             newOrder.number = results.order.number
             newOrder.name = results.name
             newOrder.success = results.success
-            createOrder(newOrder);
+            dispatch({type:MAKE_ORDER_SUCCESS, order: newOrder});
+            createOrder();
             if(results.success){
                 displayOrderInfo()
             }else{
