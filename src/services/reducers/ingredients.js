@@ -4,9 +4,7 @@ LOAD_INGREDIENTS_SUCCESS,
 //LOAD_INGREDIENTS_FAILED ,
 SET_CURRENT_INGREDIENT,
 RESET_CURRENT_INGREDIENT,
-SET_ERROR_MESSAGE,
-RESET_ERROR_MESSAGE
-} from '../actions/actions.js';
+} from '../actions/ingredients';
 
 export const initialState = {
     ingredientSelected: false,
@@ -38,16 +36,6 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
                 ...state,
                 ingredientSelected: false,
                 selectedIngredient: {}
-            }
-        case SET_ERROR_MESSAGE:
-            return {
-                ...state,
-                errorMessage: action.errorMessage
-            }
-        case RESET_ERROR_MESSAGE:
-            return {
-                ...state,
-                errorMessage: ''
             }
         default: return state;
     }

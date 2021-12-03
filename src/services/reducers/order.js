@@ -7,7 +7,7 @@ import {
 //    MAKE_ORDER ,
 //    MAKE_ORDER_SUCCESS,
 //    MAKE_ORDER_FAILED,
-} from '../actions/orderActions';
+} from '../actions/order';
 
 export const initialState = {
     orderCreated: false,

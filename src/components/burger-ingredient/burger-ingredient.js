@@ -10,8 +10,8 @@ import style from './burger-ingredient.module.css';
 import PropTypes from "prop-types";
 import {ingredientPT} from '../../utils/proptypes';
 
-import { SET_CURRENT_INGREDIENT } from '../../services/actions/actions';
-import { SET_ORDER_INGREDIENT } from '../../services/actions/orderActions';
+import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredients';
+import { SET_ORDER_INGREDIENT } from '../../services/actions/order';
   
 
 const BurgerIngredient = ( { ingredient, className, selectedCount }) => {

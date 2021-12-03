@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import {ingredientPT} from '../../utils/proptypes';
-import { REMOVE_ORDER_INGREDIENT } from '../../services/actions/orderActions';
+import { REMOVE_ORDER_INGREDIENT } from '../../services/actions/order';
 
 const BurgerConstructorItem = ( { ingredient }) => {
     const dispatch = useDispatch();

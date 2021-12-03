@@ -18,10 +18,9 @@ import {
   LOAD_INGREDIENTS_SUCCESS,
   LOAD_INGREDIENTS_FAILED,
   RESET_CURRENT_INGREDIENT,
-  SET_ERROR_MESSAGE,
-  RESET_ERROR_MESSAGE,
-} from '../../services/actions/actions';
-import { ERASE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/orderActions';
+} from '../../services/actions/ingredients';
+import { SET_ERROR_MESSAGE, RESET_ERROR_MESSAGE } from '../../services/actions/error';
+import { ERASE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/order';
 
 const url = `https://norma.nomoreparties.space/api/ingredients`;
 
@@ -30,7 +29,8 @@ function App() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   const dispatch = useDispatch();
-  const { errorMessage, ingredientSelected }  = useSelector(store => store.burgerIngredients);
+  const { ingredientSelected }  = useSelector(store => store.burgerIngredients);
+  const { isError }  = useSelector(store => store.errorInfo);
   const orderCreated = useSelector(store => store.orderIngredients.orderCreated);
 
   useEffect(() => {
@@ -138,9 +138,9 @@ function App() {
         <OrderDetails />
       </Modal>
       )}
-      { errorMessage && (
+      { isError && (
       <Modal onClose={hideDisplayError} className={style['error-modal']}>
-        <DisplayError error={errorMessage} />
+        <DisplayError />
       </Modal>
       )}
     </div>

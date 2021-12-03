@@ -1,9 +1,10 @@
 import style from "./display-error.module.css"
-import PropTypes from "prop-types";
 import classNames from 'classnames';
 import errorIcon from '../../images/error.png';
+import {useSelector} from "react-redux";
 
-const DisplayError = ({ error }) => {
+const DisplayError = () => {
+    const error = useSelector(store => store.errorInfo.errorMessage)
     return (
         <div className={classNames(style['order-details'])}>
             <h2 className={classNames(style['order-h2'], 'text', 'text_type_main-large')}>
@@ -20,7 +21,4 @@ const DisplayError = ({ error }) => {
     );
 };
 
-DisplayError.propTypes = {
-    error: PropTypes.string
-};
 export default DisplayError;

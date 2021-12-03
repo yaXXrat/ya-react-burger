@@ -5,11 +5,9 @@ import {ConstructorElement, Button} from "@ya.praktikum/react-developer-burger-u
 
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-    SET_ERROR_MESSAGE
-} from '../../services/actions/actions';
+import { SET_ERROR_MESSAGE } from '../../services/actions/error';
 
-import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS } from '../../services/actions/orderActions';
+import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS } from '../../services/actions/order';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
 const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
