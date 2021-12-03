@@ -1,20 +1,20 @@
 
-import React, {useContext} from 'react'
+import React from 'react'
+import { useSelector } from "react-redux";
 import style from './burger-ingredient-group.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 
 import PropTypes from "prop-types";
 import {ingredientPT} from '../../utils/proptypes';
 
-import { SelectedDataContext } from '../../services/selected-data-context.js';
-
 const BurgerIngredientGroup = ( {title, ingredients } ) => {
 
-    const selected = useContext(SelectedDataContext);
+    const { orderIngredients, orderBun, orderBunSelected } = useSelector(store => store.orderIngredients);
+    let allIngredients = orderBunSelected ? orderIngredients.concat(orderBun) : orderIngredients;
 
     const getSelectedCount = (id) => {
-        let currentIngredient = selected.find(ingredient => ingredient._id === id);
-        return currentIngredient ? currentIngredient.count : 0;
+        let currentIngredient = allIngredients.filter(ingredient => ingredient._id === id);
+        return currentIngredient ? currentIngredient.length : 0;
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import style from './app.module.css';
 
 import AppHeader from '../app-header/app-header';
@@ -9,8 +9,6 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import DisplayError from "../display-error/display-error";
 
-import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
-import { SelectedDataContext } from '../../services/selected-data-context.js';
 import {useDispatch, useSelector} from "react-redux";
 
 import {
@@ -25,9 +23,6 @@ import { ERASE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/order'
 const url = `https://norma.nomoreparties.space/api/ingredients`;
 
 function App() {
-  const [ingredients, setIngredients] = useState([]);
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
-
   const dispatch = useDispatch();
   const { ingredientSelected }  = useSelector(store => store.burgerIngredients);
   const { isError }  = useSelector(store => store.errorInfo);
@@ -54,7 +49,6 @@ function App() {
         burgerIngredients[i].count = result[item._id];
         dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerIngredients[i]})
       });
-      setSelectedIngredients([burgerBun, ...burgerIngredients]);
     }
 
     const getBurgerIngredients = (allIngredients) => {
@@ -83,7 +77,6 @@ function App() {
     .then((results) =>
     {
       dispatch({type: LOAD_INGREDIENTS_SUCCESS, ingredients: results.data});
-      setIngredients(results.data);
       selectIngredients(results.data);
     })
     .catch((e) => {
@@ -121,12 +114,8 @@ function App() {
     <div>
       <AppHeader />
       <div className={style.main_blocks}>
-        <IngredientsDataContext.Provider value={ingredients} >
-          <SelectedDataContext.Provider value={selectedIngredients} >
             <BurgerIngredients />
             <BurgerConstructor />
-          </SelectedDataContext.Provider>
-        </IngredientsDataContext.Provider>
       </div>
       { ingredientSelected && (
       <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>

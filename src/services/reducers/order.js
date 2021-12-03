@@ -11,6 +11,8 @@ import {
 
 export const initialState = {
     orderCreated: false,
+    orderBunSelected: false,
+    orderBun: {},
     orderIngredients: [],
     currentOrder:{
         number: 0,
@@ -23,14 +25,24 @@ export const initialState = {
 
 export const orderReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_ORDER_INGREDIENT: 
-            return { 
-                ...state,
-                orderIngredients: [
-                    ...state.orderIngredients,
-                    action.ingredient
-                ]
+        case SET_ORDER_INGREDIENT:
+            let newState = undefined;
+            if(action.ingredient.type === "bun") {
+                newState = {
+                    ...state,
+                    orderBunSelected: true,
+                    orderBun: action.ingredient
+                }
+            }else{
+                newState = {
+                    ...state,
+                    orderIngredients: [
+                        ...state.orderIngredients,
+                        action.ingredient
+                    ]
+                }
             }
+            return newState;
         case REMOVE_ORDER_INGREDIENT:
             const newIngredients = [...state.orderIngredients];
             let idx = newIngredients.indexOf(action.ingredient);
@@ -52,6 +64,8 @@ export const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 orderCreated: false,
+                orderBunSelected: false,
+                orderBun: {},
                 orderIngredients: [],
                 currentOrder: {}
             }
