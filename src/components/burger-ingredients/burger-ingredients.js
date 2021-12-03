@@ -6,7 +6,6 @@ import style from './burger-ingredients.module.css';
 
 import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-group';
 
-import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
 
 const ingredientGroups = {
@@ -17,7 +16,7 @@ const ingredientGroups = {
 
 const ingredientGroupsTypes = Object.keys(ingredientGroups);
 
-const BurgerIngredients = ({ displayIngredientInfo }) => {
+const BurgerIngredients = () => {
 
     const ingredientsData = useSelector(store => store.burgerIngredients.allIngredients);
 
@@ -61,7 +60,6 @@ const BurgerIngredients = ({ displayIngredientInfo }) => {
                         key={group} 
                         title={ingredientGroups[group]}
                         ingredients={filteredIngredientsData(group)}
-                        displayIngredientInfo={displayIngredientInfo}
                     />
                 </div>
             ))}
@@ -69,9 +67,5 @@ const BurgerIngredients = ({ displayIngredientInfo }) => {
         </div>
     )
 }
-
-BurgerIngredients.propTypes = {
-    displayIngredientInfo: PropTypes.func.isRequired
-};
 
 export default BurgerIngredients;

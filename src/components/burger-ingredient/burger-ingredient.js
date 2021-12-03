@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch } from "react-redux";
 import {
     Counter,
     CurrencyIcon,
@@ -9,7 +10,16 @@ import style from './burger-ingredient.module.css';
 import PropTypes from "prop-types";
 import {ingredientPT} from '../../utils/proptypes';
 
-const BurgerIngredient = ( { ingredient, className, displayIngredientInfo, selectedCount }) => {
+import { SET_CURRENT_INGREDIENT } from '../../services/actions/actions';
+import { SET_ORDER_INGREDIENT } from '../../services/actions/orderActions';
+  
+
+const BurgerIngredient = ( { ingredient, className, selectedCount }) => {
+    const dispatch = useDispatch();
+    const displayIngredientInfo = () => {
+        dispatch({type: SET_ORDER_INGREDIENT, ingredient: ingredient})
+        dispatch({type: SET_CURRENT_INGREDIENT, id: ingredient._id})
+        }
     return (
         <div className={classNames(style[className])}>
             { (selectedCount !== 0) && <Counter count={selectedCount} size="default" />}
@@ -17,7 +27,7 @@ const BurgerIngredient = ( { ingredient, className, displayIngredientInfo, selec
                 alt={ingredient.name}
                 className={classNames(style['burger-ingredient-image'] )}
                 src={ingredient.image}
-                onClick={() => displayIngredientInfo(ingredient)}
+                onClick={() => displayIngredientInfo()}
             />            
             <div className={style.price}>
                 <span className={classNames(style['burger-ingredient-price'], "text text_type_digits-default")}>{ingredient.price}&nbsp;
@@ -31,6 +41,5 @@ const BurgerIngredient = ( { ingredient, className, displayIngredientInfo, selec
   BurgerIngredient.propTypes = {
     ingredient: ingredientPT.isRequired,
     className: PropTypes.string.isRequired,
-    displayIngredientInfo: PropTypes.func.isRequired
   };
   export default BurgerIngredient;

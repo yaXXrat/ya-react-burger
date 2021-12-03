@@ -9,6 +9,7 @@ RESET_ERROR_MESSAGE
 } from '../actions/actions.js';
 
 export const initialState = {
+    ingredientSelected: false,
     selectedIngredient: {},
     allIngredients: [],
     errorMessage: ''
@@ -27,6 +28,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
         case SET_CURRENT_INGREDIENT:
             return {
                 ...state,
+                ingredientSelected: true,
                 selectedIngredient: {
                     ...state.allIngredients.find( item =>  item._id === action.id )
                 }
@@ -34,6 +36,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
         case RESET_CURRENT_INGREDIENT:
             return {
                 ...state,
+                ingredientSelected: false,
                 selectedIngredient: {}
             }
         case SET_ERROR_MESSAGE:

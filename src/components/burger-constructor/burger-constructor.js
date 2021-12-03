@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import style from './burger-constructor.module.css';
 import {ConstructorElement, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
-import PropTypes from "prop-types";
-
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -16,7 +14,7 @@ import BurgerConstructorItem from '../burger-constructor-item/burger-constructor
 
 const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
 
-const BurgerConstructor = ({ displayOrderInfo}) => {
+const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
     const selected = useSelector(store => store.orderIngredients.orderIngredients);
@@ -53,9 +51,8 @@ const BurgerConstructor = ({ displayOrderInfo}) => {
             newOrder.number = results.order.number
             newOrder.name = results.name
             newOrder.success = results.success
-            dispatch({type:MAKE_ORDER_SUCCESS, order: newOrder});
             if(results.success){
-                displayOrderInfo()
+                dispatch({type:MAKE_ORDER_SUCCESS, order: newOrder});
             }else{
                 throw new Error("Error happened during order creation!");
             }
@@ -109,10 +106,5 @@ const BurgerConstructor = ({ displayOrderInfo}) => {
 
     )    
 }
-
-BurgerConstructor.propTypes = {
-    displayOrderInfo: PropTypes.func.isRequired
-};
-
 
 export default BurgerConstructor;

@@ -8,7 +8,7 @@ import {ingredientPT} from '../../utils/proptypes';
 
 import { SelectedDataContext } from '../../services/selected-data-context.js';
 
-const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) => {
+const BurgerIngredientGroup = ( {title, ingredients } ) => {
 
     const selected = useContext(SelectedDataContext);
 
@@ -27,7 +27,7 @@ const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) =
                     ingredient={ingredient} 
                     className='burger-ingredient'
                     selectedCount={getSelectedCount(ingredient._id)}
-                    displayIngredientInfo={displayIngredientInfo} />
+                />
             ))}              
             </div>
         </>
@@ -37,7 +37,6 @@ const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) =
 BurgerIngredientGroup.propTypes = {
     title: PropTypes.string.isRequired,
     ingredients: PropTypes.arrayOf(ingredientPT).isRequired,
-    displayIngredientInfo: PropTypes.func.isRequired,
   };
 
 export default BurgerIngredientGroup;

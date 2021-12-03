@@ -17,7 +17,6 @@ import {
   LOAD_INGREDIENTS,
   LOAD_INGREDIENTS_SUCCESS,
   LOAD_INGREDIENTS_FAILED,
-  SET_CURRENT_INGREDIENT,
   RESET_CURRENT_INGREDIENT,
   SET_ERROR_MESSAGE,
   RESET_ERROR_MESSAGE,
@@ -30,11 +29,9 @@ function App() {
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const [isOrderDetailsOpen, setOrderDetailsOpen] = useState(false);
-
   const dispatch = useDispatch();
-  const selectedIngredient = useSelector(store => store.burgerIngredients.selectedIngredient);
-  const errorMessage = useSelector(store => store.burgerIngredients.errorMessage);
+  const { errorMessage, ingredientSelected }  = useSelector(store => store.burgerIngredients);
+  const orderCreated = useSelector(store => store.orderIngredients.orderCreated);
 
   useEffect(() => {
 
@@ -108,20 +105,12 @@ function App() {
     return allIngredients.filter(ingredient => ingredient.type === 'bun');
   }
 
-  const displayIngredientInfo = (ingredient) => {
-    dispatch({type: SET_ORDER_INGREDIENT, ingredient: ingredient})
-    dispatch({type: SET_CURRENT_INGREDIENT, id: ingredient._id})
-  };
   const hideIngredientInfo = () => {
     dispatch({type: RESET_CURRENT_INGREDIENT})
   };
 
-  const displayOrderInfo = () => {
-    setOrderDetailsOpen(true);
-  };
   const hideOrderInfo = () => {
     dispatch({type: ERASE_ORDER});
-    setOrderDetailsOpen(false);
   };
 
   const hideDisplayError = () =>{
@@ -134,19 +123,17 @@ function App() {
       <div className={style.main_blocks}>
         <IngredientsDataContext.Provider value={ingredients} >
           <SelectedDataContext.Provider value={selectedIngredients} >
-            <BurgerIngredients displayIngredientInfo={displayIngredientInfo}/>
-            <BurgerConstructor 
-                displayOrderInfo={displayOrderInfo} 
-            />
+            <BurgerIngredients />
+            <BurgerConstructor />
           </SelectedDataContext.Provider>
         </IngredientsDataContext.Provider>
       </div>
-      { Object.keys(selectedIngredient).length > 0 && (
+      { ingredientSelected && (
       <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>
-        <IngredientDetails ingredient={selectedIngredient} />
+        <IngredientDetails />
       </Modal>
       )}
-      { isOrderDetailsOpen && (
+      { orderCreated && (
       <Modal onClose={hideOrderInfo} className={style['order-modal']}>
         <OrderDetails />
       </Modal>
