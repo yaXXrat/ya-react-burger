@@ -36,7 +36,7 @@ export const orderReducer = (state = initialState, action) => {
                     orderBun: action.ingredient
                 }
             } else {
-                let newIngredient = action.ingredient;
+                let newIngredient = {...action.ingredient};
                 let tmpIndex = state.lastIndex + 1;
                 newIngredient.id = tmpIndex;
                 console.log(newIngredient.name+ ' : '+newIngredient.id)
@@ -45,7 +45,7 @@ export const orderReducer = (state = initialState, action) => {
                     lastIndex: tmpIndex,
                     orderIngredients: [
                         ...state.orderIngredients,
-                        action.ingredient
+                        newIngredient
                     ]
                 }
             }
