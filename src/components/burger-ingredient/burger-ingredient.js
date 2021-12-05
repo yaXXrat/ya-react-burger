@@ -25,7 +25,7 @@ const BurgerIngredient = ( { ingredient, className, selectedCount }) => {
         dispatch({type: SET_CURRENT_INGREDIENT, id: ingredient._id})
     }
     return (
-        <div ref={dragRef} className={classNames(style[className])}>
+        <div ref={dragRef} className={classNames(style[className], style['draggable'])}>
             { (selectedCount !== 0) && <Counter count={selectedCount} size="default" />}
             <img
                 alt={ingredient.name}

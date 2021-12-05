@@ -9,7 +9,7 @@ const DisplayError = () => {
                 Секундочку
             </h2>
             <div className={classNames('text','text_type_main-default')}>
-                Подождите пожалуйста, ждем ответ сервера
+                Подождите, пожалуйста, ждем ответ сервера
             </div>
             <br/><img src={waitingIcon} alt="Ждем-с"/>
             <h3 className={classNames('text','text_type_main-default', ' text_color_inactive')}>

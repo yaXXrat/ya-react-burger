@@ -73,14 +73,14 @@ const BurgerConstructor = () => {
                 <span className="text text_type_digits-medium">{totalPrice}&nbsp;</span>
                 <span className="svg_large"><CurrencyIcon type="primary" /></span>
                 <div className={style.px40}>&nbsp;</div>
-                <Button
+                {totalPrice > 0 && <Button
                     disabled={!orderBunSelected} 
                     type="primary" 
                     size="medium"
                     onClick={() => makeOrder()}
                 >
                     Оформить заказ
-                </Button>
+                </Button>}
             </div>
 
         </div>

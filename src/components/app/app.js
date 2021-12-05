@@ -26,7 +26,9 @@ function App() {
   const { ingredientSelected }  = useSelector(store => store.burgerIngredients);
   const { isError }  = useSelector(store => store.errorInfo);
   const orderCreated = useSelector(store => store.orderIngredients.orderCreated);
-  const isWaiting  = useSelector(store => store.burgerIngredients.isLoading);
+  const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
+  const isWaitingOrder = useSelector(store => store.orderIngredients.isLoading);
+  const isWaiting = isWaitingIngredients || isWaitingOrder;
 
   useEffect(() => {
     dispatch(getIngredients())
@@ -40,11 +42,11 @@ function App() {
     dispatch({type: ERASE_ORDER});
   };
 
-  const hideDisplayError = () =>{
+  const hideDisplayError = () => {
     dispatch({type: RESET_ERROR_MESSAGE});
   };
 
-  const hideDisplayWaiting = () =>{
+  const hideDisplayWaiting = () => {
   };
 
   return (

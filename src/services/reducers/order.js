@@ -1,12 +1,10 @@
 import {
     ERASE_ORDER,    
-    MAKE_ORDER_SUCCESS,
     REMOVE_ORDER_INGREDIENT,
-//    SET_ORDER_INGREDIENTS,
     SET_ORDER_INGREDIENT,
-//    MAKE_ORDER_REQUEST ,
-//    MAKE_ORDER_SUCCESS,
-//    MAKE_ORDER_ERROR,
+    MAKE_ORDER_REQUEST ,
+    MAKE_ORDER_SUCCESS,
+    MAKE_ORDER_ERROR,
     UPDATE_ORDER,
 } from '../actions/order';
 
@@ -22,7 +20,9 @@ export const initialState = {
         name: "",
         ingredients: [],
         price: 0
-      }
+      },
+    isError: false,
+    isLoading: false
 };
 
 export const orderReducer = (state = initialState, action) => {
@@ -57,6 +57,18 @@ export const orderReducer = (state = initialState, action) => {
                 ...state,
                 orderIngredients: newIngredients
             }
+        case MAKE_ORDER_REQUEST:
+            return {
+                ...state,
+                isError: false,
+                isLoading: true
+            }
+        case MAKE_ORDER_ERROR:
+            return {
+                ...state,
+                isError: true,
+                isLoading: false
+            }
         case MAKE_ORDER_SUCCESS:
             return {
                 ...state,
@@ -64,15 +76,15 @@ export const orderReducer = (state = initialState, action) => {
                 currentOrder: {
                     ...state.currentOrder,
                     ...action.order
-                }
+                },
+                isError: false,
+                isLoading: false
             }
         case ERASE_ORDER:
             return {
                 ...state,
-                lastIndex: 0,
+                lastIndex: 1,
                 orderCreated: false,
-                orderBunSelected: false,
-                orderBun: {},
                 orderIngredients: [],
                 currentOrder: {}
             }
