@@ -9,6 +9,9 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import DisplayError from "../display-error/display-error";
 
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
 import {useDispatch, useSelector} from "react-redux";
 
 import {
@@ -114,8 +117,10 @@ function App() {
     <div>
       <AppHeader />
       <div className={style.main_blocks}>
+        <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
             <BurgerConstructor />
+        </DndProvider>
       </div>
       { ingredientSelected && (
       <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>

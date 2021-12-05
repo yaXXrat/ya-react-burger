@@ -2,12 +2,13 @@ import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import style from './burger-constructor.module.css';
 import { Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useCallback } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import { SET_ERROR_MESSAGE } from '../../services/actions/error';
 
-import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS } from '../../services/actions/order';
+import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS, UPDATE_ORDER } from '../../services/actions/order';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
 
@@ -17,6 +18,7 @@ const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
     const { orderIngredients, orderBun, orderBunSelected } = useSelector(store => store.orderIngredients);
+
     let allIngredients = orderBunSelected ? orderIngredients.concat(orderBun) : orderIngredients;
     const calcTotalPrice = (ingredients) => ingredients.reduce((acc, current) => acc + current.price, 0);
     let totalPrice = calcTotalPrice(allIngredients);
@@ -62,6 +64,12 @@ const BurgerConstructor = () => {
           });
     }
 
+    const moveCard = useCallback((dragIndex, hoverIndex) => {
+        dispatch({type: UPDATE_ORDER, dragIndex: dragIndex, hoverIndex: hoverIndex});
+    }, [dispatch]);
+
+    let uuid = '';
+
     return (
         <div className={style['burger-constructor']}>
 {orderBunSelected &&
@@ -72,8 +80,10 @@ const BurgerConstructor = () => {
         /></div>}
 
         <div className={style.group}>
-            {orderIngredients.map((ingredient, i) => (
-                <div key={uuidv4()}><BurgerConstructorItem ingredient={ingredient}/></div>
+            {
+                orderIngredients.map((ingredient, i) => (
+                uuid = uuidv4() && <BurgerConstructorItem ingredient={ingredient}
+                moveCard={moveCard} index={i} id={i} key={uuid}/>
             ))}
         </div>
 

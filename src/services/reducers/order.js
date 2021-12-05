@@ -7,11 +7,13 @@ import {
 //    MAKE_ORDER ,
 //    MAKE_ORDER_SUCCESS,
 //    MAKE_ORDER_FAILED,
+    UPDATE_ORDER,
 } from '../actions/order';
 
 export const initialState = {
     orderCreated: false,
     orderBunSelected: false,
+    lastIndex: 1,
     orderBun: {},
     orderIngredients: [],
     currentOrder:{
@@ -33,7 +35,7 @@ export const orderReducer = (state = initialState, action) => {
                     orderBunSelected: true,
                     orderBun: action.ingredient
                 }
-            }else{
+            } else {
                 newState = {
                     ...state,
                     orderIngredients: [
@@ -68,6 +70,20 @@ export const orderReducer = (state = initialState, action) => {
                 orderBun: {},
                 orderIngredients: [],
                 currentOrder: {}
+            }
+        case UPDATE_ORDER:
+            let temp = [...state.orderIngredients];
+            [temp[action.dragIndex], temp[action.hoverIndex]] = [ temp[action.hoverIndex], temp[action.dragIndex]];
+            // const dragCard = state.orderIngredients[action.dragIndex];
+            // temp = update(state.orderIngredients, {
+            //     $splice: [
+            //         [action.dragIndex, 1],
+            //         [action.hoverIndex, 0, dragCard]
+            //     ]
+            // })
+            return {
+                ...state,
+                orderIngredients: [...temp]
             }
         default: return state;
     }
