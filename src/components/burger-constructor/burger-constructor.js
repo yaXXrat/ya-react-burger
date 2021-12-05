@@ -4,14 +4,11 @@ import style from './burger-constructor.module.css';
 import { Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from 'react-dnd';
 
-
-import { SET_ERROR_MESSAGE } from '../../services/actions/error';
-
-import { MAKE_ORDER_REQUEST, MAKE_ORDER_ERROR, MAKE_ORDER_SUCCESS, UPDATE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/order';
+import { UPDATE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/order';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
 
-const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
+import { createOrder } from '../../services/middleware';
 
 const BurgerConstructor = () => {
 
@@ -31,36 +28,7 @@ const BurgerConstructor = () => {
             ingredients: [ingredientsIDs],
             price: totalPrice
         }
-        dispatch({type:MAKE_ORDER_REQUEST});
-        fetch(CREATE_ORDER_URL,{
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(ingredientsIDs)
-        })
-        .then((res) => {
-            if (res.ok) {
-              return res.json();
-            } else {
-              throw new Error("Error happened during data fetching while order creation!");
-            }
-          })
-          .then((results) => {
-            newOrder.number = results.order.number
-            newOrder.name = results.name
-            newOrder.success = results.success
-            if(results.success){
-                dispatch({type:MAKE_ORDER_SUCCESS, order: newOrder});
-            }else{
-                throw new Error("Error happened during order creation!");
-            }
-          })
-          .catch((e) => {
-            dispatch({type:MAKE_ORDER_ERROR, error: e});
-            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
-          });
+        dispatch(createOrder(ingredientsIDs,newOrder));
     }
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {

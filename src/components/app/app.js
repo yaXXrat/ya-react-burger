@@ -15,16 +15,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import {useDispatch, useSelector} from "react-redux";
 
-import {
-  LOAD_INGREDIENTS_REQUEST,
-  LOAD_INGREDIENTS_SUCCESS,
-  LOAD_INGREDIENTS_ERROR,
-  RESET_CURRENT_INGREDIENT,
-} from '../../services/actions/ingredients';
-import { SET_ERROR_MESSAGE, RESET_ERROR_MESSAGE } from '../../services/actions/error';
-import { ERASE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/order';
+import { RESET_CURRENT_INGREDIENT } from '../../services/actions/ingredients';
+import { RESET_ERROR_MESSAGE } from '../../services/actions/error';
+import { ERASE_ORDER } from '../../services/actions/order';
 
-const url = `https://norma.nomoreparties.space/api/ingredients`;
+import { getIngredients } from '../../services/middleware';
 
 function App() {
   const dispatch = useDispatch();
@@ -34,73 +29,8 @@ function App() {
   const isWaiting  = useSelector(store => store.burgerIngredients.isLoading);
 
   useEffect(() => {
-
-    const selectIngredients = (allIngredients) => {
-      if (allIngredients.length === 0) return [];
-
-      allIngredients.forEach((obj, i) => {
-        allIngredients[i].count = 1;
-      });
-
-      const burgerIngredients = getBurgerIngredients(getIngredients(allIngredients));
-      const burgerBun = getBurgerBun(getBun(allIngredients));
-      burgerBun.count = 1;
-      const result = [];
-      burgerIngredients.forEach((item) => {
-        item._id in result ? result[item._id]++ : result[item._id] = 1;
-      });
-      dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerBun})
-      burgerIngredients.forEach((item, i) => {
-        burgerIngredients[i].count = result[item._id];
-        dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerIngredients[i]})
-      });
-    }
-
-    const getBurgerIngredients = (allIngredients) => {
-      let randomCount = randomNumber(1, allIngredients.length - 1);
-      const result = [];
-      while (randomCount--) {
-        const randomIndex = randomNumber(0, allIngredients.length - 1);
-        result.push(allIngredients[randomIndex]);
-      }
-      return result;
-    }
-
-    const getBurgerBun = (allIngredients) => {
-      const randomIndex = randomNumber(0, allIngredients.length - 1);
-      return allIngredients[randomIndex];
-    }
-
-    dispatch({type: LOAD_INGREDIENTS_REQUEST});
-    setTimeout(() => {
-      fetch(url).then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error("Error happened during fetching!");
-        }
-      })
-          .then((results) => {
-            dispatch({type: LOAD_INGREDIENTS_SUCCESS, ingredients: results.data});
-            selectIngredients(results.data);
-          })
-          .catch((e) => {
-            dispatch({type: LOAD_INGREDIENTS_ERROR, errorMessage: e});
-            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
-          });
-  }, 1000);
+    dispatch(getIngredients())
   }, [dispatch]);
-  function randomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  const getIngredients = (allIngredients) => {
-    return allIngredients.filter(ingredient => ingredient.type !== 'bun');
-  }
-
-  const getBun = (allIngredients) => {
-    return allIngredients.filter(ingredient => ingredient.type === 'bun');
-  }
 
   const hideIngredientInfo = () => {
     dispatch({type: RESET_CURRENT_INGREDIENT})
