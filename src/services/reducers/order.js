@@ -13,7 +13,7 @@ import {
 export const initialState = {
     orderCreated: false,
     orderBunSelected: false,
-    lastIndex: 1,
+    lastIndex: 0,
     orderBun: {},
     orderIngredients: [],
     currentOrder:{
@@ -36,8 +36,13 @@ export const orderReducer = (state = initialState, action) => {
                     orderBun: action.ingredient
                 }
             } else {
+                let newIngredient = action.ingredient;
+                let tmpIndex = state.lastIndex + 1;
+                newIngredient.id = tmpIndex;
+                console.log(newIngredient.name+ ' : '+newIngredient.id)
                 newState = {
                     ...state,
+                    lastIndex: tmpIndex,
                     orderIngredients: [
                         ...state.orderIngredients,
                         action.ingredient
@@ -65,6 +70,7 @@ export const orderReducer = (state = initialState, action) => {
         case ERASE_ORDER:
             return {
                 ...state,
+                lastIndex: 0,
                 orderCreated: false,
                 orderBunSelected: false,
                 orderBun: {},

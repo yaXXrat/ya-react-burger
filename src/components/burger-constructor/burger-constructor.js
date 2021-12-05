@@ -68,8 +68,6 @@ const BurgerConstructor = () => {
         dispatch({type: UPDATE_ORDER, dragIndex: dragIndex, hoverIndex: hoverIndex});
     }, [dispatch]);
 
-    let uuid = '';
-
     return (
         <div className={style['burger-constructor']}>
 {orderBunSelected &&
@@ -81,9 +79,9 @@ const BurgerConstructor = () => {
 
         <div className={style.group}>
             {
-                orderIngredients.map((ingredient, i) => (
-                uuid = uuidv4() && <BurgerConstructorItem ingredient={ingredient}
-                moveCard={moveCard} index={i} id={i} key={uuid}/>
+                orderIngredients.map((ingredient,i) => (
+                    <BurgerConstructorItem ingredient={ingredient}
+                    moveCard={moveCard} index={i} id={ingredient.id} key={ingredient.id}/>
             ))}
         </div>
 
