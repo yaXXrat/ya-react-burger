@@ -8,6 +8,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import DisplayError from "../display-error/display-error";
+import DisplayWaiting from "../display-waiting/display-waiting";
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -15,9 +16,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import {useDispatch, useSelector} from "react-redux";
 
 import {
-  LOAD_INGREDIENTS,
+  LOAD_INGREDIENTS_REQUEST,
   LOAD_INGREDIENTS_SUCCESS,
-  LOAD_INGREDIENTS_FAILED,
+  LOAD_INGREDIENTS_ERROR,
   RESET_CURRENT_INGREDIENT,
 } from '../../services/actions/ingredients';
 import { SET_ERROR_MESSAGE, RESET_ERROR_MESSAGE } from '../../services/actions/error';
@@ -30,25 +31,26 @@ function App() {
   const { ingredientSelected }  = useSelector(store => store.burgerIngredients);
   const { isError }  = useSelector(store => store.errorInfo);
   const orderCreated = useSelector(store => store.orderIngredients.orderCreated);
+  const isWaiting  = useSelector(store => store.burgerIngredients.isLoading);
 
   useEffect(() => {
 
     const selectIngredients = (allIngredients) => {
-      if(allIngredients.length === 0) return [];
+      if (allIngredients.length === 0) return [];
 
-      allIngredients.forEach( (obj, i) => {
+      allIngredients.forEach((obj, i) => {
         allIngredients[i].count = 1;
       });
 
       const burgerIngredients = getBurgerIngredients(getIngredients(allIngredients));
       const burgerBun = getBurgerBun(getBun(allIngredients));
       burgerBun.count = 1;
-      const result=[];
+      const result = [];
       burgerIngredients.forEach((item) => {
         item._id in result ? result[item._id]++ : result[item._id] = 1;
       });
       dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerBun})
-      burgerIngredients.forEach((item, i ) => {
+      burgerIngredients.forEach((item, i) => {
         burgerIngredients[i].count = result[item._id];
         dispatch({type: SET_ORDER_INGREDIENT, ingredient: burgerIngredients[i]})
       });
@@ -57,7 +59,7 @@ function App() {
     const getBurgerIngredients = (allIngredients) => {
       let randomCount = randomNumber(1, allIngredients.length - 1);
       const result = [];
-      while (randomCount--){
+      while (randomCount--) {
         const randomIndex = randomNumber(0, allIngredients.length - 1);
         result.push(allIngredients[randomIndex]);
       }
@@ -69,26 +71,25 @@ function App() {
       return allIngredients[randomIndex];
     }
 
-    fetch(url).then((res) => {
-      dispatch({type: LOAD_INGREDIENTS});
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error("Error happened during fetching!");
-      }
-    })
-    .then((results) =>
-    {
-      dispatch({type: LOAD_INGREDIENTS_SUCCESS, ingredients: results.data});
-      selectIngredients(results.data);
-    })
-    .catch((e) => {
-      dispatch({type: LOAD_INGREDIENTS_FAILED, errorMessage: e});
-      dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
-      console.log(e);
-    });
+    dispatch({type: LOAD_INGREDIENTS_REQUEST});
+    setTimeout(() => {
+      fetch(url).then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Error happened during fetching!");
+        }
+      })
+          .then((results) => {
+            dispatch({type: LOAD_INGREDIENTS_SUCCESS, ingredients: results.data});
+            selectIngredients(results.data);
+          })
+          .catch((e) => {
+            dispatch({type: LOAD_INGREDIENTS_ERROR, errorMessage: e});
+            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
+          });
+  }, 1000);
   }, [dispatch]);
-
   function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -111,6 +112,9 @@ function App() {
 
   const hideDisplayError = () =>{
     dispatch({type: RESET_ERROR_MESSAGE});
+  };
+
+  const hideDisplayWaiting = () =>{
   };
 
   return (
@@ -136,6 +140,11 @@ function App() {
       <Modal onClose={hideDisplayError} className={style['error-modal']}>
         <DisplayError />
       </Modal>
+      )}
+      { isWaiting && (
+          <Modal onClose={hideDisplayWaiting} className={style['error-modal']}>
+            <DisplayWaiting />
+          </Modal>
       )}
     </div>
   );

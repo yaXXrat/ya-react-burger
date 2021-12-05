@@ -7,7 +7,7 @@ import { useDrop } from 'react-dnd';
 
 import { SET_ERROR_MESSAGE } from '../../services/actions/error';
 
-import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS, UPDATE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/order';
+import { MAKE_ORDER_REQUEST, MAKE_ORDER_ERROR, MAKE_ORDER_SUCCESS, UPDATE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/order';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
 
@@ -31,7 +31,7 @@ const BurgerConstructor = () => {
             ingredients: [ingredientsIDs],
             price: totalPrice
         }
-        dispatch({type:MAKE_ORDER});
+        dispatch({type:MAKE_ORDER_REQUEST});
         fetch(CREATE_ORDER_URL,{
             method: 'POST',
             headers: {
@@ -58,7 +58,7 @@ const BurgerConstructor = () => {
             }
           })
           .catch((e) => {
-            dispatch({type:MAKE_ORDER_FAILED, error: e});
+            dispatch({type:MAKE_ORDER_ERROR, error: e});
             dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
           });
     }

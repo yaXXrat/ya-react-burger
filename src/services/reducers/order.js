@@ -4,9 +4,9 @@ import {
     REMOVE_ORDER_INGREDIENT,
 //    SET_ORDER_INGREDIENTS,
     SET_ORDER_INGREDIENT,
-//    MAKE_ORDER ,
+//    MAKE_ORDER_REQUEST ,
 //    MAKE_ORDER_SUCCESS,
-//    MAKE_ORDER_FAILED,
+//    MAKE_ORDER_ERROR,
     UPDATE_ORDER,
 } from '../actions/order';
 
@@ -79,13 +79,6 @@ export const orderReducer = (state = initialState, action) => {
         case UPDATE_ORDER:
             let temp = [...state.orderIngredients];
             [temp[action.dragIndex], temp[action.hoverIndex]] = [ temp[action.hoverIndex], temp[action.dragIndex]];
-            // const dragCard = state.orderIngredients[action.dragIndex];
-            // temp = update(state.orderIngredients, {
-            //     $splice: [
-            //         [action.dragIndex, 1],
-            //         [action.hoverIndex, 0, dragCard]
-            //     ]
-            // })
             return {
                 ...state,
                 orderIngredients: [...temp]
