@@ -1,12 +1,13 @@
-import React from 'react';
+import React,{ useCallback } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import style from './burger-constructor.module.css';
 import { Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback } from 'react';
+import { useDrop } from 'react-dnd';
+
 
 import { SET_ERROR_MESSAGE } from '../../services/actions/error';
 
-import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS, UPDATE_ORDER } from '../../services/actions/order';
+import { MAKE_ORDER, MAKE_ORDER_FAILED, MAKE_ORDER_SUCCESS, UPDATE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/order';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
 
@@ -66,8 +67,19 @@ const BurgerConstructor = () => {
         dispatch({type: UPDATE_ORDER, dragIndex: dragIndex, hoverIndex: hoverIndex});
     }, [dispatch]);
 
+    const onDropHandler = (ingredient) => {
+        dispatch({type: SET_ORDER_INGREDIENT, ingredient: ingredient})    
+    }
+
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(ingredient) {
+            onDropHandler(ingredient);
+        }
+    });
+
     return (
-        <div className={style['burger-constructor']}>
+        <div ref={dropTarget} className={style['burger-constructor']}>
         {orderBunSelected &&
             <div className={style['main-block']}>
                 { orderBun && <div className={style.bun}><BurgerBunConstructorItem
