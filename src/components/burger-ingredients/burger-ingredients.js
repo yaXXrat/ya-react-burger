@@ -41,6 +41,20 @@ const BurgerIngredients = () => {
     }
     const groupContainerRef = useRef();
     const groupContainerTop = getRefTop(groupContainerRef);
+
+    function throttle(callee, timeout) {
+        let timer = null;
+      
+        return function perform(...args) {
+          if (timer) return;
+      
+          timer = setTimeout(() => {
+            callee(...args);
+            clearTimeout(timer);
+            timer = null;
+          }, timeout);
+        };
+    }    
     const updateTab = () => {
         const activeTab = Object.entries(tabsRef)
           .map(([tabName, tabRef]) => [
@@ -50,6 +64,7 @@ const BurgerIngredients = () => {
           .sort((a, b) => a[1] - b[1])[0][0];
         setCurrentIngredientsType(activeTab);    
     }
+    const throttledUpdateTab = throttle(updateTab, 250);
     return (
         <div className={style['burger-ingredients']}>
             <div className={classNames(style['burger-ingredients-title'],'mt-10 mb-5 text text_type_main-large ')}>
@@ -67,7 +82,7 @@ const BurgerIngredients = () => {
                 </Tab>
             ))}
             </div>
-            <div ref={groupContainerRef} onScroll={updateTab} className={style['burger-ingredients-group-container']}>
+            <div ref={groupContainerRef} onScroll={throttledUpdateTab} className={style['burger-ingredients-group-container']}>
             {ingredientGroupsTypes.map((group) => (
                 <div 
                     key={group} 

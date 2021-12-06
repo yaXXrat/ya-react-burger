@@ -10,7 +10,7 @@ import {ingredientPT} from '../../utils/proptypes';
 const BurgerIngredientGroup = ( {title, ingredients } ) => {
 
     const { orderIngredients, orderBun, orderBunSelected } = useSelector(store => store.orderIngredients);
-    let allIngredients = orderBunSelected ? orderIngredients.concat(orderBun) : orderIngredients;
+    const allIngredients = orderBunSelected ? orderIngredients.concat(orderBun) : orderIngredients;
 
     const getSelectedCount = (id) => {
         let currentIngredient = allIngredients.filter(ingredient => ingredient._id === id);

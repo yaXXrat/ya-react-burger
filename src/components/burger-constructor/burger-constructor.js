@@ -15,20 +15,13 @@ const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const { orderIngredients, orderBun, orderBunSelected } = useSelector(store => store.orderIngredients);
 
-    let allIngredients = orderBunSelected ? orderIngredients.concat(orderBun) : orderIngredients;
+    const allIngredients = orderBunSelected ? orderIngredients.concat(orderBun) : orderIngredients;
     const calcTotalPrice = (ingredients) => ingredients.reduce((acc, current) => acc + current.price, 0);
-    let totalPrice = calcTotalPrice(allIngredients);
+    const totalPrice = calcTotalPrice(allIngredients);
 
     function makeOrder() {
         const ingredientsIDs = {"ingredients": orderIngredients.map(item => item._id).concat(orderBun._id)};
-        let newOrder = {
-            number: 0,
-            success: true,
-            name: "",
-            ingredients: [ingredientsIDs],
-            price: totalPrice
-        }
-        dispatch(createOrder(ingredientsIDs,newOrder));
+        dispatch(createOrder(ingredientsIDs,totalPrice));
     }
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {

@@ -12,7 +12,7 @@ export const REMOVE_ORDER_INGREDIENT  = 'REMOVE_ORDER_INGREDIENT';
 
 export const UPDATE_ORDER = 'UPDATE_ORDER';
 
-export function createOrder(ingredientsIDs,newOrder){
+export function createOrder(ingredientsIDs,totalPrice){
     return function(dispatch) {
         dispatch({type:MAKE_ORDER_REQUEST});
         fetch(
@@ -34,6 +34,13 @@ export function createOrder(ingredientsIDs,newOrder){
             }
         })
         .then((results) => {
+            let newOrder = {
+                number: 0,
+                success: true,
+                name: "",
+                ingredients: [ingredientsIDs],
+                price: totalPrice
+            }
             newOrder.number = results.order.number
             newOrder.name = results.name
             newOrder.success = results.success
