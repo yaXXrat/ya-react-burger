@@ -13,15 +13,15 @@ export function getIngredients() {
                 if (res.ok) {
                     return res.json();
                 } else {
-                    throw new Error("Error happened during fetching!");
+                    throw new Error("Error happened during fetching! "+ res.status);
                 }
             })
             .then((results) => {
                 dispatch({type: LOAD_INGREDIENTS_SUCCESS, ingredients: results.data});
             })
             .catch((e) => {
-                dispatch({type: LOAD_INGREDIENTS_ERROR});
                 dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
+                dispatch({type: LOAD_INGREDIENTS_ERROR});
             })
     };
 }

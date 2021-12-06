@@ -23,7 +23,7 @@ import { getIngredients } from '../../services/actions/ingredients';
 function App() {
   const dispatch = useDispatch();
   const { selectedIngredient }  = useSelector(store => store.burgerIngredient);
-  const { errorMessage }  = useSelector(store => store.errorInfo.errorMessage);
+  const { errorMessage }  = useSelector(store => store.errorInfo);
   const orderCreated = useSelector(store => store.orderIngredients.orderCreated);
   const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
   const isWaitingOrder = useSelector(store => store.orderIngredients.isLoading);
