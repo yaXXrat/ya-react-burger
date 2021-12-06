@@ -15,7 +15,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import {useDispatch, useSelector} from "react-redux";
 
-import { RESET_CURRENT_INGREDIENT } from '../../services/actions/ingredients';
+import { RESET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
 import { RESET_ERROR_MESSAGE } from '../../services/actions/error';
 import { ERASE_ORDER } from '../../services/actions/order';
 
@@ -23,7 +23,7 @@ import { getIngredients } from '../../services/middleware';
 
 function App() {
   const dispatch = useDispatch();
-  const { ingredientSelected }  = useSelector(store => store.burgerIngredients);
+  const { ingredientSelected }  = useSelector(store => store.burgerIngredient);
   const { isError }  = useSelector(store => store.errorInfo);
   const orderCreated = useSelector(store => store.orderIngredients.orderCreated);
   const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
@@ -44,9 +44,6 @@ function App() {
 
   const hideDisplayError = () => {
     dispatch({type: RESET_ERROR_MESSAGE});
-  };
-
-  const hideDisplayWaiting = () => {
   };
 
   return (
@@ -74,7 +71,7 @@ function App() {
       </Modal>
       )}
       { isWaiting && (
-          <Modal onClose={hideDisplayWaiting} className={style['error-modal']}>
+          <Modal className={style['error-modal']}>
             <DisplayWaiting />
           </Modal>
       )}

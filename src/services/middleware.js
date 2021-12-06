@@ -1,5 +1,5 @@
 import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from './actions/ingredients';
-import {MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, SET_ORDER_INGREDIENT} from './actions/order';
+import {MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER} from './actions/order';
 import { SET_ERROR_MESSAGE } from './actions/error'
 
 const LOAD_INGREDIENTS_URL = 'https://norma.nomoreparties.space/api/ingredients';
@@ -8,7 +8,6 @@ const CREATE_ORDER_URL = "https://norma.nomoreparties.space/api/orders";
 export function getIngredients() {
     return function(dispatch) {
         dispatch({type: LOAD_INGREDIENTS_REQUEST});
-        setTimeout(() => {
             fetch(LOAD_INGREDIENTS_URL)
             .then((res) => {
                 if (res.ok) {
@@ -19,19 +18,16 @@ export function getIngredients() {
             })
             .then((results) => {
                 dispatch({type: LOAD_INGREDIENTS_SUCCESS, ingredients: results.data});
-                dispatch({type: SET_ORDER_INGREDIENT, ingredient: results.data.find( ingredient => ingredient.type === 'bun')});
             })
             .catch((e) => {
                 dispatch({type: LOAD_INGREDIENTS_ERROR, errorMessage: e});
                 dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
             })
-        }, 1000);
     };
 }
 export function createOrder(ingredientsIDs,newOrder){
     return function(dispatch) {
         dispatch({type:MAKE_ORDER_REQUEST});
-        setTimeout(() => {
         fetch(
             CREATE_ORDER_URL,
             {
@@ -61,9 +57,9 @@ export function createOrder(ingredientsIDs,newOrder){
             }
         })
         .catch((e) => {
+            dispatch({type: ERASE_ORDER});
             dispatch({type: MAKE_ORDER_ERROR, error: e});
             dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
         })
-        }, 1000);
     };
 }

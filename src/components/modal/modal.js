@@ -21,7 +21,7 @@ const Modal = ({ children, onClose, className}) => {
     ReactDOM.createPortal(
       <>
             <div className={classNames(style.modal, className)}>
-              {onClose.toString() !== '() => {}' ? <div className={classNames(style['close'], 'mt-10', 'mr-10')}>
+              { typeof onClose === 'function' ? <div className={classNames(style['close'], 'mt-10', 'mr-10')}>
                 <CloseIcon type="primary" onClick={onClose} />
               </div> : ''}
               {children}

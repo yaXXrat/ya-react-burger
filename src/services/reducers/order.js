@@ -82,11 +82,7 @@ export const orderReducer = (state = initialState, action) => {
             }
         case ERASE_ORDER:
             return {
-                ...state,
-                lastIndex: 1,
-                orderCreated: false,
-                orderIngredients: [],
-                currentOrder: {}
+                ...initialState
             }
         case UPDATE_ORDER:
             let temp = [...state.orderIngredients];

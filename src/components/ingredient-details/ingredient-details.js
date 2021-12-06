@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import {useSelector} from "react-redux";
 
 const IngredientDetails = () => {
-  const ingredient = useSelector(store => store.burgerIngredients.selectedIngredient)
+  const ingredient = useSelector(store => store.burgerIngredient.selectedIngredient)
   return (
       <div>
         <div

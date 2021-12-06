@@ -11,7 +11,7 @@ import style from './burger-ingredient.module.css';
 import PropTypes from "prop-types";
 import {ingredientPT} from '../../utils/proptypes';
 
-import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredients';
+import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
   
 
 const BurgerIngredient = ( { ingredient, className, selectedCount }) => {
@@ -22,7 +22,7 @@ const BurgerIngredient = ( { ingredient, className, selectedCount }) => {
 
     const dispatch = useDispatch();
     const displayIngredientInfo = () => {
-        dispatch({type: SET_CURRENT_INGREDIENT, id: ingredient._id})
+        dispatch({type: SET_CURRENT_INGREDIENT, ingredient: ingredient})
     }
     return (
         <div ref={dragRef} className={classNames(style[className], style['draggable'])}>

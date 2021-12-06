@@ -69,21 +69,24 @@ const BurgerConstructor = () => {
         /></div>}
          </div>
 }
-            <div className={style.sum}>
+            {totalPrice > 0 && <div className={style.sum}>
                 <span className="text text_type_digits-medium">{totalPrice}&nbsp;</span>
                 <span className="svg_large"><CurrencyIcon type="primary" /></span>
                 <div className={style.px40}>&nbsp;</div>
-                {totalPrice > 0 && <Button
+                <Button
                     disabled={!orderBunSelected} 
                     type="primary" 
                     size="medium"
                     onClick={() => makeOrder()}
                 >
                     Оформить заказ
-                </Button>}
+                </Button>
+            </div>}
+            {totalPrice === 0 && <div className="text text_type_main-default text_color_inactive empty_constructor">
+                Пожалуйста, для начала конструирования бургера выберите и&nbsp;перетащите булку сюда:
+                </div>
+            }
             </div>
-
-        </div>
 
     )    
 }
