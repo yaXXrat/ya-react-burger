@@ -5,8 +5,6 @@ import {
 
 export const initialState = {
     allIngredients: [],
-    errorMessage: '',
-    isError: false,
     isLoading: false
 };
 
@@ -15,8 +13,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
         case LOAD_INGREDIENTS_REQUEST:
             return {
                 ...state,
-                isLoading: true,
-                isError: false
+                isLoading: true
             }
          case LOAD_INGREDIENTS_SUCCESS:
              return {
@@ -25,8 +22,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
                      ...state.allIngredients,
                      ...action.ingredients
                  ],
-                 isLoading: false,
-                 isError: false
+                 isLoading: false
              }
         case LOAD_INGREDIENTS_ERROR:
             return {
@@ -35,8 +31,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
                     ...state.allIngredients,
                     ...action.ingredients
                 ],
-                isLoading: false,
-                isError: true
+                isLoading: false
             }
         default: return state;
     }

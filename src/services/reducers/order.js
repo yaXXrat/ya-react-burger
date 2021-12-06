@@ -21,7 +21,6 @@ export const initialState = {
         ingredients: [],
         price: 0
       },
-    isError: false,
     isLoading: false
 };
 
@@ -60,13 +59,11 @@ export const orderReducer = (state = initialState, action) => {
         case MAKE_ORDER_REQUEST:
             return {
                 ...state,
-                isError: false,
                 isLoading: true
             }
         case MAKE_ORDER_ERROR:
             return {
                 ...state,
-                isError: true,
                 isLoading: false
             }
         case MAKE_ORDER_SUCCESS:
@@ -77,7 +74,6 @@ export const orderReducer = (state = initialState, action) => {
                     ...state.currentOrder,
                     ...action.order
                 },
-                isError: false,
                 isLoading: false
             }
         case ERASE_ORDER:
