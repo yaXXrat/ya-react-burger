@@ -26,6 +26,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
              }
         case LOAD_INGREDIENTS_ERROR:
             return {
+                ...state,
                 allIngredients: [],
                 isLoading: false
             }

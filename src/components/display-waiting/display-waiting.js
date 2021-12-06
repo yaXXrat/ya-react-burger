@@ -6,7 +6,7 @@ const DisplayError = () => {
     return (
         <div className={classNames(style['order-details'])}>
             <h2 className={classNames(style['order-h2'], 'text', 'text_type_main-large')}>
-                Секундочку
+                Секундочку...
             </h2>
             <div className={classNames('text','text_type_main-default')}>
                 Подождите, пожалуйста, ждем ответ сервера

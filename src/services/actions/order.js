@@ -6,7 +6,6 @@ export const MAKE_ORDER_SUCCESS = 'MAKE_ORDER_SUCCESS';
 export const MAKE_ORDER_ERROR  = 'MAKE_ORDER_ERROR';
 export const ERASE_ORDER = 'ERASE_ORDER';
 
-export const SET_ORDER_INGREDIENTS  = 'SET_ORDER_INGREDIENTS';
 export const SET_ORDER_INGREDIENT  = 'SET_ORDER_INGREDIENT';
 export const REMOVE_ORDER_INGREDIENT  = 'REMOVE_ORDER_INGREDIENT';
 
@@ -30,7 +29,7 @@ export function createOrder(ingredientsIDs,totalPrice){
             if (res.ok) {
                 return res.json();
             } else {
-                throw new Error("Error happened during data fetching while order creation!");
+                throw new Error("Error happened during data fetching while order creation! " + res.status);
             }
         })
         .then((results) => {

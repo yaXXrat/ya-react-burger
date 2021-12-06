@@ -13,7 +13,7 @@ export function getIngredients() {
                 if (res.ok) {
                     return res.json();
                 } else {
-                    throw new Error("Error happened during fetching! "+ res.status);
+                    throw new Error("Error happened during fetching! " + res.status);
                 }
             })
             .then((results) => {
