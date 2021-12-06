@@ -10,7 +10,6 @@ import {
 
 export const initialState = {
     orderCreated: false,
-    orderBunSelected: false,
     lastIndex: 0,
     orderBun: {},
     orderIngredients: [],
@@ -31,7 +30,6 @@ export const orderReducer = (state = initialState, action) => {
             if(action.ingredient.type === "bun") {
                 newState = {
                     ...state,
-                    orderBunSelected: true,
                     orderBun: action.ingredient
                 }
             } else {

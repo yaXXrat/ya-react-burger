@@ -4,7 +4,6 @@ import {
 } from '../actions/ingredient';
 
 export const initialState = {
-    ingredientSelected: false,
     selectedIngredient: {}
 };
 
@@ -13,7 +12,6 @@ export const burgerIngredientReducer = (state = initialState, action) => {
         case SET_CURRENT_INGREDIENT:
             return {
                 ...state,
-                ingredientSelected: true,
                 selectedIngredient: {
                     ...action.ingredient
                 }
@@ -21,7 +19,6 @@ export const burgerIngredientReducer = (state = initialState, action) => {
         case RESET_CURRENT_INGREDIENT:
             return {
                 ...state,
-                ingredientSelected: false,
                 selectedIngredient: {}
             }
         default: return state;

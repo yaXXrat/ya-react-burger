@@ -22,8 +22,8 @@ import { getIngredients } from '../../services/actions/ingredients';
 
 function App() {
   const dispatch = useDispatch();
-  const { ingredientSelected }  = useSelector(store => store.burgerIngredient);
-  const { isError }  = useSelector(store => store.errorInfo);
+  const { selectedIngredient }  = useSelector(store => store.burgerIngredient);
+  const { errorMessage }  = useSelector(store => store.errorInfo.errorMessage);
   const orderCreated = useSelector(store => store.orderIngredients.orderCreated);
   const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
   const isWaitingOrder = useSelector(store => store.orderIngredients.isLoading);
@@ -54,7 +54,7 @@ function App() {
             <BurgerConstructor />
         </DndProvider>
       </div>
-      { ingredientSelected && (
+      { selectedIngredient._id && (
       <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>
         <IngredientDetails />
       </Modal>
@@ -64,7 +64,7 @@ function App() {
         <OrderDetails />
       </Modal>
       )}
-      { isError && (
+      { errorMessage && (
       <Modal onClose={hideDisplayError} className={style['error-modal']}>
         <DisplayError />
       </Modal>

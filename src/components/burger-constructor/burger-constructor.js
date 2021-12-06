@@ -13,9 +13,8 @@ import { createOrder } from '../../services/actions/order';
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
-    const { orderIngredients, orderBun, orderBunSelected } = useSelector(store => store.orderIngredients);
-
-    const allIngredients = orderBunSelected ? orderIngredients.concat(orderBun) : orderIngredients;
+    const { orderIngredients, orderBun } = useSelector(store => store.orderIngredients);
+    const allIngredients = orderBun._id ? orderIngredients.concat(orderBun) : orderIngredients;
     const calcTotalPrice = (ingredients) => ingredients.reduce((acc, current) => acc + current.price, 0);
     const totalPrice = calcTotalPrice(allIngredients);
 
@@ -41,9 +40,8 @@ const BurgerConstructor = () => {
 
     return (
         <div ref={dropTarget} className={style['burger-constructor']}>
-        {orderBunSelected &&
             <div className={style['main-block']}>
-                { orderBun && <div className={style.bun}><BurgerBunConstructorItem
+                { orderBun._id && <div className={style.bun}><BurgerBunConstructorItem
                     type="top"
                     ingredient={orderBun}
                 /></div>}
@@ -56,18 +54,18 @@ const BurgerConstructor = () => {
             ))}
         </div>
 
-        { orderBun && <div className={style.bun}><BurgerBunConstructorItem
+        { orderBun._id && <div className={style.bun}><BurgerBunConstructorItem
             type="bottom"
             ingredient={orderBun}
         /></div>}
          </div>
-}
+
             {totalPrice > 0 && <div className={style.sum}>
                 <span className="text text_type_digits-medium">{totalPrice}&nbsp;</span>
                 <span className="svg_large"><CurrencyIcon type="primary" /></span>
                 <div className={style.px40}>&nbsp;</div>
                 <Button
-                    disabled={!orderBunSelected} 
+                    disabled={!orderBun._id}
                     type="primary" 
                     size="medium"
                     onClick={() => makeOrder()}
@@ -75,6 +73,7 @@ const BurgerConstructor = () => {
                     Оформить заказ
                 </Button>
             </div>}
+            {!orderBun._id && totalPrice > 0 && <div className="text text_type_main-default text_color_inactive empty_constructor">Пожалуйста, для оформления заказа выберите булку</div>}
             {totalPrice === 0 && <div className="text text_type_main-default text_color_inactive empty_constructor">
                 Пожалуйста, для начала конструирования бургера выберите и&nbsp;перетащите булку сюда:
                 </div>
