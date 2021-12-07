@@ -56,7 +56,6 @@ const BurgerIngredients = () => {
         setCurrentIngredientsType(activeTab);
     },[groupContainerTop, tabsRef]);
 
-//    const throttledUpdateTab = useCallback(throttle(updateTab, 250), [updateTab]);
     const throttledUpdateTab = useMemo(() => throttle(updateTab, 250), [updateTab])
 
     return (
