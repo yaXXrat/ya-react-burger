@@ -1,4 +1,4 @@
-import {React, useRef, useState} from 'react'
+import {React, useRef, useState } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import classNames from 'classnames';
@@ -7,6 +7,8 @@ import style from './burger-ingredients.module.css';
 import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-group';
 
 import {useSelector} from "react-redux";
+
+import { throttle } from '../../utils/throttle';
 
 const ingredientGroups = {
     bun: 'Булки',
@@ -42,19 +44,6 @@ const BurgerIngredients = () => {
     const groupContainerRef = useRef();
     const groupContainerTop = getRefTop(groupContainerRef);
 
-    function throttle(callee, timeout) {
-        let timer = null;
-      
-        return function perform(...args) {
-          if (timer) return;
-      
-          timer = setTimeout(() => {
-            callee(...args);
-            clearTimeout(timer);
-            timer = null;
-          }, timeout);
-        };
-    }    
     const updateTab = () => {
         const activeTab = Object.entries(tabsRef)
           .map(([tabName, tabRef]) => [
@@ -63,7 +52,8 @@ const BurgerIngredients = () => {
           ])
           .sort((a, b) => a[1] - b[1])[0][0];
         setCurrentIngredientsType(activeTab);    
-    }
+    };
+
     const throttledUpdateTab = throttle(updateTab, 250);
     return (
         <div className={style['burger-ingredients']}>
