@@ -1,4 +1,4 @@
-import {React, useCallback, useRef, useState, useMemo} from 'react'
+import {React, useCallback, useRef, useState, useMemo, createRef} from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import classNames from 'classnames';
@@ -27,11 +27,13 @@ const BurgerIngredients = () => {
         return ingredientsData.filter(item => item.type === type);
     }
 
-    const tabsRef = {
-        bun: useRef(),
-        sauce: useRef(),
-        main: useRef()
-    };
+    const tabsRef = useMemo( () => (
+        {
+        bun: createRef(),
+        sauce: createRef(),
+        main: createRef()
+        }
+    ), []);
 
     const clickTab = (tab) => {
         setCurrentIngredientsType(tab);
