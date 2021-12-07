@@ -65,7 +65,7 @@ const BurgerConstructor = () => {
                 <span className="svg_large"><CurrencyIcon type="primary" /></span>
                 <div className={style.px40}>&nbsp;</div>
                 <Button
-                    disabled={!constructorBun._id}
+                    disabled={!constructorBun}
                     type="primary" 
                     size="medium"
                     onClick={() => makeOrder()}

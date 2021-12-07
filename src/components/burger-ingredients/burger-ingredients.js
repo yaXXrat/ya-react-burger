@@ -1,4 +1,4 @@
-import {React, useRef, useState } from 'react'
+import {React, useCallback, useRef, useState} from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import classNames from 'classnames';
@@ -44,17 +44,19 @@ const BurgerIngredients = () => {
     const groupContainerRef = useRef();
     const groupContainerTop = getRefTop(groupContainerRef);
 
-    const updateTab = () => {
+    const updateTab = useCallback( () => {
+        console.log('a');
         const activeTab = Object.entries(tabsRef)
           .map(([tabName, tabRef]) => [
             tabName,
             Math.abs(groupContainerTop - getRefTop(tabRef)),
           ])
           .sort((a, b) => a[1] - b[1])[0][0];
-        setCurrentIngredientsType(activeTab);    
-    };
+        setCurrentIngredientsType(activeTab);
+    },[]);
 
-    const throttledUpdateTab = throttle(updateTab, 250);
+    const throttledUpdateTab = useCallback(throttle(updateTab, 250), [updateTab]);
+
     return (
         <div className={style['burger-ingredients']}>
             <div className={classNames(style['burger-ingredients-title'],'mt-10 mb-5 text text_type_main-large ')}>

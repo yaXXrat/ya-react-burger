@@ -56,7 +56,7 @@ function App() {
             <BurgerConstructor />
         </DndProvider>
       </div>
-      { selectedIngredient._id && (
+      { selectedIngredient && (
       <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>
         <IngredientDetails />
       </Modal>
