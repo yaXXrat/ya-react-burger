@@ -1,4 +1,4 @@
-import { REMOVE_ORDER_INGREDIENT, SET_ORDER_INGREDIENT, UPDATE_INGREDIENTS_ORDER } from '../actions/constructor';
+import { REMOVE_ORDER_INGREDIENT, SET_ORDER_INGREDIENT, UPDATE_INGREDIENTS_ORDER, ERASE_INGREDIENTS_ORDER } from '../actions/constructor';
 
 export const initialState = {
     lastIndex: 0,
@@ -37,14 +37,18 @@ export const constructorReducer = (state = initialState, action) => {
                 ...state,
                 constructorIngredients: newIngredients
             }
-            case UPDATE_INGREDIENTS_ORDER:
-                let temp = [...state.constructorIngredients];
-                [temp[action.dragIndex], temp[action.hoverIndex]] = [ temp[action.hoverIndex], temp[action.dragIndex]];
-                return {
-                    ...state,
-                    constructorIngredients: [...temp]
-                }
-            default: return state;
+        case UPDATE_INGREDIENTS_ORDER:
+            let temp = [...state.constructorIngredients];
+            [temp[action.dragIndex], temp[action.hoverIndex]] = [ temp[action.hoverIndex], temp[action.dragIndex]];
+            return {
+                ...state,
+                constructorIngredients: [...temp]
+            }
+        case ERASE_INGREDIENTS_ORDER:
+            return {
+                ...initialState
+            }
+        default: return state;
     }
 }
 

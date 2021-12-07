@@ -18,6 +18,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { RESET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
 import { RESET_ERROR_MESSAGE } from '../../services/actions/error';
 import { ERASE_ORDER } from '../../services/actions/order';
+import { ERASE_INGREDIENTS_ORDER } from '../../services/actions/constructor';
 import { getIngredients } from '../../services/actions/ingredients';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
 
   const hideOrderInfo = () => {
     dispatch({type: ERASE_ORDER});
+    dispatch({type: ERASE_INGREDIENTS_ORDER});
   };
 
   const hideDisplayError = () => {
