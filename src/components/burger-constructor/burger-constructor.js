@@ -4,7 +4,7 @@ import style from './burger-constructor.module.css';
 import { Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from 'react-dnd';
 
-import { UPDATE_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/order';
+import { UPDATE_INGREDIENTS_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/constructor';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
 
@@ -13,18 +13,18 @@ import { createOrder } from '../../services/actions/order';
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
-    const { orderIngredients, orderBun } = useSelector(store => store.orderIngredients);
-    const allIngredients = orderBun._id ? orderIngredients.concat(orderBun) : orderIngredients;
+    const { constructorIngredients, constructorBun } = useSelector(store => store.orderConstructor);
+    const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun) : constructorIngredients;
     const calcTotalPrice = (ingredients) => ingredients.reduce((acc, current) => acc + current.price, 0);
     const totalPrice = calcTotalPrice(allIngredients);
 
     function makeOrder() {
-        const ingredientsIDs = {"ingredients": orderIngredients.map(item => item._id).concat(orderBun._id)};
+        const ingredientsIDs = {"ingredients": constructorIngredients.map(item => item._id).concat(constructorBun._id)};
         dispatch(createOrder(ingredientsIDs,totalPrice));
     }
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
-        dispatch({type: UPDATE_ORDER, dragIndex: dragIndex, hoverIndex: hoverIndex});
+        dispatch({type: UPDATE_INGREDIENTS_ORDER, dragIndex: dragIndex, hoverIndex: hoverIndex});
     }, [dispatch]);
 
     const onDropHandler = (ingredient) => {
@@ -41,22 +41,22 @@ const BurgerConstructor = () => {
     return (
         <div ref={dropTarget} className={style['burger-constructor']}>
             <div className={style['main-block']}>
-                { orderBun._id && <div className={style.bun}><BurgerBunConstructorItem
+                { constructorBun && <div className={style.bun}><BurgerBunConstructorItem
                     type="top"
-                    ingredient={orderBun}
+                    ingredient={constructorBun}
                 /></div>}
 
         <div className={style.group}>
             {
-                orderIngredients.map((ingredient,i) => (
+                constructorIngredients.map((ingredient,i) => (
                     <BurgerConstructorItem ingredient={ingredient}
                     moveCard={moveCard} index={i} id={ingredient.id} key={ingredient.id}/>
             ))}
         </div>
 
-        { orderBun._id && <div className={style.bun}><BurgerBunConstructorItem
+        { constructorBun && <div className={style.bun}><BurgerBunConstructorItem
             type="bottom"
-            ingredient={orderBun}
+            ingredient={constructorBun}
         /></div>}
          </div>
 
@@ -65,7 +65,7 @@ const BurgerConstructor = () => {
                 <span className="svg_large"><CurrencyIcon type="primary" /></span>
                 <div className={style.px40}>&nbsp;</div>
                 <Button
-                    disabled={!orderBun._id}
+                    disabled={!constructorBun._id}
                     type="primary" 
                     size="medium"
                     onClick={() => makeOrder()}
@@ -73,7 +73,7 @@ const BurgerConstructor = () => {
                     Оформить заказ
                 </Button>
             </div>}
-            {!orderBun._id && totalPrice > 0 && <div className="text text_type_main-default text_color_inactive empty_constructor">Пожалуйста, для оформления заказа выберите булку</div>}
+            {!constructorBun && totalPrice > 0 && <div className="text text_type_main-default text_color_inactive empty_constructor">Пожалуйста, для оформления заказа выберите булку</div>}
             {totalPrice === 0 && <div className="text text_type_main-default text_color_inactive empty_constructor">
                 Пожалуйста, для начала конструирования бургера выберите и&nbsp;перетащите булку сюда:
                 </div>

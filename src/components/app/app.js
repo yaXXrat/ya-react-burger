@@ -24,9 +24,9 @@ function App() {
   const dispatch = useDispatch();
   const { selectedIngredient }  = useSelector(store => store.burgerIngredient);
   const { errorMessage }  = useSelector(store => store.errorInfo);
-  const orderCreated = useSelector(store => store.orderIngredients.orderCreated);
+  const orderCreated = useSelector(store => store.order.orderCreated);
   const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
-  const isWaitingOrder = useSelector(store => store.orderIngredients.isLoading);
+  const isWaitingOrder = useSelector(store => store.order.isLoading);
   const isWaiting = isWaitingIngredients || isWaitingOrder;
 
   useEffect(() => {

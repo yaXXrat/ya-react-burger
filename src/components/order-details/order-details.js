@@ -4,7 +4,7 @@ import orderReady from '../../images/tick.png';
 import {useSelector} from "react-redux";
 
 const OrderDetails = () => {
-  const order = useSelector(store => store.orderIngredients.currentOrder)
+  const order = useSelector(store => store.order.currentOrder)
   return (
     <div className={classNames(style['order-details'])}>
       <h2 className={classNames(style['order-h2'], 'text', 'text_type_digits-large')}>

@@ -9,8 +9,6 @@ export const ERASE_ORDER = 'ERASE_ORDER';
 export const SET_ORDER_INGREDIENT  = 'SET_ORDER_INGREDIENT';
 export const REMOVE_ORDER_INGREDIENT  = 'REMOVE_ORDER_INGREDIENT';
 
-export const UPDATE_ORDER = 'UPDATE_ORDER';
-
 export function createOrder(ingredientsIDs,totalPrice){
     return function(dispatch) {
         dispatch({type:MAKE_ORDER_REQUEST});
