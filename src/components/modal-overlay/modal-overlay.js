@@ -5,7 +5,7 @@ const ModalOverlay = ({ onClose }) => {
 
   const onModalClose = (e) => {
     if (e.target === e.currentTarget) {
-      onClose(e);
+      if(typeof onClose === 'function') onClose(e);
     }
   };
 
@@ -18,6 +18,6 @@ const ModalOverlay = ({ onClose }) => {
 };
 
 ModalOverlay.propTypes = {
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.any,
 };
 export default ModalOverlay;

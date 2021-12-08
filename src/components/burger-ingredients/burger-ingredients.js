@@ -1,4 +1,4 @@
-import {React, useRef, useState, useContext} from 'react'
+import {React, useCallback, useRef, useState, useMemo, createRef} from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import classNames from 'classnames';
@@ -6,8 +6,9 @@ import style from './burger-ingredients.module.css';
 
 import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-group';
 
-import PropTypes from "prop-types";
-import { IngredientsDataContext } from '../../services/ingredients-data-context.js';
+import {useSelector} from "react-redux";
+
+import { throttle } from '../../utils/throttle';
 
 const ingredientGroups = {
     bun: 'Булки',
@@ -17,26 +18,46 @@ const ingredientGroups = {
 
 const ingredientGroupsTypes = Object.keys(ingredientGroups);
 
-const BurgerIngredients = ({ displayIngredientInfo }) => {
+const BurgerIngredients = () => {
 
-    const ingredientsData = useContext(IngredientsDataContext);
+    const ingredientsData = useSelector(store => store.burgerIngredients.allIngredients);
 
     const [currentIngredientsType, setCurrentIngredientsType] = useState(ingredientGroupsTypes[0]);
     const filteredIngredientsData = (type) => {
         return ingredientsData.filter(item => item.type === type);
     }
 
-    const ingredientsRef = {
-        bun: useRef(),
-        sauce: useRef(),
-        main: useRef()
-    };
+    const tabsRef = useMemo( () => (
+        {
+        bun: createRef(),
+        sauce: createRef(),
+        main: createRef()
+        }
+    ), []);
 
     const clickTab = (tab) => {
         setCurrentIngredientsType(tab);
-        ingredientsRef[tab].current.scrollIntoView();
+        tabsRef[tab].current.scrollIntoView({ behavior: "smooth" });
       };
-    
+
+    function getRefTop(ref) {
+        return (ref.current) ? ref.current.getBoundingClientRect().top : 0;
+    }
+    const groupContainerRef = useRef();
+    const groupContainerTop = getRefTop(groupContainerRef);
+
+    const updateTab = useCallback( () => {
+        const activeTab = Object.entries(tabsRef)
+          .map(([tabName, tabRef]) => [
+            tabName,
+            Math.abs(groupContainerTop - getRefTop(tabRef)),
+          ])
+          .sort((a, b) => a[1] - b[1])[0][0];
+        setCurrentIngredientsType(activeTab);
+    },[groupContainerTop, tabsRef]);
+
+    const throttledUpdateTab = useMemo(() => throttle(updateTab, 250), [updateTab])
+
     return (
         <div className={style['burger-ingredients']}>
             <div className={classNames(style['burger-ingredients-title'],'mt-10 mb-5 text text_type_main-large ')}>
@@ -54,14 +75,16 @@ const BurgerIngredients = ({ displayIngredientInfo }) => {
                 </Tab>
             ))}
             </div>
-            <div className={style['burger-ingredients-group-container']}>
+            <div ref={groupContainerRef} onScroll={throttledUpdateTab} className={style['burger-ingredients-group-container']}>
             {ingredientGroupsTypes.map((group) => (
-                <div key={group} ref={ingredientsRef[group]}>
+                <div 
+                    key={group} 
+                    ref={tabsRef[group]}
+                >
                     <BurgerIngredientGroup
                         key={group} 
                         title={ingredientGroups[group]}
                         ingredients={filteredIngredientsData(group)}
-                        displayIngredientInfo={displayIngredientInfo}
                     />
                 </div>
             ))}
@@ -69,9 +92,5 @@ const BurgerIngredients = ({ displayIngredientInfo }) => {
         </div>
     )
 }
-
-BurgerIngredients.propTypes = {
-    displayIngredientInfo: PropTypes.func.isRequired
-};
 
 export default BurgerIngredients;

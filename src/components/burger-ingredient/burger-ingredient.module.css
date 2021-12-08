@@ -25,3 +25,7 @@
     flex-direction: column;
     align-items: center;
  }
+
+.draggable{
+    cursor: move;
+}

@@ -1,21 +1,19 @@
-import style from "./display-error.module.css"
+import style from "./display-waiting.module.css"
 import classNames from 'classnames';
-import errorIcon from '../../images/error.png';
-import {useSelector} from "react-redux";
+import waitingIcon from '../../images/waiting.gif';
 
 const DisplayError = () => {
-    const error = useSelector(store => store.errorInfo.errorMessage)
     return (
         <div className={classNames(style['order-details'])}>
             <h2 className={classNames(style['order-h2'], 'text', 'text_type_main-large')}>
-                Упс...
+                Секундочку...
             </h2>
             <div className={classNames('text','text_type_main-default')}>
-                Что-то пошло не так
+                Подождите, пожалуйста, ждем ответ сервера
             </div>
-            <img src={errorIcon} alt="Произошла ошибка" className={style.error}/>
+            <br/><img src={waitingIcon} alt="Ждем-с"/>
             <h3 className={classNames('text','text_type_main-default', ' text_color_inactive')}>
-                {error}
+                <br/>Еще три байтика...
             </h3>
         </div>
     );

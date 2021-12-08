@@ -56,3 +56,14 @@
 :global(.constructor-element){
     width:488px !important;
 }
+
+:global(.svg_large svg){
+    width:48px !important;
+    height: 48px !important;
+}
+
+:global(.empty_constructor){
+    width:100%;
+    margin-top:16px;
+    text-align:center;
+}

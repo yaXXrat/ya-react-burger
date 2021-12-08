@@ -1,20 +1,20 @@
 
-import React, {useContext} from 'react'
+import React from 'react'
+import { useSelector } from "react-redux";
 import style from './burger-ingredient-group.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 
 import PropTypes from "prop-types";
 import {ingredientPT} from '../../utils/proptypes';
 
-import { SelectedDataContext } from '../../services/selected-data-context.js';
+const BurgerIngredientGroup = ( {title, ingredients } ) => {
 
-const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) => {
-
-    const selected = useContext(SelectedDataContext);
+    const { constructorIngredients, constructorBun } = useSelector(store => store.orderConstructor);
+    const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun) : constructorIngredients;
 
     const getSelectedCount = (id) => {
-        let currentIngredient = selected.find(ingredient => ingredient._id === id);
-        return currentIngredient ? currentIngredient.count : 0;
+        let currentIngredient = allIngredients.filter(ingredient => ingredient._id === id);
+        return currentIngredient ? currentIngredient.length : 0;
     }
 
     return (
@@ -27,7 +27,7 @@ const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) =
                     ingredient={ingredient} 
                     className='burger-ingredient'
                     selectedCount={getSelectedCount(ingredient._id)}
-                    displayIngredientInfo={displayIngredientInfo} />
+                />
             ))}              
             </div>
         </>
@@ -37,7 +37,6 @@ const BurgerIngredientGroup = ( {title, ingredients, displayIngredientInfo } ) =
 BurgerIngredientGroup.propTypes = {
     title: PropTypes.string.isRequired,
     ingredients: PropTypes.arrayOf(ingredientPT).isRequired,
-    displayIngredientInfo: PropTypes.func.isRequired,
   };
 
 export default BurgerIngredientGroup;
