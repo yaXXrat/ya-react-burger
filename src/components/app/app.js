@@ -1,82 +1,38 @@
-import React, { useEffect } from 'react';
-import style from './app.module.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+import { MainPage, LoginPage, ForgotPassPage, IngredientPage, ProfilePage, RegisterPage, ResetPassPage } from '../../pages';
 
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrderDetails from '../order-details/order-details';
-import DisplayError from "../display-error/display-error";
-import DisplayWaiting from "../display-waiting/display-waiting";
-
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-
-import {useDispatch, useSelector} from "react-redux";
-
-import { RESET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
-import { RESET_ERROR_MESSAGE } from '../../services/actions/error';
-import { ERASE_ORDER } from '../../services/actions/order';
-import { ERASE_INGREDIENTS_ORDER } from '../../services/actions/constructor';
-import { getIngredients } from '../../services/actions/ingredients';
 
 function App() {
-  const dispatch = useDispatch();
-  const { selectedIngredient }  = useSelector(store => store.burgerIngredient);
-  const { errorMessage }  = useSelector(store => store.errorInfo);
-  const orderCreated = useSelector(store => store.order.orderCreated);
-  const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
-  const isWaitingOrder = useSelector(store => store.order.isLoading);
-  const isWaiting = isWaitingIngredients || isWaitingOrder;
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [dispatch]);
-
-  const hideIngredientInfo = () => {
-    dispatch({type: RESET_CURRENT_INGREDIENT})
-  };
-
-  const hideOrderInfo = () => {
-    dispatch({type: ERASE_ORDER});
-    dispatch({type: ERASE_INGREDIENTS_ORDER});
-  };
-
-  const hideDisplayError = () => {
-    dispatch({type: RESET_ERROR_MESSAGE});
-  };
-
   return (
-    <div>
+    <Router>
       <AppHeader />
-      <div className={style.main_blocks}>
-        <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-        </DndProvider>
-      </div>
-      { selectedIngredient && (
-      <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>
-        <IngredientDetails />
-      </Modal>
-      )}
-      { orderCreated && (
-      <Modal onClose={hideOrderInfo} className={style['order-modal']}>
-        <OrderDetails />
-      </Modal>
-      )}
-      { errorMessage && (
-      <Modal onClose={hideDisplayError} className={style['error-modal']}>
-        <DisplayError />
-      </Modal>
-      )}
-      { isWaiting && (
-          <Modal className={style['error-modal']}>
-            <DisplayWaiting />
-          </Modal>
-      )}
-    </div>
+      <Switch>
+        <Route path="/" exact={true} >
+          <MainPage />
+        </Route>
+        <Route path="/login" exact={true} >
+          <LoginPage />
+        </Route>
+        <Route path="/register" exact={true} >
+          <RegisterPage />
+        </Route>
+        <Route path="/forgot-password" exact={true} >
+          <ForgotPassPage />
+        </Route>
+        <Route path="/reset-password" exact={true} >
+          <ResetPassPage />
+        </Route>
+        <Route path="/profile" exact={true} >
+          <ProfilePage />
+        </Route>
+        <Route path="/ingredients/:id" exact={true} >
+          <IngredientPage />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

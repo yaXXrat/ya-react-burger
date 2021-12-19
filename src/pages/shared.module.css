@@ -1,0 +1,18 @@
+.main_blocks{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ingredient-modal{
+    height: auto;
+}
+
+.order-modal{
+    height: 720px;
+}
+
+.error-modal{
+    height: 720px;
+}
+
