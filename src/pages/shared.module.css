@@ -1,3 +1,9 @@
+.form_block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 .main_blocks{
     display: flex;
     justify-content: center;
