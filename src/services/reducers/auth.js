@@ -20,11 +20,11 @@ export const AuthReducer = (state = initialState, action) => {
                 ...state,
                 user: {
                     ...state.user,
-                    name: action.data.user.name,
-                    email: action.data.user.email,
+                    name: action.user.name,
+                    email: action.user.email,
                 },
-                accessToken: action.data.accessToken,
-                refreshToken: action.data.refreshToken,
+                accessToken: action.accessToken,
+                refreshToken: action.refreshToken,
                 isLogged: true
             };
         case LOGOUT_SUCCESS:
@@ -42,11 +42,11 @@ export const AuthReducer = (state = initialState, action) => {
                 ...state,
                 user: {
                     ...state.user,
-                    name: action.data.name,
-                    email: action.data.email,
+                    name: action.user.name,
+                    email: action.user.email,
                 },
-                accessToken: action.data.accessToken,
-                refreshToken: action.data.refreshToken,
+                accessToken: action.accessToken,
+                refreshToken: action.refreshToken,
                 isLogged: true
             };
         default:
