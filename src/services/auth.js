@@ -1,6 +1,7 @@
 import { SERVER_API_URL } from './config';
 
 const authRequest = async (endpoint, body, method) => {
+    let result = undefined;
     try {
         const options = {
             method,
@@ -11,20 +12,14 @@ const authRequest = async (endpoint, body, method) => {
         }
 
         const response = await fetch(`${SERVER_API_URL}${endpoint}`, options)
-        const result = await response.json()
+        result = await response.json()
 
-        return result
     }
     catch (e) {
-        console.log(e)
-        return {
-            "success": false,
-            "error": {
-                "name": e.name,
-                "message": e.message
-            }
-          } 
+        result = { success: false, message: e.name + ' ' + e.message }
     }
+    return result
+
 }
 
 const postRequest = async (endpoint, body) => {

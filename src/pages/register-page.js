@@ -27,11 +27,10 @@ const RegisterPage = () => {
         e.preventDefault()
         let result = await registerUser(userName, userEmail, userPass)
         if (result.success) {
-            console.log(JSON.stringify(result))
             dispatch({type: REGISTER_SUCCESS, user: result.user});
             history.push("/")
         } else {
-            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
+            dispatch({type: SET_ERROR_MESSAGE, errorMessage: result.message});
         }
     }
 
