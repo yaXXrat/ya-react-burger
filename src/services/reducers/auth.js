@@ -14,7 +14,6 @@ const initialState = {
 }
 
 export const AuthReducer = (state = initialState, action) => {
-    console.log(JSON.stringify(action,2))
     switch (action.type){
         case LOGIN_SUCCESS:
             return {

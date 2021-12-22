@@ -1,5 +1,5 @@
 import { SERVER_API_URL } from './config';
-import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR } from './actions/auth';
+import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR } from './actions/auth';
 import { SET_ERROR_MESSAGE } from './actions/error'
 
 export function registerUser(name, email, password){
@@ -13,7 +13,7 @@ export function registerUser(name, email, password){
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-            body: JSON.stringify({name, email, password})
+                body: JSON.stringify({email, password})
             }
         )
         .then((response) => {
@@ -36,6 +36,46 @@ export function registerUser(name, email, password){
             setAccessToken('')
             setRefreshToken('')
             dispatch({type: REGISTER_ERROR});
+            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+
+        })
+    };
+}
+
+export function login(email, password){
+    return function(dispatch) {
+        dispatch({type:LOGIN_REQUEST});
+        fetch(
+            SERVER_API_URL+'auth/login',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email, password})
+            }
+        )
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Error happened during data fetching while login! " + response.status);
+            }
+        })
+        .then((result) => {
+            if(result.success){
+                setAccessToken(result.accessToken)
+                setRefreshToken(result.refreshToken)
+                dispatch({type:LOGIN_SUCCESS, data: result});
+            } else {
+                throw new Error("Error happened during login!");
+            }
+        })
+        .catch((e) => {
+            setAccessToken('')
+            setRefreshToken('')
+            dispatch({type: LOGIN_ERROR});
             dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
 
         })
