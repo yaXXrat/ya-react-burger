@@ -14,17 +14,18 @@ const initialState = {
 }
 
 export const AuthReducer = (state = initialState, action) => {
+    console.log(JSON.stringify(action,2))
     switch (action.type){
         case LOGIN_SUCCESS:
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    name: action.user.name,
-                    email: action.user.email,
+                    name: action.data.user.name,
+                    email: action.data.user.email,
                 },
-                accessToken: action.accessToken,
-                refreshToken: action.refreshToken,
+                accessToken: action.data.accessToken,
+                refreshToken: action.data.refreshToken,
                 isLogged: true
             };
         case LOGOUT_SUCCESS:
@@ -42,11 +43,11 @@ export const AuthReducer = (state = initialState, action) => {
                 ...state,
                 user: {
                     ...state.user,
-                    name: action.user.name,
-                    email: action.user.email,
+                    name: action.data.user.name,
+                    email: action.data.user.email,
                 },
-                accessToken: action.accessToken,
-                refreshToken: action.refreshToken,
+                accessToken: action.data.accessToken,
+                refreshToken: action.data.refreshToken,
                 isLogged: true
             };
         default:

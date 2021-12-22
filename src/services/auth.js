@@ -1,55 +1,45 @@
 import { SERVER_API_URL } from './config';
+import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR } from './actions/auth';
+import { SET_ERROR_MESSAGE } from './actions/error'
 
-const authRequest = async (endpoint, body, method) => {
-    let result = undefined;
-    try {
-        const options = {
-            method,
-            headers: { "Content-Type": "application/json" },
-        }
-        const accessToken = getAccessToken()
-        if (accessToken) {
-            options.headers.authorization = accessToken
-        }
+export function registerUser(name, email, password){
+    return function(dispatch) {
+        dispatch({type:REGISTER_REQUEST});
+        fetch(
+            SERVER_API_URL+'auth/register',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            body: JSON.stringify({name, email, password})
+            }
+        )
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Error happened during data fetching while registration! " + response.status);
+            }
+        })
+        .then((result) => {
+            if(result.success){
+                setAccessToken(result.accessToken)
+                setRefreshToken(result.refreshToken)
+                dispatch({type:REGISTER_SUCCESS, data: result});
+            } else {
+                throw new Error("Error happened during registration!");
+            }
+        })
+        .catch((e) => {
+            setAccessToken('')
+            setRefreshToken('')
+            dispatch({type: REGISTER_ERROR});
+            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
 
-        if (body) {
-            options.body = JSON.stringify(body)
-        }
-
-        const response = await fetch(`${SERVER_API_URL}${endpoint}`, options)
-        result = await response.json()
-    }
-    catch (e) {
-        result = { success: false, message: e.name + ' ' + e.message }
-    }
-    return result
-
-}
-
-const postRequest = async (endpoint, body) => {
-    return authRequest(endpoint, body, "POST")
-}
-
-// const getRequest = async (endpoint) => {
-//     return authRequest(endpoint, null, "GET")
-// }
-
-// const patchRequest = async (endpoint, body) => {
-//     return authRequest(endpoint, body, "PATCH")
-// }
-
-export const resetPassword = async email => postRequest('password-reset', { email })
-
-
-export const updatePassword = async (password, token) => postRequest('password-reset/reset', { password, token })
-
-export const registerUser = async (name, email, password) => {
-    const result = await postRequest('auth/register', { name, email, password })
-    if (result.success) {
-        setAccessToken(result.accessToken)
-        setRefreshToken(result.refreshToken)
-    }
-    return result
+        })
+    };
 }
 
 export function getCookie(name) {
@@ -92,7 +82,7 @@ export function deleteCookie(name) {
 export const getAccessToken = () => { getCookie('accessToken') }
 
 
-const setAccessToken = (accessToken) => {
+export const setAccessToken = (accessToken) => {
   if (accessToken) {
       setCookie('accessToken', accessToken)
   }
@@ -103,7 +93,7 @@ const setAccessToken = (accessToken) => {
 
 export const getRefreshToken = () => { getCookie('refreshToken') }
 
-const setRefreshToken = (refreshToken) => {
+export const setRefreshToken = (refreshToken) => {
     if (refreshToken) {
         setCookie('refreshToken', refreshToken)
     }

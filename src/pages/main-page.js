@@ -29,13 +29,13 @@ function MainPage() {
     const isWaitingOrder = useSelector(store => store.order.isLoading);
     const isWaiting = isWaitingIngredients || isWaitingOrder;
   
-    const { isLogged, user } = useSelector(store => store.auth);
+    // const { isLogged, user } = useSelector(store => store.auth);
 
-    if(isLogged){
-      console.log('User: ',JSON.stringify(user));
-    }else{
-      console.log('No logged user');
-    }
+    // if(isLogged){
+    //   console.log('User: ',JSON.stringify(user));
+    // }else{
+    //   console.log('No logged user');
+    // }
 
     useEffect(() => {
       dispatch(getIngredients())

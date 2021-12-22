@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from "react-redux";
 
 import { Input, Button, PasswordInput, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -8,8 +8,7 @@ import style from './shared.module.css'
 import Modal from '../components/modal/modal';
 import DisplayError from "../components/display-error/display-error";
 
-import { SET_ERROR_MESSAGE, RESET_ERROR_MESSAGE } from '../services/actions/error';
-import { REGISTER_SUCCESS } from '../services/actions/auth';
+import { RESET_ERROR_MESSAGE } from '../services/actions/error';
 
 import { registerUser } from '../services/auth';
 
@@ -20,18 +19,19 @@ const RegisterPage = () => {
     const [userPass, setUserPass] = useState('')
 
     const { errorMessage }  = useSelector(store => store.errorInfo);
+    const { isLogged } = useSelector(store => store.auth);
 
+    useEffect(() => {
+        if(isLogged) {
+            history.push("/")
+        }
+    }, [isLogged, history]);
+  
     const dispatch = useDispatch();
 
-    const onSubmitRegistrationForm = async (e) => {
+    const onSubmitRegistrationForm = (e) => {
         e.preventDefault()
-        let result = await registerUser(userName, userEmail, userPass)
-        if (result.success) {
-            dispatch({type: REGISTER_SUCCESS, user: result.user});
-            history.push("/")
-        } else {
-            dispatch({type: SET_ERROR_MESSAGE, errorMessage: result.message});
-        }
+        dispatch(registerUser(userName, userEmail, userPass))
     }
 
     const hideDisplayError = () => {
