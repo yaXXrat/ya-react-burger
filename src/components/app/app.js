@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { MainPage, LoginPage, ForgotPassPage, IngredientPage, ProfilePage, RegisterPage, ResetPassPage } from '../../pages';
 
 import AppHeader from '../app-header/app-header';
+import { getIngredients } from '../../services/actions/ingredients';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getIngredients())
+  }, [dispatch]);
+
   return (
     <Router>
       <AppHeader />

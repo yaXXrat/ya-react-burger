@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+//import React, { useEffect } from 'react';
+import React from 'react';
 import style from './shared.module.css'
 
 import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
@@ -18,7 +19,6 @@ import { RESET_CURRENT_INGREDIENT } from '../services/actions/ingredient';
 import { RESET_ERROR_MESSAGE } from '../services/actions/error';
 import { ERASE_ORDER } from '../services/actions/order';
 import { ERASE_INGREDIENTS_ORDER } from '../services/actions/constructor';
-import { getIngredients } from '../services/actions/ingredients';
 
 function MainPage() {
     const dispatch = useDispatch();
@@ -28,18 +28,6 @@ function MainPage() {
     const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
     const isWaitingOrder = useSelector(store => store.order.isLoading);
     const isWaiting = isWaitingIngredients || isWaitingOrder;
-  
-    // const { isLogged, user } = useSelector(store => store.auth);
-
-    // if(isLogged){
-    //   console.log('User: ',JSON.stringify(user));
-    // }else{
-    //   console.log('No logged user');
-    // }
-
-    useEffect(() => {
-      dispatch(getIngredients())
-    }, [dispatch]);
   
     const hideIngredientInfo = () => {
       dispatch({type: RESET_CURRENT_INGREDIENT})
