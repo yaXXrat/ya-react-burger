@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { forgot } from '../services/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { EmailInput, Button}  from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input, Button}  from "@ya.praktikum/react-developer-burger-ui-components";
 import {
     Link, useHistory
 } from "react-router-dom";
@@ -11,7 +11,7 @@ import Modal from '../components/modal/modal';
 import DisplayError from "../components/display-error/display-error";
 
 function ForgotPassPage() {
-    const history = useHistory()
+    const history = useHistory();
 
     const [userEmail, setUserEmail] = useState('')
 
@@ -27,8 +27,9 @@ function ForgotPassPage() {
     const dispatch = useDispatch();
 
     const onSubmitLoginForm = async (e) => {
-        e.preventDefault()
-        dispatch(forgot(userEmail))
+        e.preventDefault();
+        dispatch(forgot(userEmail, history));
+ //       history.push("/reset-password");
     }
 
     const hideDisplayError = () => {
@@ -43,10 +44,12 @@ function ForgotPassPage() {
                 <h2 className='mt-30 text text_type_main-medium'>Восстановление пароля</h2>
 
                 <div className='mt-6 mb-6'>
-                    <EmailInput
+                    <Input
                         onChange={(e) => setUserEmail(e.target.value)}
                         name='email'
                         value={userEmail}
+                        type='email'
+                        placeholder='Email'
                     />
                 </div>
                 <Button>Восстановить</Button>

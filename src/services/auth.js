@@ -8,9 +8,12 @@ import {
     LOGIN_ERROR,
     FORGOT_PASS_REQUEST,
     FORGOT_PASS_SUCCESS,
-    FORGOT_PASS_ERROR
+    FORGOT_PASS_ERROR,
+    RESET_PASS_REQUEST,
+    RESET_PASS_SUCCESS,
+    RESET_PASS_ERROR
 } from './actions/auth';
-import {RESET_ERROR_MESSAGE, SET_ERROR_MESSAGE} from './actions/error'
+import {SET_ERROR_MESSAGE} from './actions/error'
 
 export function registerUser(name, email, password){
     return function(dispatch) {
@@ -87,13 +90,12 @@ export function login(email, password){
             setRefreshToken('')
             dispatch({type: LOGIN_ERROR});
             dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
-
         })
     };
 }
 
 
-export function forgot(email){
+export function forgot(email, history){
     return function(dispatch) {
         dispatch({type:FORGOT_PASS_REQUEST});
         fetch(
@@ -117,14 +119,51 @@ export function forgot(email){
             .then((result) => {
                 if(result.success){
                     dispatch({type:FORGOT_PASS_SUCCESS, data: result});
-                    console.log(result)
+                    history.push("/reset-password");
                 } else {
                     throw new Error("Error happened during reset!");
                 }
             })
             .catch((e) => {
                 dispatch({type: FORGOT_PASS_ERROR});
-                dispatch({type: RESET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+                dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+
+            })
+    };
+}
+
+export function reset( password, token, history ){
+    return function(dispatch) {
+        dispatch({type:RESET_PASS_REQUEST});
+        fetch(
+            SERVER_API_URL+'password-reset/reset',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({password, token})
+            }
+        )
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Error happened during data fetching while reset! " + response.status);
+                }
+            })
+            .then((result) => {
+                if(result.success){
+                    dispatch({type:RESET_PASS_SUCCESS, data: result});
+                    history.push("/login");
+                } else {
+                    throw new Error("Error happened during reset!");
+                }
+            })
+            .catch((e) => {
+                dispatch({type: RESET_PASS_ERROR});
+                dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
 
             })
     };
