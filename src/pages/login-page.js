@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { login } from '../services/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { EmailInput, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
     Link, useHistory
 } from "react-router-dom";
@@ -32,27 +32,27 @@ const LoginPage = () => {
         <form 
             className={style.form_block}
             onSubmit={onSubmitLoginForm}>
-                <h2 className='mt-30 text text_type_main-medium'>Вход</h2>
-
-                <div className='mt-6'>
-                    <EmailInput 
-                    onChange={(e) => setUserEmail(e.target.value)} 
-                    name='email'
-                    value={userEmail} 
-                    />
-                    </div>
-                <div className='mt-6 mb-6'>
-                    <PasswordInput 
-                    onChange={(e) => setUserPassword(e.target.value)} 
-                    name='password' 
-                    value={userPass} 
-                    />
-                    </div>
-                <Button>Войти</Button>
-
-                <div className='mt-25 text text_type_main-small text_color_inactive'>Вы — новый пользователь?<Link className={`${style.link} pl-2`} to="/register">Зарегистрироваться</Link></div>
-                <div className='mt-4 text text_type_main-small text_color_inactive'>Забыли пароль? <Link className={`${style.link} pl-2`} to="/forgot-password">Восстановить пароль</Link></div>
-            </form>
+        <h2 className='mt-30 text text_type_main-medium'>Вход</h2>
+        <div className='mt-6'>
+            <Input
+                onChange={(e) => setUserEmail(e.target.value)} 
+                name={'email'}
+                type={'email'}
+                placeholder={'Email'}
+                value={userEmail} 
+                />
+        </div>
+        <div className='mt-6 mb-6'>
+            <PasswordInput 
+                onChange={(e) => setUserPassword(e.target.value)} 
+                name='password' 
+                value={userPass} 
+            />
+        </div>
+        <Button>Войти</Button>
+        <div className='mt-25 text text_type_main-small text_color_inactive'>Вы — новый пользователь?<Link className={`${style.link} pl-2`} to="/register">Зарегистрироваться</Link></div>
+        <div className='mt-4 text text_type_main-small text_color_inactive'>Забыли пароль? <Link className={`${style.link} pl-2`} to="/forgot-password">Восстановить пароль</Link></div>
+    </form>
     )
 }
 

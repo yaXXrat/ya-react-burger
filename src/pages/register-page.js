@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from "react-redux";
 
-import { Input, Button, PasswordInput, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory } from "react-router-dom";
 import style from './shared.module.css'
 
@@ -55,10 +55,12 @@ const RegisterPage = () => {
                 />
             </div>
             <div className='mt-6'>
-                <EmailInput
+                <Input
                     onChange={(e) => setUserEmail(e.target.value)}
                     value={userEmail}
                     name={userEmail}
+                    type={'email'}
+                    placeholder={'Email'}
                 />
             </div>
             <div className='mt-6 mb-6'>

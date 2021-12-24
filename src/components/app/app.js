@@ -88,7 +88,6 @@ function App() {
         <OrderDetails />
       </Modal>
       )}
-      )}
       { isWaiting && (
         <Modal className={style['error-modal']}>
           <DisplayWaiting />
