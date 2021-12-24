@@ -45,7 +45,7 @@ const RegisterPage = () => {
             className={style.form_block}
             onSubmit={onSubmitRegistrationForm}>
 
-            <h2 className="mt-30" >Регистрация</h2>
+            <h2 className="mt-30 text text_type_main-medium" >Регистрация</h2>
             <div className='mt-6'>
                 <Input
                     placeholder="Имя"
@@ -70,7 +70,7 @@ const RegisterPage = () => {
             </div>
 
             <Button >Зарегистрироваться</Button>
-            <div className='mt-15 text_color_inactive'>Вы зарегистрированы? <Link className={`${style.link} pl-2`} to="/login">Войти</Link></div>
+            <div className='mt-15 text_color_inactive text text_type_main-small'>Вы зарегистрированы? <Link className={`${style.link} pl-2`} to="/login">Войти</Link></div>
 
         </form>
 

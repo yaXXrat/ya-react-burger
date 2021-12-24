@@ -41,12 +41,12 @@ const LoginPage = () => {
         <form 
         className={style.form_block}
         onSubmit={onSubmitLoginForm}>
-            <h2 className='mt-30'>Вход</h2>
+            <h2 className='mt-30 text text_type_main-medium'>Вход</h2>
 
             <div className='mt-6'>
                 <EmailInput 
                 onChange={(e) => setUserEmail(e.target.value)} 
-                name='email' 
+                name='email'
                 value={userEmail} 
                 />
                 </div>
@@ -59,8 +59,8 @@ const LoginPage = () => {
                 </div>
             <Button>Войти</Button>
 
-            <div className='mt-25 text_color_inactive'>Вы - новый пользователь?<Link className={`${style.links} pl-2`} to="/register">Зарегистрироваться</Link></div>
-            <div className='mt-4 text_color_inactive'>Забыли пароль? <Link className={`${style.links} pl-2`} to="/forgot-password">Восстановить пароль</Link></div>
+            <div className='mt-25 text text_type_main-small text_color_inactive'>Вы — новый пользователь?<Link className={`${style.link} pl-2`} to="/register">Зарегистрироваться</Link></div>
+            <div className='mt-4 text text_type_main-small text_color_inactive'>Забыли пароль? <Link className={`${style.link} pl-2`} to="/forgot-password">Восстановить пароль</Link></div>
         </form>
         { errorMessage && (
             <Modal onClose={hideDisplayError} className={style['error-modal']}>
