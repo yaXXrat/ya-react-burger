@@ -1,4 +1,10 @@
-import { LOGIN_SUCCESS, LOGOUT_SUCCESS, RESET_PASS_SUCCESS, REGISTER_SUCCESS } from '../actions/auth';
+import {
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS,
+    RESET_PASS_SUCCESS,
+    REGISTER_SUCCESS,
+    FORGOT_PASS_SUCCESS, CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS
+} from '../actions/auth';
 
 const initialState = {
     user: {
@@ -8,9 +14,10 @@ const initialState = {
     },
     accessToken: "",
     refreshToken: "",
-    resetSuccess: false,
     updatePasswordSuccess: false,
-    isLogged: false
+    isLogged: false,
+    resetSuccess: false,
+    forgotSuccess: false
 }
 
 export const AuthReducer = (state = initialState, action) => {
@@ -49,6 +56,27 @@ export const AuthReducer = (state = initialState, action) => {
                 refreshToken: action.data.refreshToken,
                 isLogged: true
             };
+        case FORGOT_PASS_SUCCESS: {
+            return {
+                ...state,
+                forgotSuccess: true
+            };
+
+        }
+        case CLEAR_FORGOT_PASS_SUCCESS: {
+            return {
+                ...state,
+                forgotSuccess: false
+            };
+
+        }
+        case CLEAR_RESET_PASS_SUCCESS: {
+            return {
+                ...state,
+                resetSuccess: false
+            };
+
+        }
         default:
             return state;
     }

@@ -94,7 +94,8 @@ export function login(email, password){
     };
 }
 
-export function forgot(email, history){
+
+export function forgot(email){
     return function(dispatch) {
         dispatch({type:FORGOT_PASS_REQUEST});
         fetch(
@@ -108,25 +109,25 @@ export function forgot(email, history){
                 body: JSON.stringify({email})
             }
         )
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error("Error happened during data fetching while reset! " + response.status);
-            }
-        })
-        .then((result) => {
-            if(result.success){
-                dispatch({type:FORGOT_PASS_SUCCESS, data: result});
-                history.push("/reset-password");
-            } else {
-                throw new Error("Error happened during reset!");
-            }
-        })
-        .catch((e) => {
-            dispatch({type: FORGOT_PASS_ERROR});
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Error happened during data fetching while reset! " + response.status);
+                }
+            })
+            .then((result) => {
+                if(result.success){
+                    dispatch({type:FORGOT_PASS_SUCCESS, data: result});
+                } else {
+                    throw new Error("Error happened during reset!");
+                }
+            })
+            .catch((e) => {
+                dispatch({type: FORGOT_PASS_ERROR});
                 dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
-        })
+
+            })
     };
 }
 
@@ -165,27 +166,6 @@ export function reset( password, token, history ){
 
             })
     };
-}
-
-const refreshToken = async () => {
-    const refreshToken = getRefreshToken()
-    if (!refreshToken) {
-        return { sussess: false }
-    }
-    const response = await fetch(SERVER_API_URL+'auth/token', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: refreshToken })
-    })
-    const result = response.json()
-    if (result.success) {
-        setAccessToken(result.accessToken)
-        setRefreshToken(result.refreshToken)
-    } else {
-        setAccessToken('')
-        setRefreshToken('')
-    }
-    return result
 }
 
 export function getCookie(name) {

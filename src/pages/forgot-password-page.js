@@ -6,26 +6,31 @@ import {
     Link, useHistory
 } from "react-router-dom";
 import style from "./shared.module.css";
+import {CLEAR_FORGOT_PASS_SUCCESS} from "../services/actions/auth";
 
 function ForgotPassPage() {
     const history = useHistory();
 
     const [userEmail, setUserEmail] = useState('')
 
-    const { isLogged, user } = useSelector(store => store.auth);
+    const { isLogged, user, forgotSuccess } = useSelector(store => store.auth);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if(isLogged) {
             history.push("/")
         }
-    }, [isLogged, history, user]);
+        if(forgotSuccess){
+            dispatch({type: CLEAR_FORGOT_PASS_SUCCESS});
+            history.push("/reset-password")
+        }
+    }, [isLogged, history, user, forgotSuccess, dispatch]);
 
-    const dispatch = useDispatch();
 
     const onSubmitLoginForm = async (e) => {
         e.preventDefault();
-        dispatch(forgot(userEmail, history));
- //       history.push("/reset-password");
+        dispatch(forgot(userEmail));
     }
 
     return (
