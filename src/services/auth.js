@@ -12,13 +12,14 @@ import {
     RESET_PASS_REQUEST,
     RESET_PASS_SUCCESS,
     RESET_PASS_ERROR,
-    REFRESH_TOKEN_SUCCESS,
-    REFRESH_TOKEN_ERROR
+    REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_ERROR,
+    UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_ERROR
 } from './actions/auth';
 import {SET_ERROR_MESSAGE} from './actions/error'
 
 export function refreshToken(endpoint, options) {
     return function(dispatch) {
+        dispatch({type:REFRESH_TOKEN_REQUEST});
         fetch(
             SERVER_API_URL+'auth/token',
             {
@@ -54,6 +55,51 @@ export function refreshToken(endpoint, options) {
     }
 }
 
+export function updateUser(name, email, password){
+    return function(dispatch) {
+        dispatch({type:UPDATE_PROFILE_REQUEST});
+        fetch(
+            SERVER_API_URL+'auth/user',
+            {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': getAccessToken()
+                },
+                body: JSON.stringify({name, email, password})
+            }
+        )
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Error happened during data fetching while profile update! " + response.status);
+            }
+        })
+        .then((result) => {
+            if(result.success){
+                setAccessToken(result.accessToken)
+                setRefreshToken(result.refreshToken)
+                dispatch({type:UPDATE_PROFILE_SUCCESS, data: result});
+            } else {
+                if (result.message === "jwt expired") {
+                    dispatch(refreshToken())
+                }else{
+                    throw new Error("Error happened during profile update!");
+                }
+            }
+        })
+        .catch((e) => {
+            setAccessToken('')
+            setRefreshToken('')
+            dispatch({type: UPDATE_PROFILE_ERROR});
+            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+        })
+    };
+}
+
+
 export function registerUser(name, email, password){
     return function(dispatch) {
         dispatch({type:REGISTER_REQUEST});
@@ -65,7 +111,7 @@ export function registerUser(name, email, password){
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({email, password})
+                body: JSON.stringify({name, email, password})
             }
         )
         .then((response) => {
