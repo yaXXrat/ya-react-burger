@@ -3,7 +3,9 @@ import {
     LOGOUT_SUCCESS,
     RESET_PASS_SUCCESS,
     REGISTER_SUCCESS,
-    FORGOT_PASS_SUCCESS, CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS
+    FORGOT_PASS_SUCCESS, CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS,
+    REFRESH_TOKEN_REQUEST,
+    REFRESH_TOKEN_SUCCESS
 } from '../actions/auth';
 
 const initialState = {
@@ -17,7 +19,8 @@ const initialState = {
     updatePasswordSuccess: false,
     isLogged: false,
     resetSuccess: false,
-    forgotSuccess: false
+    forgotSuccess: false,
+    isTokenRefreshed: true
 }
 
 export const AuthReducer = (state = initialState, action) => {
@@ -77,6 +80,16 @@ export const AuthReducer = (state = initialState, action) => {
             };
 
         }
+        case REFRESH_TOKEN_REQUEST:
+            return {
+                ...state,
+                isTokenRefreshed: false
+            }
+        case REFRESH_TOKEN_SUCCESS:
+            return {
+                ...state,
+                isTokenRefreshed: TRUE
+            }
         default:
             return state;
     }

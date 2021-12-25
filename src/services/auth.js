@@ -11,9 +11,49 @@ import {
     FORGOT_PASS_ERROR,
     RESET_PASS_REQUEST,
     RESET_PASS_SUCCESS,
-    RESET_PASS_ERROR
+    RESET_PASS_ERROR,
+    REFRESH_TOKEN_REQUEST,
+    REFRESH_TOKEN_SUCCESS,
+    REFRESH_TOKEN_ERROR
 } from './actions/auth';
 import {SET_ERROR_MESSAGE} from './actions/error'
+
+function refreshToken(endpoint, options) {
+    return function(dispatch) {
+        fetch(
+            SERVER_API_URL+'auth/token',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({token: getRefreshToken()})
+            }
+        )
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Error happened during data fetching while registration! " + response.status);
+            }
+        })
+        .then((result) => {
+            if(result.success){
+                setAccessToken(result.accessToken)
+                setRefreshToken(result.refreshToken)
+                dispatch({type:REFRESH_TOKEN_SUCCESS, data: result});
+            }
+        })
+        .catch((e) => {
+            setAccessToken('')
+            setRefreshToken('')
+            dispatch({type: REFRESH_TOKEN_ERROR});
+            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+        })
+
+    }
+}
 
 export function registerUser(name, email, password){
     return function(dispatch) {
@@ -50,7 +90,6 @@ export function registerUser(name, email, password){
             setRefreshToken('')
             dispatch({type: REGISTER_ERROR});
             dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
-
         })
     };
 }
@@ -93,7 +132,6 @@ export function login(email, password){
         })
     };
 }
-
 
 export function forgot(email){
     return function(dispatch) {

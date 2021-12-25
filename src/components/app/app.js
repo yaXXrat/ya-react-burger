@@ -18,6 +18,8 @@ import OrderDetails from '../order-details/order-details';
 import DisplayWaiting from "../display-waiting/display-waiting";
 import style from "./app.module.css";
 
+import { refreshToken } from '../../services/auth'
+
 function App() {
   const dispatch = useDispatch();
   const { errorMessage }  = useSelector(store => store.errorInfo);
@@ -26,6 +28,14 @@ function App() {
   const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
   const isWaitingOrder = useSelector(store => store.order.isLoading);
   const isWaiting = isWaitingIngredients || isWaitingOrder;
+
+  const { isTokenRefreshed }  = useSelector(store => store.auth);
+
+  useEffect(() => {
+    if(!isTokenRefreshed){
+      dispatch(refreshToken())
+    }
+  }, [dispatch,isTokenRefreshed]);
 
   useEffect(() => {
     dispatch(getIngredients())
