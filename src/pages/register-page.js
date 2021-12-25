@@ -5,11 +5,6 @@ import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burg
 import { Link, useHistory } from "react-router-dom";
 import style from './shared.module.css'
 
-import Modal from '../components/modal/modal';
-import DisplayError from "../components/display-error/display-error";
-
-import { RESET_ERROR_MESSAGE } from '../services/actions/error';
-
 import { registerUser } from '../services/auth';
 
 const RegisterPage = () => {
@@ -18,7 +13,6 @@ const RegisterPage = () => {
     const [userEmail, setUserEmail] = useState('')
     const [userPass, setUserPass] = useState('')
 
-    const { errorMessage }  = useSelector(store => store.errorInfo);
     const { isLogged } = useSelector(store => store.auth);
 
     useEffect(() => {
@@ -34,13 +28,8 @@ const RegisterPage = () => {
         dispatch(registerUser(userName, userEmail, userPass))
     }
 
-    const hideDisplayError = () => {
-        dispatch({type: RESET_ERROR_MESSAGE});
-      };
-  
 
     return (
-        <>
         <form
             className={style.form_block}
             onSubmit={onSubmitRegistrationForm}>
@@ -75,14 +64,6 @@ const RegisterPage = () => {
             <div className='mt-15 text_color_inactive text text_type_main-small'>Вы зарегистрированы? <Link className={`${style.link} pl-2`} to="/login">Войти</Link></div>
 
         </form>
-
-        { errorMessage && (
-        <Modal onClose={hideDisplayError} className={style['error-modal']}>
-          <DisplayError />
-        </Modal>
-        )}
-  
-        </>
     )
 }
 

@@ -6,10 +6,6 @@ import {
     Link, useHistory
 } from "react-router-dom";
 import style from "./shared.module.css";
-import { RESET_ERROR_MESSAGE } from '../services/actions/error';
-import Modal from '../components/modal/modal';
-import DisplayError from "../components/display-error/display-error";
-
 
 function ResetPassPage() {
     const history = useHistory();
@@ -17,7 +13,6 @@ function ResetPassPage() {
     const [userPassword, setUserPassword] = useState('');
     const [userToken, setUserToken] = useState('');
 
-    const { errorMessage }  = useSelector(store => store.errorInfo);
     const { isLogged, user } = useSelector(store => store.auth);
 
     useEffect(() => {
@@ -34,12 +29,7 @@ function ResetPassPage() {
         //       history.push("/reset-password");
     }
 
-    const hideDisplayError = () => {
-        dispatch({type: RESET_ERROR_MESSAGE});
-    };
-
     return (
-        <>
             <form
                 className={style.form_block}
                 onSubmit={onSubmitLoginForm}>
@@ -64,12 +54,6 @@ function ResetPassPage() {
 
                 <div className='mt-25 text text_type_main-small text_color_inactive'>Вспомнили пароль?<Link className={`${style.link} pl-2`} to="/login">Войти</Link></div>
             </form>
-            { errorMessage && (
-                <Modal onClose={hideDisplayError} className={style['error-modal']}>
-                    <DisplayError />
-                </Modal>
-            )}
-        </>
     )
 }
 
