@@ -12,13 +12,12 @@ import {
     RESET_PASS_REQUEST,
     RESET_PASS_SUCCESS,
     RESET_PASS_ERROR,
-    REFRESH_TOKEN_REQUEST,
     REFRESH_TOKEN_SUCCESS,
     REFRESH_TOKEN_ERROR
 } from './actions/auth';
 import {SET_ERROR_MESSAGE} from './actions/error'
 
-function refreshToken(endpoint, options) {
+export function refreshToken(endpoint, options) {
     return function(dispatch) {
         fetch(
             SERVER_API_URL+'auth/token',

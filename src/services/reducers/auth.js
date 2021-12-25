@@ -88,7 +88,7 @@ export const AuthReducer = (state = initialState, action) => {
         case REFRESH_TOKEN_SUCCESS:
             return {
                 ...state,
-                isTokenRefreshed: TRUE
+                isTokenRefreshed: true
             }
         default:
             return state;
