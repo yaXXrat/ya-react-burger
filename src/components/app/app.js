@@ -8,6 +8,7 @@ import { ERASE_INGREDIENTS_ORDER } from '../../services/actions/constructor';
 
 
 import { MainPage, LoginPage, ForgotPassPage, IngredientPage, ProfilePage, RegisterPage, ResetPassPage } from '../../pages';
+import ProtectedRoute from '../protected-route';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/actions/ingredients';
 import DisplayError from "../display-error/display-error";
@@ -16,8 +17,6 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import DisplayWaiting from "../display-waiting/display-waiting";
 import style from "./app.module.css";
-
-
 
 function App() {
   const dispatch = useDispatch();
@@ -65,9 +64,9 @@ function App() {
         <Route path="/reset-password" exact={true} >
           <ResetPassPage />
         </Route>
-        <Route path="/profile" exact={true} >
+        <ProtectedRoute path="/profile" exact={true} >
           <ProfilePage />
-        </Route>
+        </ProtectedRoute>
         <Route path="/ingredients/:id" exact={true} >
           <IngredientPage />
         </Route>
