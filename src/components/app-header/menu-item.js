@@ -2,13 +2,14 @@ import React from 'react'
 import style from './app-header.module.css'
 import PropTypes from "prop-types";
 
-import { Link, useRouteMatch } from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 const MenuItem = ({ itemDest, Icon, itemText }) => {
-    const match = useRouteMatch(itemDest);
-    console.log(match);
-    console.log(itemDest);
-    const isActive = match ? match.isExact : false;
+    const location = useLocation();
+    const { pathname } = location;
+    const splitLocation = pathname.split("/");
+    const splitDestination = itemDest.split("/");
+    const isActive = splitLocation[1] === splitDestination[1];
     const classes = isActive ? style.active : "";
     return (
         <div className={ style.menu_item }>
