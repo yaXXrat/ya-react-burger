@@ -13,7 +13,7 @@ const LoginPage = () => {
     const [userPass, setUserPassword] = useState('');
 
     const { isLogged } = useSelector(store => store.auth);
-    const dest = history.location.state.from || "/";
+    const dest = history?.location?.state?.from || "/";
 
     useEffect(() => {
         if(isLogged) {

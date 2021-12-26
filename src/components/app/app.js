@@ -80,7 +80,9 @@ function App() {
           <ProfilePage />
         </ProtectedRoute>
         <Route path="/ingredients/:ingredientId" exact={true} >
-          <IngredientDetails />
+          <div className={'mt-25'}>
+            <IngredientDetails />
+          </div>
         </Route>
         </Switch>
 
