@@ -5,7 +5,8 @@ import {
     REGISTER_SUCCESS,
     FORGOT_PASS_SUCCESS, CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS,
     REFRESH_TOKEN_REQUEST,
-    REFRESH_TOKEN_SUCCESS
+    REFRESH_TOKEN_SUCCESS,
+    UPDATE_PROFILE_SUCCESS
 } from '../actions/auth';
 
 const initialState = {
@@ -90,6 +91,15 @@ export const AuthReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isTokenRefreshed: true
+            }
+        case UPDATE_PROFILE_SUCCESS:
+            return {
+                ...state,
+                user: {
+                    name: action.data.name,
+                    email: action.data.email,
+                    password: action.data.password
+                }
             }
         default:
             return state;

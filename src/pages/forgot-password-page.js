@@ -6,7 +6,6 @@ import {
     Link, useHistory
 } from "react-router-dom";
 import style from "./shared.module.css";
-import {CLEAR_FORGOT_PASS_SUCCESS} from "../services/actions/auth";
 
 function ForgotPassPage() {
     const history = useHistory();
@@ -22,7 +21,6 @@ function ForgotPassPage() {
             history.push("/")
         }
         if(forgotSuccess){
-            dispatch({type: CLEAR_FORGOT_PASS_SUCCESS});
             history.push("/reset-password")
         }
     }, [isLogged, history, user, forgotSuccess, dispatch]);

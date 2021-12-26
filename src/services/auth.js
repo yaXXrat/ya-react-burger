@@ -17,7 +17,7 @@ import {
 } from './actions/auth';
 import {SET_ERROR_MESSAGE} from './actions/error'
 
-export function refreshToken(endpoint, options) {
+export function refreshToken() {
     return function(dispatch) {
         dispatch({type:REFRESH_TOKEN_REQUEST});
         fetch(
@@ -79,9 +79,7 @@ export function updateUser(name, email, password){
         })
         .then((result) => {
             if(result.success){
-                setAccessToken(result.accessToken)
-                setRefreshToken(result.refreshToken)
-                dispatch({type:UPDATE_PROFILE_SUCCESS, data: result});
+                dispatch({type:UPDATE_PROFILE_SUCCESS, data: {name: name, email: email, password: password} });
             } else {
                 if (result.message === "jwt expired") {
                     dispatch(refreshToken())
@@ -91,8 +89,6 @@ export function updateUser(name, email, password){
             }
         })
         .catch((e) => {
-            setAccessToken('')
-            setRefreshToken('')
             dispatch({type: UPDATE_PROFILE_ERROR});
             dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
         })
@@ -289,7 +285,7 @@ export function deleteCookie(name) {
     })
 }
 
-export const getAccessToken = () => { getCookie('accessToken') }
+export const getAccessToken = () => { return getCookie('accessToken') }
 
 
 export const setAccessToken = (accessToken) => {
@@ -301,7 +297,7 @@ export const setAccessToken = (accessToken) => {
   }
 }
 
-export const getRefreshToken = () => { getCookie('refreshToken') }
+export const getRefreshToken = () => { return getCookie('refreshToken') }
 
 export const setRefreshToken = (refreshToken) => {
     if (refreshToken) {

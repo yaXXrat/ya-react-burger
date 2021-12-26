@@ -8,24 +8,24 @@ import {
 import style from "./shared.module.css";
 
 const LoginPage = () => {
-    const history = useHistory()
-    const [userEmail, setUserEmail] = useState('')
-    const [userPass, setUserPassword] = useState('')
+    const history = useHistory();
+    const [userEmail, setUserEmail] = useState('');
+    const [userPass, setUserPassword] = useState('');
 
     const { isLogged } = useSelector(store => store.auth);
-    const dest = history.location.state.from || "/"
+    const dest = history.location.state.from || "/";
 
     useEffect(() => {
         if(isLogged) {
 //            console.log(JSON.stringify(user))
-            history.push(dest)
+            history.push(dest);
         }
     }, [isLogged, history, dest]);
   
     const dispatch = useDispatch();
     const onSubmitLoginForm = async (e) => {
-        e.preventDefault()
-        dispatch(login(userEmail, userPass))
+        e.preventDefault();
+        dispatch(login(userEmail, userPass));
     }
 
     return (

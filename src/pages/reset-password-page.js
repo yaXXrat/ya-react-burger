@@ -6,7 +6,7 @@ import {
     Link, useHistory
 } from "react-router-dom";
 import style from "./shared.module.css";
-import {CLEAR_RESET_PASS_SUCCESS} from "../services/actions/auth";
+import {CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS} from "../services/actions/auth";
 
 function ResetPassPage() {
     const history = useHistory();
@@ -14,19 +14,26 @@ function ResetPassPage() {
     const [userPassword, setUserPassword] = useState('');
     const [userToken, setUserToken] = useState('');
 
-    const { isLogged, user, resetSuccess } = useSelector(store => store.auth);
+    const { isLogged, user, resetSuccess, forgotSuccess } = useSelector(store => store.auth);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if(isLogged) {
-            history.push("/")
+            history.push("/");
         }
+
+        if(!forgotSuccess){
+            history.push("/forgot-password");
+        } else {
+            dispatch({type: CLEAR_FORGOT_PASS_SUCCESS});
+        }
+
         if(resetSuccess){
             dispatch({type: CLEAR_RESET_PASS_SUCCESS});
-            history.push("/login")
+            history.push("/login");
         }
-    }, [isLogged, history, user, dispatch, resetSuccess]);
+    }, [isLogged, history, user, dispatch, resetSuccess, forgotSuccess]);
 
 
     const onSubmitLoginForm = async (e) => {
