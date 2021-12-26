@@ -1,4 +1,3 @@
-//import React, { useEffect } from 'react';
 import React from 'react';
 import style from './shared.module.css'
 

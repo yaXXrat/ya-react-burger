@@ -192,7 +192,6 @@ export function logout(){
             }
         )
             .then((response) => {
-                console.log(response);
                 if (response.ok) {
                     return response.json();
                 } else {

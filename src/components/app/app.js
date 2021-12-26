@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RESET_ERROR_MESSAGE } from '../../services/actions/error'
-//import { RESET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
 import { ERASE_ORDER } from '../../services/actions/order';
 import { ERASE_INGREDIENTS_ORDER } from '../../services/actions/constructor';
 
@@ -24,7 +23,6 @@ function App() {
   const dispatch = useDispatch();
 
   const { errorMessage }  = useSelector(store => store.errorInfo);
-  // const { selectedIngredient }  = useSelector(store => store.burgerIngredient);
   const orderCreated = useSelector(store => store.order.orderCreated);
   const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
   const isWaitingOrder = useSelector(store => store.order.isLoading);
@@ -45,9 +43,6 @@ function App() {
   const hideDisplayError = () => {
     dispatch({type: RESET_ERROR_MESSAGE});
   };
-  // const hideIngredientInfo = () => {
-  //   dispatch({type: RESET_CURRENT_INGREDIENT})
-  // };
 
   const hideOrderInfo = () => {
     dispatch({type: ERASE_ORDER});

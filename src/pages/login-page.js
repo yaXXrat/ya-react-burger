@@ -17,7 +17,6 @@ const LoginPage = () => {
 
     useEffect(() => {
         if(isLogged) {
-//            console.log(JSON.stringify(user))
             history.push(dest);
         }
     }, [isLogged, history, dest]);
