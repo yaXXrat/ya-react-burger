@@ -5,7 +5,7 @@ import {
     Link
 } from "react-router-dom";
 import style from "./shared.module.css";
-import {updateUser} from "../services/auth";
+import {updateUser, logout} from "../services/auth";
 
 function ProfilePage() {
 
@@ -31,8 +31,11 @@ function ProfilePage() {
 
     const dispatch = useDispatch();
 
-    const onSubmitUpdateForm = (e) => {
-        e.preventDefault();
+    const logoutUser = () => {
+        dispatch(logout());
+    }
+
+    const onSubmitUpdateForm = () => {
         dispatch(updateUser(userName, userEmail, userPassword));
     }
     return (
@@ -45,9 +48,9 @@ function ProfilePage() {
                     История заказов
                     </Link>
                 </div>
-                <div className={'mb-6 text text_type_main-default'}><Link to='/logout' className={`${style["menu-link"]}`}>
+                <div className={'mb-6 text text_type_main-default'}><span className={`${style["menu-link"]}`} onClick={() => logoutUser()}>
                     Выход
-                </Link></div>
+                </span></div>
                 <div className={'mt-10 text text_type_main-small text_color_inactive'} >В этом разделе вы можете изменить свои персональные данные</div>
             </div>
             <form

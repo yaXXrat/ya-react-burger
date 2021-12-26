@@ -13,7 +13,7 @@ import {
     RESET_PASS_SUCCESS,
     RESET_PASS_ERROR,
     REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_ERROR,
-    UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_ERROR
+    UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_ERROR, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR
 } from './actions/auth';
 import {SET_ERROR_MESSAGE} from './actions/error'
 
@@ -54,6 +54,8 @@ export function refreshToken() {
 
     }
 }
+
+
 
 export function updateUser(name, email, password){
     return function(dispatch) {
@@ -172,6 +174,44 @@ export function login(email, password){
             dispatch({type: LOGIN_ERROR});
             dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
         })
+    };
+}
+
+export function logout(){
+    return function(dispatch) {
+        dispatch({type:LOGOUT_REQUEST});
+        fetch(
+            SERVER_API_URL+'auth/logout',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({token: getRefreshToken()})
+            }
+        )
+            .then((response) => {
+                console.log(response);
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Error happened during data fetching while logout! " + response.status);
+                }
+            })
+            .then((result) => {
+                if(result.success){
+                    setAccessToken('');
+                    setRefreshToken('');
+                    dispatch({type:LOGOUT_SUCCESS});
+                } else {
+                    throw new Error("Error happened during logout!");
+                }
+            })
+            .catch((e) => {
+                dispatch({type: LOGOUT_ERROR});
+                dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+            })
     };
 }
 

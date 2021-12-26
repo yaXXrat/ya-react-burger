@@ -58,6 +58,7 @@
 }
 
 .menu-link {
+    cursor: pointer;
     font-size: 22px;
     color: #8585AD;
     text-decoration: none;
@@ -70,5 +71,13 @@
 
 .block1 div span{
     font-size: 22px;
+    color: #ffffff;
+}
+
+.block1 div span.menu-link{
+    color: #8585AD;
+}
+
+.block1 div span.menu-link:hover{
     color: #ffffff;
 }
