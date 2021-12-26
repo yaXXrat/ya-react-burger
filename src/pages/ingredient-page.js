@@ -1,11 +1,13 @@
-import React from 'react';
+import React from 'react'
+import IngredientDetails from '../components/ingredient-details/ingredient-details'
 
-function IngredientPage() {
+
+const IngredientPage = () => {
     return (
-        <div>
-            <h1>Ingredient page</h1>
-        </div>
+        <>
+            <IngredientDetails />
+        </>
     )
 }
 
-export default IngredientPage;
+export default IngredientPage

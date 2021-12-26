@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RESET_ERROR_MESSAGE } from '../../services/actions/error'
-import { RESET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
+//import { RESET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
 import { ERASE_ORDER } from '../../services/actions/order';
 import { ERASE_INGREDIENTS_ORDER } from '../../services/actions/constructor';
 
 
-import { MainPage, LoginPage, ForgotPassPage, IngredientPage, ProfilePage, RegisterPage, ResetPassPage } from '../../pages';
+import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage } from '../../pages';
 import ProtectedRoute from '../protected-route';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/actions/ingredients';
@@ -22,8 +22,9 @@ import { refreshToken } from '../../services/auth'
 
 function App() {
   const dispatch = useDispatch();
+
   const { errorMessage }  = useSelector(store => store.errorInfo);
-  const { selectedIngredient }  = useSelector(store => store.burgerIngredient);
+  // const { selectedIngredient }  = useSelector(store => store.burgerIngredient);
   const orderCreated = useSelector(store => store.order.orderCreated);
   const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
   const isWaitingOrder = useSelector(store => store.order.isLoading);
@@ -44,21 +45,27 @@ function App() {
   const hideDisplayError = () => {
     dispatch({type: RESET_ERROR_MESSAGE});
   };
-  const hideIngredientInfo = () => {
-    dispatch({type: RESET_CURRENT_INGREDIENT})
-  };
+  // const hideIngredientInfo = () => {
+  //   dispatch({type: RESET_CURRENT_INGREDIENT})
+  // };
 
   const hideOrderInfo = () => {
     dispatch({type: ERASE_ORDER});
     dispatch({type: ERASE_INGREDIENTS_ORDER});
   };
 
+  const ModalSwitch = () => {
+    const location = useLocation();
+    const history = useHistory();
+    let background = location.state && location.state.background;
+    const handleModalClose = () => {
+      history.goBack();
+    };
 
-  return (
-    <>
-    <Router>
-      <AppHeader />
-      <Switch>
+    return (
+      <>
+        <AppHeader />
+        <Switch location={background || location}>
         <Route path="/" exact={true} >
           <MainPage />
         </Route>
@@ -77,21 +84,35 @@ function App() {
         <ProtectedRoute path="/profile" exact={true} >
           <ProfilePage />
         </ProtectedRoute>
-        <Route path="/ingredients/:id" exact={true} >
-          <IngredientPage />
+        <Route path="/ingredients/:ingredientId" exact={true} >
+          <IngredientDetails />
         </Route>
-      </Switch>
+        </Switch>
+
+        {background && (
+          <Route
+            path='/ingredients/:ingredientId'
+            children={
+              <Modal onClose={handleModalClose}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        )}
+      </>
+    );
+  };
+
+  return (
+    <>
+    <Router>
+      <ModalSwitch />
     </Router>
     { errorMessage && (
       <Modal onClose={hideDisplayError} className={style['error-modal']}>
         <DisplayError />
       </Modal>
     )}
-      { selectedIngredient && (
-      <Modal onClose={hideIngredientInfo} className={style['ingredient-modal']}>
-        <IngredientDetails />
-      </Modal>
-      )}
       { orderCreated && (
       <Modal onClose={hideOrderInfo} className={style['order-modal']}>
         <OrderDetails />

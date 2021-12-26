@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDrag } from 'react-dnd';
-import { useDispatch } from "react-redux";
+//import { useDispatch } from "react-redux";
 import {
     Counter,
     CurrencyIcon,
@@ -11,7 +11,8 @@ import style from './burger-ingredient.module.css';
 import PropTypes from "prop-types";
 import {ingredientPT} from '../../utils/proptypes';
 
-import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
+//import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient';
+import { Link, useLocation } from "react-router-dom";
   
 
 const BurgerIngredient = ( { ingredient, className, selectedCount }) => {
@@ -19,20 +20,32 @@ const BurgerIngredient = ( { ingredient, className, selectedCount }) => {
         type: "ingredient",
         item: ingredient
     });
+    const location = useLocation();
 
-    const dispatch = useDispatch();
-    const displayIngredientInfo = () => {
-        dispatch({type: SET_CURRENT_INGREDIENT, ingredient: ingredient})
-    }
+    const ingredientId = ingredient['_id'];
+  
+    // const dispatch = useDispatch();
+    // const displayIngredientInfo = () => {
+    //     dispatch({type: SET_CURRENT_INGREDIENT, ingredient: ingredient})
+    // }
     return (
         <div ref={dragRef} className={classNames(style[className], style['draggable'])}>
             { (selectedCount !== 0) && <Counter count={selectedCount} size="default" />}
-            <img
-                alt={ingredient.name}
-                className={classNames(style['burger-ingredient-image'] )}
-                src={ingredient.image}
-                onClick={() => displayIngredientInfo()}
-            />            
+            <Link
+                key={ingredientId}
+                to={{
+                    pathname: `/ingredients/${ingredientId}`,
+                    state: { background: location },
+                }}
+                className={style.link}
+                >
+                <img
+                    alt={ingredient.name}
+                    className={classNames(style['burger-ingredient-image'] )}
+                    src={ingredient.image}
+//                    onClick={() => displayIngredientInfo()}
+                />            
+            </Link>
             <div className={style.price}>
                 <span className={classNames(style['burger-ingredient-price'], "text text_type_digits-default")}>{ingredient.price}&nbsp;
                 <CurrencyIcon type={'primary'} />
