@@ -12,19 +12,20 @@ const LoginPage = () => {
     const [userEmail, setUserEmail] = useState('')
     const [userPass, setUserPassword] = useState('')
 
-    const { isLogged, user } = useSelector(store => store.auth);
+    const { isLogged } = useSelector(store => store.auth);
+    const dest = history.location.state.from || "/"
 
     useEffect(() => {
         if(isLogged) {
-            console.log(JSON.stringify(user))
-            history.push("/")
+//            console.log(JSON.stringify(user))
+            history.push(dest)
         }
-    }, [isLogged, history, user]);
+    }, [isLogged, history, dest]);
   
     const dispatch = useDispatch();
     const onSubmitLoginForm = async (e) => {
         e.preventDefault()
-        dispatch(login(userEmail, userPass, history, history.location.state.from))
+        dispatch(login(userEmail, userPass))
     }
 
     return (

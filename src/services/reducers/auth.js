@@ -32,6 +32,7 @@ export const AuthReducer = (state = initialState, action) => {
                     ...state.user,
                     name: action.data.user.name,
                     email: action.data.user.email,
+                    password: action.data.user.password
                 },
                 accessToken: action.data.accessToken,
                 refreshToken: action.data.refreshToken,
