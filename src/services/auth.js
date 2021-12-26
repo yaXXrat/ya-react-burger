@@ -139,7 +139,7 @@ export function registerUser(name, email, password){
     };
 }
 
-export function login(email, password){
+export function login(email, password, history, dest){
     return function(dispatch) {
         dispatch({type:LOGIN_REQUEST});
         fetch(
@@ -165,6 +165,7 @@ export function login(email, password){
                 setAccessToken(result.accessToken)
                 setRefreshToken(result.refreshToken)
                 dispatch({type:LOGIN_SUCCESS, data: result});
+                history.push(dest || '/')
             } else {
                 throw new Error("Error happened during login!");
             }

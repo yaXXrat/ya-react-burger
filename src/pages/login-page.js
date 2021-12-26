@@ -22,10 +22,9 @@ const LoginPage = () => {
     }, [isLogged, history, user]);
   
     const dispatch = useDispatch();
-
     const onSubmitLoginForm = async (e) => {
         e.preventDefault()
-        dispatch(login(userEmail, userPass))
+        dispatch(login(userEmail, userPass, history, history.location.state.from))
     }
 
     return (

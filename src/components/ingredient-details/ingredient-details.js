@@ -12,7 +12,7 @@ const IngredientDetails = () => {
   }
 
   return (
-      <div>
+      <div className={classNames(style['ingredient-block'])} > 
         <div
           className={classNames('text', 'text_type_main-large', style.details)}
         >
