@@ -18,6 +18,7 @@ import DisplayWaiting from "../display-waiting/display-waiting";
 import style from "./app.module.css";
 
 import { refreshToken } from '../../services/auth'
+import ProfileOrdersPage from "../../pages/profile-orders-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -78,6 +79,9 @@ function App() {
         </Route>
         <ProtectedRoute path="/profile" exact={true} >
           <ProfilePage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders" exact={true} >
+            <ProfileOrdersPage />
         </ProtectedRoute>
         <Route path="/ingredients/:ingredientId" exact={true} >
           <div className={'mt-25'}>

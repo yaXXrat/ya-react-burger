@@ -6,6 +6,8 @@ import { Link, useRouteMatch } from "react-router-dom";
 
 const MenuItem = ({ itemDest, Icon, itemText }) => {
     const match = useRouteMatch(itemDest);
+    console.log(match);
+    console.log(itemDest);
     const isActive = match ? match.isExact : false;
     const classes = isActive ? style.active : "";
     return (

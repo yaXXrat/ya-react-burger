@@ -44,7 +44,7 @@ function ProfilePage() {
                 <div className={'mb-6 text text_type_main-default'}>
                     <span>Профиль</span>
                 </div>
-                <div className={'mb-6 text text_type_main-default'}><Link to='/history' className={`${style["menu-link"]}`}>
+                <div className={'mb-6 text text_type_main-default'}><Link to='/profile/orders' className={`${style["menu-link"]}`}>
                     История заказов
                     </Link>
                 </div>
