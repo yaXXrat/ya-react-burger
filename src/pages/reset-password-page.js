@@ -25,21 +25,19 @@ function ResetPassPage() {
 
         if(!forgotSuccess){
             history.push("/forgot-password");
-        } else {
-            dispatch({type: CLEAR_FORGOT_PASS_SUCCESS});
         }
 
         if(resetSuccess){
+            dispatch({type: CLEAR_FORGOT_PASS_SUCCESS});
             dispatch({type: CLEAR_RESET_PASS_SUCCESS});
             history.push("/login");
         }
     }, [isLogged, history, user, dispatch, resetSuccess, forgotSuccess]);
 
 
-    const onSubmitLoginForm = async (e) => {
+    const onSubmitLoginForm = (e) => {
         e.preventDefault();
-        dispatch(reset(userPassword, userToken, history));
-        history.push("/login");
+        dispatch(reset(userPassword, userToken));
     }
 
     return (

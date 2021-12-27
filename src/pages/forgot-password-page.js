@@ -25,7 +25,6 @@ function ForgotPassPage() {
         }
     }, [isLogged, history, user, forgotSuccess, dispatch]);
 
-
     const onSubmitLoginForm = async (e) => {
         e.preventDefault();
         dispatch(forgot(userEmail));

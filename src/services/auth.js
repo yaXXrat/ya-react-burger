@@ -12,8 +12,15 @@ import {
     RESET_PASS_REQUEST,
     RESET_PASS_SUCCESS,
     RESET_PASS_ERROR,
-    REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_ERROR,
-    UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_ERROR, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR
+    REFRESH_TOKEN_REQUEST,
+    REFRESH_TOKEN_SUCCESS,
+    REFRESH_TOKEN_ERROR,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS,
+    UPDATE_PROFILE_ERROR,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
+    LOGOUT_ERROR
 } from './actions/auth';
 import {SET_ERROR_MESSAGE} from './actions/error'
 
@@ -250,7 +257,7 @@ export function forgot(email){
     };
 }
 
-export function reset( password, token, history ){
+export function reset( password, token ){
     return function(dispatch) {
         dispatch({type:RESET_PASS_REQUEST});
         fetch(
@@ -274,7 +281,6 @@ export function reset( password, token, history ){
             .then((result) => {
                 if(result.success){
                     dispatch({type:RESET_PASS_SUCCESS, data: result});
-                    history.push("/login");
                 } else {
                     throw new Error("Error happened during reset!");
                 }
@@ -282,7 +288,6 @@ export function reset( password, token, history ){
             .catch((e) => {
                 dispatch({type: RESET_PASS_ERROR});
                 dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
-
             })
     };
 }
