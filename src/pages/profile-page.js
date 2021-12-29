@@ -5,7 +5,7 @@ import {
     Link
 } from "react-router-dom";
 import style from "./shared.module.css";
-import {updateUser, logout} from "../services/auth";
+import {updateUser, logout, getUser} from "../services/auth";
 
 function ProfilePage() {
 
@@ -30,6 +30,10 @@ function ProfilePage() {
     }
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getUser());
+    }, [dispatch]);
 
     const logoutUser = () => {
         dispatch(logout());

@@ -6,7 +6,7 @@ import { ERASE_ORDER } from '../../services/actions/order';
 import { ERASE_INGREDIENTS_ORDER } from '../../services/actions/constructor';
 
 
-import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage } from '../../pages';
+import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage } from '../../pages';
 import ProtectedRoute from '../protected-route';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/actions/ingredients';
@@ -17,9 +17,6 @@ import OrderDetails from '../order-details/order-details';
 import DisplayWaiting from "../display-waiting/display-waiting";
 import style from "./app.module.css";
 
-import { refreshToken } from '../../services/auth'
-import ProfileOrdersPage from "../../pages/profile-orders-page";
-
 function App() {
   const dispatch = useDispatch();
 
@@ -28,14 +25,6 @@ function App() {
   const isWaitingIngredients  = useSelector(store => store.burgerIngredients.isLoading);
   const isWaitingOrder = useSelector(store => store.order.isLoading);
   const isWaiting = isWaitingIngredients || isWaitingOrder;
-
-  const { isTokenRefreshed }  = useSelector(store => store.auth);
-
-  useEffect(() => {
-    if(!isTokenRefreshed){
-      dispatch(refreshToken())
-    }
-  }, [dispatch,isTokenRefreshed]);
 
   useEffect(() => {
     dispatch(getIngredients())

@@ -5,6 +5,7 @@ import IngredientPage from "./ingredient-page";
 import ProfilePage from "./profile-page";
 import RegisterPage from "./register-page";
 import ResetPassPage from "./reset-password-page";
+import ProfileOrdersPage from "./profile-orders-page";
 
 export {
     MainPage,
@@ -13,5 +14,6 @@ export {
     IngredientPage,
     ProfilePage,
     RegisterPage,
-    ResetPassPage 
+    ResetPassPage,
+    ProfileOrdersPage 
 }

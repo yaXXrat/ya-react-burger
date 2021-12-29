@@ -6,7 +6,8 @@ import {
     FORGOT_PASS_SUCCESS, CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS,
     REFRESH_TOKEN_REQUEST,
     REFRESH_TOKEN_SUCCESS,
-    UPDATE_PROFILE_SUCCESS
+    UPDATE_PROFILE_SUCCESS,
+    PROFILE_SUCCESS
 } from '../actions/auth';
 
 const initialState = {
@@ -38,6 +39,15 @@ export const AuthReducer = (state = initialState, action) => {
                 accessToken: action.data.accessToken,
                 refreshToken: action.data.refreshToken,
                 isLogged: true
+            };
+        case PROFILE_SUCCESS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    name: action.data.user.name,
+                    email: action.data.user.email
+                }
             };
         case LOGOUT_SUCCESS:
             return {

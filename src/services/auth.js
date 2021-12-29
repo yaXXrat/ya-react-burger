@@ -13,94 +13,123 @@ import {
     RESET_PASS_SUCCESS,
     RESET_PASS_ERROR,
     REFRESH_TOKEN_REQUEST,
-    REFRESH_TOKEN_SUCCESS,
+//    REFRESH_TOKEN_SUCCESS,
     REFRESH_TOKEN_ERROR,
     UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
     UPDATE_PROFILE_ERROR,
+    PROFILE_REQUEST,
+    PROFILE_SUCCESS,
+    PROFILE_ERROR,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_ERROR
 } from './actions/auth';
 import {SET_ERROR_MESSAGE} from './actions/error'
 
-export function refreshToken() {
-    return function(dispatch) {
-        dispatch({type:REFRESH_TOKEN_REQUEST});
-        fetch(
-            SERVER_API_URL+'auth/token',
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({token: getRefreshToken()})
-            }
-        )
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error("Error happened during data fetching while registration! " + response.status);
-            }
-        })
-        .then((result) => {
-            if(result.success){
-                setAccessToken(result.accessToken)
-                setRefreshToken(result.refreshToken)
-                dispatch({type:REFRESH_TOKEN_SUCCESS, data: result});
-            }
-        })
-        .catch((e) => {
-            setAccessToken('')
-            setRefreshToken('')
-            dispatch({type: REFRESH_TOKEN_ERROR});
-            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
-        })
 
+const sendRequest = async (endpoint, options) => {
+    try{
+        const response = await fetch(endpoint,options);
+        return response;
+    }catch(err){
+        console.log(err)
     }
 }
 
+const refreshToken = async ( ) => {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({token: getRefreshToken()})
+    };
+    const response = await sendRequest(SERVER_API_URL+'auth/user',options);
+    const result = await response.json();
+    if(result.success){
+        setAccessToken(result.accessToken)
+        setRefreshToken(result.refreshToken)
+    }
+}
 
+export function getUser(){
+    return async function(dispatch) {
+        try{ 
+            dispatch({type:PROFILE_REQUEST});
+            const options = {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': getAccessToken()
+                }
+            };
+            let response = await sendRequest(SERVER_API_URL+'auth/user',options);
+            if(!response.ok){
+                if(response.status === 403){
+                    throw new Error("403");
+                }else{
+                    throw new Error("Error happened during data fetching while getting user data! " + response.status);
+                }
+            }
+            const result = await response.json();
+            
+            if(result.success){
+                dispatch({type: PROFILE_SUCCESS, data: result });
+            } else {
+                throw new Error("Error happened during profile update!");
+            }
+        }
+        catch(e) {
+            if(e.message==="403"){
+                dispatch({type:REFRESH_TOKEN_REQUEST});
+                await refreshToken();
+                dispatch(getUser());
+
+            }else{
+                dispatch({type: PROFILE_ERROR});
+                dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+            }
+        }
+    };
+
+}
 
 export function updateUser(name, email, password){
-    return function(dispatch) {
-        dispatch({type:UPDATE_PROFILE_REQUEST});
-        fetch(
-            SERVER_API_URL+'auth/user',
-            {
+    return async function(dispatch) {
+        try {
+            dispatch({type:UPDATE_PROFILE_REQUEST});
+            const options = {
                 method: 'PATCH',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Authorization': getAccessToken()
                 },
-                body: JSON.stringify({name, email, password})
+                body: JSON.stringify({name})
+            };
+            const response = await sendRequest(SERVER_API_URL+'auth/user',options);
+            if(!response.ok){
+                throw new Error("Error happened during data fetching while user data update! " + response.status);
             }
-        )
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error("Error happened during data fetching while profile update! " + response.status);
-            }
-        })
-        .then((result) => {
+            const result = await response.json();
+            console.log(JSON.stringify(result));
             if(result.success){
                 dispatch({type:UPDATE_PROFILE_SUCCESS, data: {name: name, email: email, password: password} });
             } else {
-                if (result.message === "jwt expired") {
-                    dispatch(refreshToken())
-                }else{
-                    throw new Error("Error happened during profile update!");
-                }
+                throw new Error("Error happened during profile update!");
             }
-        })
-        .catch((e) => {
-            dispatch({type: UPDATE_PROFILE_ERROR});
-            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
-        })
+        }
+        catch(e) {
+            if (e.message === "jwt expired") {
+                dispatch(refreshToken(getUser()))
+            }else{
+                dispatch({type: UPDATE_PROFILE_ERROR});
+                dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+            }
+        }
     };
 }
 
@@ -145,27 +174,22 @@ export function registerUser(name, email, password){
 }
 
 export function login(email, password){
-    return function(dispatch) {
-        dispatch({type:LOGIN_REQUEST});
-        fetch(
-            SERVER_API_URL+'auth/login',
-            {
+    return async function(dispatch) {
+        try {
+            dispatch({type:LOGIN_REQUEST});
+            const options = {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({email, password})
-            }
-        )
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            } else {
+            };
+            const response = await sendRequest(SERVER_API_URL+'auth/login',options);
+            if(!response.ok){
                 throw new Error("Error happened during data fetching while login! " + response.status);
             }
-        })
-        .then((result) => {
+            const result = await response.json();
             if(result.success){
                 setAccessToken(result.accessToken)
                 setRefreshToken(result.refreshToken)
@@ -174,13 +198,13 @@ export function login(email, password){
             } else {
                 throw new Error("Error happened during login!");
             }
-        })
-        .catch((e) => {
+        }
+        catch(e){
             setAccessToken('')
             setRefreshToken('')
             dispatch({type: LOGIN_ERROR});
             dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
-        })
+        }
     };
 }
 
