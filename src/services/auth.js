@@ -32,8 +32,8 @@ const sendRequest = async (endpoint, options) => {
     try{
         const response = await fetch(endpoint,options);
         return response;
-    }catch(err){
-        console.log(err)
+    } catch(err){
+        console.log(err);
     }
 }
 
@@ -77,7 +77,6 @@ export function getUser(){
             const result = await response.json();
             
             if(result.success){
-                console.log('GET',JSON.stringify(result));
                 dispatch({type: PROFILE_SUCCESS, data: result });
             } else {
                 throw new Error("Error happened during profile update!");
@@ -120,8 +119,7 @@ export function updateUser(name, email, password){
             }
             const result = await response.json();
             if(result.success){
-                console.log('UPDATE:',JSON.stringify(result));
-                dispatch({type:UPDATE_PROFILE_SUCCESS, data: {name: name, email: email, password: password} });
+                dispatch({type:UPDATE_PROFILE_SUCCESS, data: {name: name, email: email} });
             } else {
                 throw new Error("Error happened during profile update!");
             }

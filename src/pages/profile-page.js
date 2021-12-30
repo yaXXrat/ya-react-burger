@@ -2,31 +2,38 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import {Input, Button, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {
-    Link
+    Link, useHistory
 } from "react-router-dom";
 import style from "./shared.module.css";
 import {updateUser, logout, getUser} from "../services/auth";
 
 function ProfilePage() {
 
-    const { name, email, password } = useSelector(store => store.auth.user);
-    const [userPassword, setUserPassword] = useState(password);
+    const { name, email} = useSelector(store => store.auth.user);
+    const [userPassword, setUserPassword] = useState('');
     const [userEmail, setUserEmail] = useState(email);
     const [userName, setUserName] = useState(name);
     const [userEdited, setUserEdited] = useState(false);
 
+    const history = useHistory();
+    const { isLogged } = useSelector(store => store.auth);
+
+    useEffect( () => {
+        if(!isLogged) history.push("/login");
+    }, [isLogged, history]);
+
     useEffect(() => {
-        if(name === userName && password === userPassword && email === userEmail)
+        if(name === userName && userPassword === '' && email === userEmail)
             setUserEdited(false);
         else
             setUserEdited(true);
-    }, [userName, userPassword, userEmail, email, name, password]);
+    }, [userName, userPassword, userEmail, email, name]);
 
 
     const resetUser = () => {
         setUserEmail(email);
         setUserName(name);
-        setUserPassword(password);
+        setUserPassword('');
     }
 
     const dispatch = useDispatch();
@@ -39,7 +46,9 @@ function ProfilePage() {
         dispatch(logout());
     }
 
-    const onSubmitUpdateForm = () => {
+    const onSubmitUpdateForm = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         dispatch(updateUser(userName, userEmail, userPassword));
     }
     return (

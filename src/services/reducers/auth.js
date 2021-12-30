@@ -13,8 +13,7 @@ import {
 const initialState = {
     user: {
         name: "",
-        email: "",
-        password: ""
+        email: ""
     },
     accessToken: "",
     refreshToken: "",
@@ -34,7 +33,6 @@ export const AuthReducer = (state = initialState, action) => {
                     ...state.user,
                     name: action.data.user.name,
                     email: action.data.user.email,
-                    password: action.data.user.password
                 },
                 accessToken: action.data.accessToken,
                 refreshToken: action.data.refreshToken,
@@ -44,7 +42,6 @@ export const AuthReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: {
-                    ...state.user,
                     name: action.data.user.name,
                     email: action.data.user.email
                 }
@@ -107,8 +104,7 @@ export const AuthReducer = (state = initialState, action) => {
                 ...state,
                 user: {
                     name: action.data.name,
-                    email: action.data.email,
-                    password: action.data.password
+                    email: action.data.email
                 }
             }
         default:
