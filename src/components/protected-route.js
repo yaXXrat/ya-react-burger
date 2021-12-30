@@ -1,10 +1,10 @@
 import { Redirect } from "react-router";
-import { useSelector } from "react-redux";
+import { getRefreshToken } from "../services/auth";
 
 const ProtectedRoute = (props) => {
-    const { user }  = useSelector(store => store.auth);
+    const loggedIn = !!getRefreshToken();
     return (<>
-        { user.name!=="" ? props.children
+        { loggedIn ? props.children
         : <Redirect
             to={{
             pathname: "/login",

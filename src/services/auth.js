@@ -14,7 +14,7 @@ import {
     RESET_PASS_ERROR,
     REFRESH_TOKEN_REQUEST,
 //    REFRESH_TOKEN_SUCCESS,
-    REFRESH_TOKEN_ERROR,
+//    REFRESH_TOKEN_ERROR,
     UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
     UPDATE_PROFILE_ERROR,
@@ -46,7 +46,7 @@ const refreshToken = async ( ) => {
         },
         body: JSON.stringify({token: getRefreshToken()})
     };
-    const response = await sendRequest(SERVER_API_URL+'auth/user',options);
+    const response = await sendRequest(SERVER_API_URL+'auth/token',options);
     const result = await response.json();
     if(result.success){
         setAccessToken(result.accessToken)
@@ -68,7 +68,7 @@ export function getUser(){
             };
             let response = await sendRequest(SERVER_API_URL+'auth/user',options);
             if(!response.ok){
-                if(response.status === 403){
+                if(response.status === 403 || response.status === 401){
                     throw new Error("403");
                 }else{
                     throw new Error("Error happened during data fetching while getting user data! " + response.status);
@@ -77,6 +77,7 @@ export function getUser(){
             const result = await response.json();
             
             if(result.success){
+                console.log('GET',JSON.stringify(result));
                 dispatch({type: PROFILE_SUCCESS, data: result });
             } else {
                 throw new Error("Error happened during profile update!");
@@ -104,27 +105,32 @@ export function updateUser(name, email, password){
             const options = {
                 method: 'PATCH',
                 headers: {
-                    'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Authorization': getAccessToken()
                 },
-                body: JSON.stringify({name})
+                body: JSON.stringify({email, name})
             };
             const response = await sendRequest(SERVER_API_URL+'auth/user',options);
             if(!response.ok){
-                throw new Error("Error happened during data fetching while user data update! " + response.status);
+                if(response.status === 403 || response.status === 401){
+                    throw new Error("403");
+                }else{
+                    throw new Error("Error happened during data fetching while user data update! " + response.status);
+                }
             }
             const result = await response.json();
-            console.log(JSON.stringify(result));
             if(result.success){
+                console.log('UPDATE:',JSON.stringify(result));
                 dispatch({type:UPDATE_PROFILE_SUCCESS, data: {name: name, email: email, password: password} });
             } else {
                 throw new Error("Error happened during profile update!");
             }
         }
         catch(e) {
-            if (e.message === "jwt expired") {
-                dispatch(refreshToken(getUser()))
+            if(e.message==="403"){
+                dispatch({type:REFRESH_TOKEN_REQUEST});
+                await refreshToken();
+                dispatch(updateUser(name, email, password));
             }else{
                 dispatch({type: UPDATE_PROFILE_ERROR});
                 dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
@@ -358,10 +364,9 @@ export const getAccessToken = () => { return getCookie('accessToken') }
 
 export const setAccessToken = (accessToken) => {
   if (accessToken) {
-      setCookie('accessToken', accessToken)
-  }
-  else {
-      deleteCookie('accessToken')
+    setCookie('accessToken', accessToken)
+  } else {
+    deleteCookie('accessToken')
   }
 }
 
