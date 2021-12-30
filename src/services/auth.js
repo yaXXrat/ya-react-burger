@@ -107,7 +107,7 @@ export function updateUser(name, email, password){
                     'Content-Type': 'application/json',
                     'Authorization': getAccessToken()
                 },
-                body: JSON.stringify({email, name})
+                body: JSON.stringify({email, name, password})
             };
             const response = await sendRequest(SERVER_API_URL+'auth/user',options);
             if(!response.ok){
