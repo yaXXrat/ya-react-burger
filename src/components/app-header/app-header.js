@@ -10,14 +10,14 @@ const AppHeader = () => {
           <nav>
               <div className={style.topdiv}>
                   <MenuItem
+                    itemDest="/" 
                     Icon={BurgerIcon}
-                    text="Конструктор"
-                    active={true}
+                    itemText="Конструктор"
                   />
                   <MenuItem
+                    itemDest="/list" 
                     Icon={ListIcon}
-                    text="Лента заказов"
-                    active={false}
+                    itemText="Лента заказов"
                   />
               </div>
               <div className={style.topdiv}>
@@ -25,9 +25,9 @@ const AppHeader = () => {
               </div>
               <div className={style.topdiv}>
                 <MenuItem
+                    itemDest="/profile" 
                     Icon={ProfileIcon}
-                    text="Личный кабинет"
-                    active={false}
+                    itemText="Личный кабинет"
                   />
               </div>
           </nav>

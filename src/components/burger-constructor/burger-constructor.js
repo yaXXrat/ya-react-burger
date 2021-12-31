@@ -9,18 +9,25 @@ import BurgerConstructorItem from '../burger-constructor-item/burger-constructor
 import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
 
 import { createOrder } from '../../services/actions/order';
+import { useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
+    const { user }  = useSelector(store => store.auth);
     const { constructorIngredients, constructorBun } = useSelector(store => store.orderConstructor);
     const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun) : constructorIngredients;
     const calcTotalPrice = (ingredients) => ingredients.reduce((acc, current) => acc + current.price, 0);
     const totalPrice = calcTotalPrice(allIngredients);
 
     function makeOrder() {
-        const ingredientsIDs = {"ingredients": constructorIngredients.map(item => item._id).concat(constructorBun._id)};
-        dispatch(createOrder(ingredientsIDs,totalPrice));
+        if(user.name!==""){
+            const ingredientsIDs = {"ingredients": constructorIngredients.map(item => item._id).concat(constructorBun._id)};
+            dispatch(createOrder(ingredientsIDs,totalPrice));
+        }else{
+            history.push("/login");
+        }
     }
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
