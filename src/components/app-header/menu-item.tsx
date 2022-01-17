@@ -1,10 +1,16 @@
 import React from 'react'
 import style from './app-header.module.css'
-import PropTypes from "prop-types";
+import { FC } from 'react';
 
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation} from 'react-router-dom';
 
-const MenuItem = ({ itemDest, Icon, itemText }) => {
+type TMenuItem = {
+    itemDest: string, 
+    Icon: any, 
+    itemText: string 
+}
+
+const MenuItem: FC<TMenuItem> = ({ itemDest, Icon, itemText }) => {
     const location = useLocation();
     const { pathname } = location;
     const splitLocation = pathname.split("/");
@@ -21,10 +27,4 @@ const MenuItem = ({ itemDest, Icon, itemText }) => {
     )
 }
 
-MenuItem.propTypes = {
-    itemDest: PropTypes.string.isRequired,
-    Icon: PropTypes.elementType.isRequired,
-    itemText: PropTypes.string.isRequired,
-  };
-  
 export default MenuItem;
