@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react';
 import { useDrag } from 'react-dnd';
 import {
     Counter,
@@ -7,20 +7,29 @@ import {
 import classNames from 'classnames';
 import style from './burger-ingredient.module.css';
 
-import PropTypes from "prop-types";
-import {ingredientPT} from '../../utils/proptypes';
-
 import { Link, useLocation } from "react-router-dom";
-  
 
-const BurgerIngredient = ( { ingredient, className, selectedCount }) => {
+type TIngredient = {
+    name: string,
+    price: number,
+    image: any,
+    __id: number    
+}
+
+type TBurgerIngredient = {
+    ingredient: TIngredient,
+    className: string,
+    selectedCount: number
+}
+
+const BurgerIngredient : FC<TBurgerIngredient> = ( { ingredient, className, selectedCount }) => {
     const [, dragRef] = useDrag({
         type: "ingredient",
         item: ingredient
     });
     const location = useLocation();
 
-    const ingredientId = ingredient['_id'];
+    const ingredientId = ingredient.__id;
   
     return (
         <div ref={dragRef} className={classNames(style[className], style['draggable'])}>
@@ -47,9 +56,5 @@ const BurgerIngredient = ( { ingredient, className, selectedCount }) => {
         </div>
 
     );
-  };
-  BurgerIngredient.propTypes = {
-    ingredient: ingredientPT.isRequired,
-    className: PropTypes.string.isRequired,
   };
   export default BurgerIngredient;
