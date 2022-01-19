@@ -8,19 +8,8 @@ import classNames from 'classnames';
 import style from './burger-ingredient.module.css';
 
 import { Link, useLocation } from "react-router-dom";
+import {TBurgerIngredient} from "../../utils/types";
 
-type TIngredient = {
-    name: string,
-    price: number,
-    image: any,
-    _id: number
-}
-
-type TBurgerIngredient = {
-    ingredient: TIngredient,
-    className: string,
-    selectedCount: number
-}
 
 const BurgerIngredient : FC<TBurgerIngredient> = ( { ingredient, className, selectedCount }) => {
     const [, dragRef] = useDrag({

@@ -3,18 +3,7 @@ import React, { FC } from 'react'
 import { useSelector } from "react-redux";
 import style from './burger-ingredient-group.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
-
-type TIngredient = {
-    name: string,
-    price: number,
-    image: any,
-    _id: number
-}
-
-type TBurgerIngredientGroup = {
-    title: string,
-    ingredients: Array<TIngredient>,
-}
+import {TBurgerIngredientGroup, TIngredient} from "../../utils/types";
 
 const BurgerIngredientGroup : FC<TBurgerIngredientGroup> = ( {title, ingredients } ) => {
 
