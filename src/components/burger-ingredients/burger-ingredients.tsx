@@ -15,7 +15,7 @@ type TIngredient = {
     price: number,
     image: any,
     type: string,
-    __id: number    
+    _id: number
 }
 type TGroup = {
     type: string,
@@ -63,7 +63,7 @@ const BurgerIngredients = () => {
             Math.abs(groupContainerTop - ref.current.getBoundingClientRect().top),
           ])
           .sort((a, b) => a[1] - b[1])[0][0];
-    
+
         setCurrentIngredientsType(activeTab);
     },[tabsRef]);
 
@@ -75,7 +75,7 @@ const BurgerIngredients = () => {
                 Соберите бургер
             </div>
             <div className={style['burger-ingredients-selector']}>
-            { ingredientGroups.map((group: TGroup) => (
+                {ingredientGroups.map((group: TGroup) => (
                 <Tab
                     key={group.title}
                     active={group.type === currentIngredientsType }
@@ -87,12 +87,12 @@ const BurgerIngredients = () => {
             ))}
             </div>
             <div onScroll={throttledUpdateTab} className={style['burger-ingredients-group-container']}>
-            { ingredientGroups.map((group: TGroup) => (
-                <div 
+                {ingredientGroups.map((group: TGroup) => (
+                <div
                     ref={tabsRef[group.type]}
+                    key={group.type}
                 >
                     <BurgerIngredientGroup
-                        key={group.type} 
                         title={group.title}
                         ingredients={filteredIngredientsData(group.type)}
                     />

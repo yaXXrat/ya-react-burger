@@ -13,7 +13,7 @@ type TIngredient = {
     name: string,
     price: number,
     image: any,
-    __id: number    
+    _id: number
 }
 
 type TBurgerIngredient = {
@@ -29,7 +29,7 @@ const BurgerIngredient : FC<TBurgerIngredient> = ( { ingredient, className, sele
     });
     const location = useLocation();
 
-    const ingredientId = ingredient.__id;
+    const ingredientId = ingredient._id;
   
     return (
         <div ref={dragRef} className={classNames(style[className], style['draggable'])}>
