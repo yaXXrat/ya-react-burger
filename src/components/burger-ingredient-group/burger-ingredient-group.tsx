@@ -1,19 +1,28 @@
 
-import React from 'react'
+import React, { FC } from 'react'
 import { useSelector } from "react-redux";
 import style from './burger-ingredient-group.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 
-import PropTypes from "prop-types";
-import {ingredientPT} from '../../utils/proptypes';
+type TIngredient = {
+    name: string,
+    price: number,
+    image: any,
+    __id: number    
+}
 
-const BurgerIngredientGroup = ( {title, ingredients } ) => {
+type TBurgerIngredientGroup = {
+    title: string,
+    ingredients: Array<TIngredient>,
+}
 
-    const { constructorIngredients, constructorBun } = useSelector(store => store.orderConstructor);
+const BurgerIngredientGroup : FC<TBurgerIngredientGroup> = ( {title, ingredients } ) => {
+
+    const { constructorIngredients, constructorBun } = useSelector((store: any) => store.orderConstructor);
     const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun) : constructorIngredients;
 
-    const getSelectedCount = (id) => {
-        let currentIngredient = allIngredients.filter(ingredient => ingredient._id === id);
+    const getSelectedCount = (id: number) => {
+        let currentIngredient = allIngredients.filter((ingredient: TIngredient) => ingredient.__id === id);
         return currentIngredient ? currentIngredient.length : 0;
     }
 
@@ -21,22 +30,17 @@ const BurgerIngredientGroup = ( {title, ingredients } ) => {
         <>
             <h3 className='pt-10 mb-6 text text_type_main-medium'>{title}</h3>
             <div className={style['burger-ingredients-group']}>
-            {ingredients.map((ingredient) => (
+            {ingredients.map((ingredient: TIngredient) => (
                 <BurgerIngredient 
-                    key={ingredient._id} 
+                    key={ingredient.__id} 
                     ingredient={ingredient} 
                     className='burger-ingredient'
-                    selectedCount={getSelectedCount(ingredient._id)}
+                    selectedCount={getSelectedCount(ingredient.__id)}
                 />
             ))}              
             </div>
         </>
     );
 };
-
-BurgerIngredientGroup.propTypes = {
-    title: PropTypes.string.isRequired,
-    ingredients: PropTypes.arrayOf(ingredientPT).isRequired,
-  };
 
 export default BurgerIngredientGroup;
