@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import { useParams } from "react-router";
 
 const IngredientDetails = () => {
-  const {ingredientId} = useParams()
+  const {ingredientId} = useParams();
   const allIngredients = useSelector(state => state.burgerIngredients.allIngredients);
   let ingredient = allIngredients.filter(ingredient => ingredient._id === ingredientId)[0];
   if (!ingredient) {

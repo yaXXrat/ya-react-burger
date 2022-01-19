@@ -10,11 +10,11 @@ import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPa
 import ProtectedRoute from '../protected-route';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/actions/ingredients';
-import DisplayError from "../display-error/display-error";
+import DisplayError from "../display-error/display-error.tsx";
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
-import DisplayWaiting from "../display-waiting/display-waiting";
+import DisplayWaiting from "../display-waiting/display-waiting.tsx";
 import style from "./app.module.css";
 
 function App() {
