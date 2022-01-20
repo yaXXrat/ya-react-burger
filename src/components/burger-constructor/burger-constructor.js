@@ -6,7 +6,7 @@ import { useDrop } from 'react-dnd';
 
 import { UPDATE_INGREDIENTS_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/constructor';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
-import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
+import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item.tsx';
 
 import { createOrder } from '../../services/api';
 import { useHistory } from "react-router-dom";
