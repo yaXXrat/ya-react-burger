@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC, FormEvent } from 'react'
 import { login } from '../services/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,12 +7,12 @@ import {
 } from "react-router-dom";
 import style from "./shared.module.css";
 
-const LoginPage = () => {
-    const history = useHistory();
-    const [userEmail, setUserEmail] = useState('');
-    const [userPass, setUserPassword] = useState('');
+const LoginPage: FC = () => {
+    const history = useHistory<any>();
+    const [userEmail, setUserEmail] = useState<string>('');
+    const [userPass, setUserPassword] = useState<string>('');
 
-    const { isLogged } = useSelector(store => store.auth);
+    const { isLogged } = useSelector((store: any) => store.auth);
     const dest = history?.location?.state?.from || "/";
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const LoginPage = () => {
     }, [isLogged, history, dest]);
   
     const dispatch = useDispatch();
-    const onSubmitLoginForm = async (e) => {
+    const onSubmitLoginForm = async (e: FormEvent) => {
         e.preventDefault();
         dispatch(login(userEmail, userPass));
     }
