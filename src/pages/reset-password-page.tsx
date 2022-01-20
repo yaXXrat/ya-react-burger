@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FormEvent } from 'react'
 import { reset } from '../services/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import {Input, Button, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -11,10 +11,10 @@ import {CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS} from "../services/a
 function ResetPassPage() {
     const history = useHistory();
 
-    const [userPassword, setUserPassword] = useState('');
-    const [userToken, setUserToken] = useState('');
+    const [userPassword, setUserPassword] = useState<string>('');
+    const [userToken, setUserToken] = useState<string>('');
 
-    const { isLogged, user, resetSuccess, forgotSuccess } = useSelector(store => store.auth);
+    const { isLogged, user, resetSuccess, forgotSuccess } = useSelector((store: any) => store.auth);
 
     const dispatch = useDispatch();
 
@@ -35,7 +35,7 @@ function ResetPassPage() {
     }, [isLogged, history, user, dispatch, resetSuccess, forgotSuccess]);
 
 
-    const onSubmitLoginForm = (e) => {
+    const onSubmitLoginForm = (e: FormEvent) => {
         e.preventDefault();
         dispatch(reset(userPassword, userToken));
     }

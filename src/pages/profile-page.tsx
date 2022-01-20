@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FormEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import {Input, Button, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {
@@ -9,14 +9,14 @@ import {updateUser, logout, getUser} from "../services/auth";
 
 function ProfilePage() {
 
-    const { name, email} = useSelector(store => store.auth.user);
-    const [userPassword, setUserPassword] = useState('');
-    const [userEmail, setUserEmail] = useState(email);
-    const [userName, setUserName] = useState(name);
-    const [userEdited, setUserEdited] = useState(false);
+    const { name, email} = useSelector((store: any) => store.auth.user);
+    const [userPassword, setUserPassword] = useState<string>('');
+    const [userEmail, setUserEmail] = useState<string>(email);
+    const [userName, setUserName] = useState<string>(name);
+    const [userEdited, setUserEdited] = useState<boolean>(false);
 
     const history = useHistory();
-    const { isLogged } = useSelector(store => store.auth);
+    const { isLogged } = useSelector((store: any) => store.auth);
 
     useEffect( () => {
         if(!isLogged) history.push("/login");
@@ -46,7 +46,7 @@ function ProfilePage() {
         dispatch(logout());
     }
 
-    const onSubmitUpdateForm = (e) => {
+    const onSubmitUpdateForm = (e: FormEvent) => {
         e.preventDefault();
         e.stopPropagation();
         dispatch(updateUser(userName, userEmail, userPassword));
@@ -93,9 +93,6 @@ function ProfilePage() {
                         onChange={(e) => setUserPassword(e.target.value)}
                         name={'password'}
                         value={userPassword}
-                        icon={'EditIcon'}
-                        type={'password'}
-                        placeholder={'Пароль'}
                     />
                 </div>
                 { userEdited && <div className='text text_type_main-small text_color_inactive'><span className={`${style.link} pl-2`} onClick={() => resetUser()}>Отмена</span> <Button>Сохранить</Button></div>}
