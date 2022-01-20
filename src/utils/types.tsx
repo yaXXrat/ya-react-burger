@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type TMenuItem = {
     itemDest: string,
     Icon: any,
@@ -45,5 +47,11 @@ export type TOptions = {
     method: string;
     headers: { 'Content-Type': string; 'Authorization'?: string };
     body?: string;
+  };
+
+export type IProtectedRoute = {
+    children: ReactNode;
+    path: string;
+  
   };
   
