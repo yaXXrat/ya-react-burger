@@ -12,7 +12,7 @@ export type TIngredient = {
     image: string,
     _id: number,
     type?: string,
-    image_mobile?: string,
+    image_mobile: string,
     image_large?: string,
     calories?: number,
     proteins?: number,
@@ -34,6 +34,11 @@ export type TBurgerIngredientGroup = {
 export type TGroup = {
     type: string,
     title: string,
+}
+
+export type TBurgerBun = {
+    type: 'top' | 'bottom' | undefined,
+    ingredient: TIngredient,
 }
 
 export type TResult = {

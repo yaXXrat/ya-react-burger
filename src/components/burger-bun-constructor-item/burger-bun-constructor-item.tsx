@@ -1,10 +1,8 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { TBurgerBun } from '../../utils/types'
 
-import {ingredientPT} from '../../utils/proptypes';
-import PropTypes from "prop-types";
-
-const BurgerBunConstructorItem = ( { type, ingredient }) => {
+const BurgerBunConstructorItem: FC<TBurgerBun> = ( { type, ingredient }) => {
     const suffix = (type==="top" ? ' (верх)' : ' (низ)');
     return (<>
             <ConstructorElement
@@ -16,10 +14,6 @@ const BurgerBunConstructorItem = ( { type, ingredient }) => {
             />
             </>
         );
-  };
-  BurgerBunConstructorItem.propTypes = {
-    ingredient: ingredientPT.isRequired,
-    type: PropTypes.string.isRequired,
   };
 
   export default BurgerBunConstructorItem;
