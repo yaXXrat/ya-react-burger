@@ -1,4 +1,4 @@
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 import { getRefreshToken } from "../services/auth";
 
 const ProtectedRoute = (props) => {

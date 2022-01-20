@@ -7,9 +7,15 @@ export type TMenuItem = {
 export type TIngredient = {
     name: string,
     price: number,
-    image: any,
+    image: string,
+    _id: number,
     type?: string,
-    _id: number
+    image_mobile?: string,
+    image_large?: string,
+    calories?: number,
+    proteins?: number,
+    fat?: number,
+    carbohydrates?: number
 }
 
 export type TBurgerIngredient = {
