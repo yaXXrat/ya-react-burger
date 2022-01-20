@@ -6,7 +6,7 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import {TModalProps} from "../../utils/types";
 
-const Modal: React.FC<TModalProps> = ({ children, onClose, className}) => {
+const Modal: React.FC<TModalProps> = ({ children, onClose= function() {}, className}) => {
   useEffect(() => {
     const handleClose = (e: KeyboardEvent) => {
       e.code === 'Escape' && onClose();

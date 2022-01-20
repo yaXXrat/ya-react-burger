@@ -3,6 +3,7 @@ import { SERVER_API_URL } from './config';
 import { Dispatch } from 'redux';
 import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from './actions/ingredients'
 import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from './actions/order'
+import {TIngredientsIds} from "../utils/types";
 
 export function getIngredients() {
     return function(dispatch: Dispatch) {
@@ -25,7 +26,7 @@ export function getIngredients() {
     };
 }
 
-export function createOrder(ingredientsIDs: Array<string>,totalPrice: number){
+export function createOrder(ingredientsIDs: TIngredientsIds, totalPrice: number){
     return function(dispatch: Dispatch) {
         dispatch({type:MAKE_ORDER_REQUEST});
         fetch(

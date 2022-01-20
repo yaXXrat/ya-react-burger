@@ -72,7 +72,7 @@ export type TModalOverlayProps = {
 
 export type TModalProps = {
     children: ReactNode;
-    onClose: () => void;
+    onClose?: () => void;
     className?: string;
 }
 
@@ -82,4 +82,8 @@ export type TOrder = {
     name: string;
     ingredients: TIngredient[];
     price: number;
+}
+
+export type TIngredientsIds = {
+    ingredients: any;
 }
