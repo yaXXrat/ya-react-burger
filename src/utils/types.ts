@@ -54,4 +54,7 @@ export type IProtectedRoute = {
     path: string;
   
   };
-  
+
+export type TModalOverlayProps = {
+    onClose: () => void;
+}

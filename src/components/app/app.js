@@ -7,7 +7,7 @@ import { ERASE_INGREDIENTS_ORDER } from '../../services/actions/constructor';
 
 
 import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage } from '../../pages';
-import ProtectedRoute from '../protected-route';
+import ProtectedRoute from '../protected-route.tsx';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/api';
 import DisplayError from "../display-error/display-error.tsx";
