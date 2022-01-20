@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 
 const DisplayError = () => {
 
-    const error = useSelector<any>(store => store.errorInfo.errorMessage)
+    const error = useSelector<any>(store => store.errorInfo.errorMessage);
     return (
         <div className={classNames(style['order-details'])}>
             <h2 className={classNames(style['order-h2'], 'text', 'text_type_main-large')}>

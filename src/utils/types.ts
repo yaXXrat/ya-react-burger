@@ -54,12 +54,25 @@ export type TOptions = {
     body?: string;
   };
 
-export type IProtectedRoute = {
+export type TProtectedRoute = {
     children: ReactNode;
     path: string;
-  
   };
 
 export type TModalOverlayProps = {
     onClose: () => void;
+}
+
+export type TModalProps = {
+    children: ReactNode;
+    onClose: () => void;
+    className?: string;
+}
+
+export type TOrder = {
+    number: number;
+    success: boolean;
+    name: string;
+    ingredients: TIngredient[];
+    price: number;
 }
