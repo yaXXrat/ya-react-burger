@@ -41,6 +41,13 @@ export type TBurgerBun = {
     ingredient: TIngredient,
 }
 
+export type TBurgerConstructorItem = {
+    ingredient: TIngredient,
+    id: number,
+    index: number
+    moveCard: (arg0: any, arg1: any) => void,
+}
+
 export type TResult = {
     success: boolean;
     accessToken?: string;
