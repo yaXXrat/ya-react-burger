@@ -8,7 +8,7 @@ import { UPDATE_INGREDIENTS_ORDER, SET_ORDER_INGREDIENT } from '../../services/a
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
 
-import { createOrder } from '../../services/actions/order';
+import { createOrder } from '../../services/api';
 import { useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {

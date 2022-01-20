@@ -33,3 +33,17 @@ export type TGroup = {
     type: string,
     title: string,
 }
+
+export type TResult = {
+    success: boolean;
+    accessToken?: string;
+    refreshToken?: string;
+    message?: string;
+  };
+
+export type TOptions = {
+    method: string;
+    headers: { 'Content-Type': string; 'Authorization'?: string };
+    body?: string;
+  };
+  
