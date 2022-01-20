@@ -11,9 +11,9 @@ import ProtectedRoute from '../protected-route.tsx';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/api';
 import DisplayError from "../display-error/display-error.tsx";
-import Modal from '../modal/modal';
+import Modal from '../modal/modal.tsx';
 import IngredientDetails from '../ingredient-details/ingredient-details.tsx';
-import OrderDetails from '../order-details/order-details';
+import OrderDetails from '../order-details/order-details.tsx';
 import DisplayWaiting from "../display-waiting/display-waiting.tsx";
 import style from "./app.module.css";
 
