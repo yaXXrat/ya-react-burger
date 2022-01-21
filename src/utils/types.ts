@@ -64,6 +64,7 @@ export type TOptions = {
 export type TProtectedRoute = {
     children: ReactNode;
     path: string;
+    exact: boolean;
   };
 
 export type TModalOverlayProps = {
