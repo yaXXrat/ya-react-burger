@@ -53,31 +53,31 @@ function App() {
             <>
                 <AppHeader />
                 <Switch location={background || location}>
-                    <Route path="/" exact={true}>
-                        <MainPage />
-                    </Route>
-                    <Route path="/login" exact={true}>
+                    <Route path="/login" >
                         <LoginPage />
                     </Route>
-                    <Route path="/register" exact={true}>
+                    <Route path="/register" >
                         <RegisterPage />
                     </Route>
-                    <Route path="/forgot-password" exact={true}>
+                    <Route path="/forgot-password" >
                         <ForgotPassPage />
                     </Route>
-                    <Route path="/reset-password" exact={true}>
+                    <Route path="/reset-password" >
                         <ResetPassPage />
                     </Route>
-                    <ProtectedRoute path="/profile" exact={true}>
+                    <ProtectedRoute path="/profile" >
                         <ProfilePage />
                     </ProtectedRoute>
-                    <ProtectedRoute path="/profile/orders" exact={true}>
+                    <ProtectedRoute path="/profile/orders" >
                         <ProfileOrdersPage />
                     </ProtectedRoute>
-                    <Route path="/ingredients/:ingredientId" exact={true}>
+                    <Route path="/ingredients/:ingredientId" >
                         <div className={'mt-25'}>
                             <IngredientDetails />
                         </div>
+                    </Route>
+                    <Route path="/" >
+                        <MainPage />
                     </Route>
                 </Switch>
 
