@@ -1,26 +1,29 @@
 import style from "./ingredient-details.module.css"
 import classNames from 'classnames';
 import {useSelector} from "react-redux";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
+import {TIngredient} from "../../utils/types";
 
 const IngredientDetails = () => {
-  const {ingredientId} = useParams()
-  const allIngredients = useSelector(state => state.burgerIngredients.allIngredients);
-  let ingredient = allIngredients.filter(ingredient => ingredient._id === ingredientId)[0];
+
+  const {ingredientId} = useParams<{ ingredientId?: any }>();
+
+  const allIngredients = useSelector<any>(state => state.burgerIngredients.allIngredients) as TIngredient[];
+  let ingredient: TIngredient = allIngredients.filter(ingredient => ingredient._id === ingredientId)[0];
   if (!ingredient) {
     return <></>
   }
 
   return (
-      <div className={classNames(style['ingredient-block'])} > 
+      <div className={classNames(style['ingredient-block'])} >
         <div
           className={classNames('text', 'text_type_main-large', style.details)}
         >
           Детали ингредиента
         </div>
         <div>
-          <img 
-            src={ingredient.image_large} 
+          <img
+            src={ingredient.image_large}
             alt={ingredient.name}
             className={style['ingredient-image']}
           />

@@ -27,46 +27,44 @@ import {
 } from './actions/auth';
 import {SET_ERROR_MESSAGE} from './actions/error'
 
+import { TResult, TOptions } from '../utils/types'
+import { Dispatch } from 'redux';
 
-const sendRequest = async (endpoint, options) => {
+const refreshToken = async ( ) => {
     try{
-        const response = await fetch(endpoint,options);
-        return response;
+        const options: TOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({token: getRefreshToken()})
+        };
+        const response = await fetch(SERVER_API_URL+'auth/token',options);
+        const result: TResult = await response.json();
+        if(result.success){
+            setAccessToken(result.accessToken)
+            setRefreshToken(result.refreshToken)
+        }else{
+            setAccessToken("")
+            setRefreshToken("")
+        }
     } catch(err){
         console.log(err);
     }
 }
 
-const refreshToken = async ( ) => {
-    const options = {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({token: getRefreshToken()})
-    };
-    const response = await sendRequest(SERVER_API_URL+'auth/token',options);
-    const result = await response.json();
-    if(result.success){
-        setAccessToken(result.accessToken)
-        setRefreshToken(result.refreshToken)
-    }
-}
-
 export function getUser(){
-    return async function(dispatch) {
+    return async function(dispatch: Dispatch<any>) {
         try{ 
             dispatch({type:PROFILE_REQUEST});
-            const options = {
+            const options: TOptions = {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Authorization': getAccessToken()
                 }
             };
-            let response = await sendRequest(SERVER_API_URL+'auth/user',options);
+            let response = await fetch(SERVER_API_URL+'auth/user',options);
             if(!response.ok){
                 if(response.status === 403 || response.status === 401){
                     throw new Error("403");
@@ -74,7 +72,7 @@ export function getUser(){
                     throw new Error("Error happened during data fetching while getting user data! " + response.status);
                 }
             }
-            const result = await response.json();
+            const result: TResult = await response.json();
             
             if(result.success){
                 dispatch({type: PROFILE_SUCCESS, data: result });
@@ -82,26 +80,29 @@ export function getUser(){
                 throw new Error("Error happened during profile update!");
             }
         }
-        catch(e) {
-            if(e.message==="403"){
-                dispatch({type:REFRESH_TOKEN_REQUEST});
-                await refreshToken();
-                dispatch(getUser());
-
+        catch(err) {
+            if (err instanceof Error) {
+                if(err.message==="403"){
+                    dispatch({type:REFRESH_TOKEN_REQUEST});
+                    await refreshToken();
+                    dispatch(getUser());
+                }else{
+                    dispatch({type: PROFILE_ERROR});
+                    dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
+                }
             }else{
-                dispatch({type: PROFILE_ERROR});
-                dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+                console.log('err ',err)
             }
         }
     };
 
 }
 
-export function updateUser(name, email, password){
-    return async function(dispatch) {
+export function updateUser(name: string, email: string, password: string){
+    return async function(dispatch: Dispatch<any>) {
         try {
             dispatch({type:UPDATE_PROFILE_REQUEST});
-            const options = {
+            const options: TOptions = {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -109,7 +110,7 @@ export function updateUser(name, email, password){
                 },
                 body: JSON.stringify({email, name, password})
             };
-            const response = await sendRequest(SERVER_API_URL+'auth/user',options);
+            const response = await fetch(SERVER_API_URL+'auth/user',options);
             if(!response.ok){
                 if(response.status === 403 || response.status === 401){
                     throw new Error("403");
@@ -124,22 +125,26 @@ export function updateUser(name, email, password){
                 throw new Error("Error happened during profile update!");
             }
         }
-        catch(e) {
-            if(e.message==="403"){
-                dispatch({type:REFRESH_TOKEN_REQUEST});
-                await refreshToken();
-                dispatch(updateUser(name, email, password));
+        catch(err) {
+            if (err instanceof Error) {
+                if(err.message==="403"){
+                    dispatch({type:REFRESH_TOKEN_REQUEST});
+                    await refreshToken();
+                    dispatch(updateUser(name, email, password));
+                }else{
+                    dispatch({type: UPDATE_PROFILE_ERROR});
+                    dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
+                }
             }else{
-                dispatch({type: UPDATE_PROFILE_ERROR});
-                dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+                console.log('err ',err)
             }
         }
     };
 }
 
 
-export function registerUser(name, email, password){
-    return function(dispatch) {
+export function registerUser(name: string, email: string, password: string){
+    return function(dispatch: Dispatch) {
         dispatch({type:REGISTER_REQUEST});
         fetch(
             SERVER_API_URL+'auth/register',
@@ -177,19 +182,18 @@ export function registerUser(name, email, password){
     };
 }
 
-export function login(email, password){
-    return async function(dispatch) {
+export function login(email: string, password: string){
+    return async function(dispatch: Dispatch) {
         try {
             dispatch({type:LOGIN_REQUEST});
-            const options = {
+            const options: TOptions = {
                 method: 'POST',
                 headers: {
-                    'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({email, password})
             };
-            const response = await sendRequest(SERVER_API_URL+'auth/login',options);
+            const response = await fetch(SERVER_API_URL+'auth/login',options);
             if(!response.ok){
                 throw new Error("Error happened during data fetching while login! " + response.status);
             }
@@ -203,17 +207,21 @@ export function login(email, password){
                 throw new Error("Error happened during login!");
             }
         }
-        catch(e){
-            setAccessToken('')
-            setRefreshToken('')
-            dispatch({type: LOGIN_ERROR});
-            dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name+ ' ' + e.message});
+        catch(err) {
+            if (err instanceof Error) {
+                setAccessToken('')
+                setRefreshToken('')
+                dispatch({type: LOGIN_ERROR});
+                dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
+            }else{
+                console.log('err ',err)
+            }
         }
     };
 }
 
 export function logout(){
-    return function(dispatch) {
+    return function(dispatch: Dispatch) {
         dispatch({type:LOGOUT_REQUEST});
         fetch(
             SERVER_API_URL+'auth/logout',
@@ -249,8 +257,8 @@ export function logout(){
     };
 }
 
-export function forgot(email){
-    return function(dispatch) {
+export function forgot(email: string){
+    return function(dispatch: Dispatch) {
         dispatch({type:FORGOT_PASS_REQUEST});
         fetch(
             SERVER_API_URL+'password-reset',
@@ -285,8 +293,8 @@ export function forgot(email){
     };
 }
 
-export function reset( password, token ){
-    return function(dispatch) {
+export function reset( password: string, token: string ){
+    return function(dispatch: Dispatch) {
         dispatch({type:RESET_PASS_REQUEST});
         fetch(
             SERVER_API_URL+'password-reset/reset',
@@ -320,7 +328,7 @@ export function reset( password, token ){
     };
 }
 
-export function getCookie(name) {
+export function getCookie(name: string) {
     let matches = document.cookie.match(
         // eslint-disable-next-line
         new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)")
@@ -328,7 +336,7 @@ export function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string, props?: any) {
     props = props || {};
     let exp = props.expires;
     if (typeof exp == 'number' && exp) {
@@ -351,7 +359,7 @@ export function setCookie(name, value, props) {
     document.cookie = updatedCookie;
 }
   
-export function deleteCookie(name) {
+export function deleteCookie(name: string) {
     setCookie(name, "", {
       'max-age': -1
     })
@@ -360,7 +368,7 @@ export function deleteCookie(name) {
 export const getAccessToken = () => { return getCookie('accessToken') }
 
 
-export const setAccessToken = (accessToken) => {
+export const setAccessToken = (accessToken: string | undefined) => {
   if (accessToken) {
     setCookie('accessToken', accessToken)
   } else {
@@ -370,7 +378,7 @@ export const setAccessToken = (accessToken) => {
 
 export const getRefreshToken = () => { return getCookie('refreshToken') }
 
-export const setRefreshToken = (refreshToken) => {
+export const setRefreshToken = (refreshToken: string | undefined) => {
     if (refreshToken) {
         setCookie('refreshToken', refreshToken)
     }

@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FC } from 'react'
 import IngredientDetails from '../components/ingredient-details/ingredient-details'
 
 
-const IngredientPage = () => {
+const IngredientPage: FC = () => {
     return (
         <>
             <IngredientDetails />

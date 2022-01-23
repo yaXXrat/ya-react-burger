@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, FC, FormEvent } from 'react'
 import {useDispatch, useSelector} from "react-redux";
 
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,13 +7,13 @@ import style from './shared.module.css'
 
 import { registerUser } from '../services/auth';
 
-const RegisterPage = () => {
+const RegisterPage: FC = () => {
     const history = useHistory()
-    const [userName, setUserName] = useState('')
-    const [userEmail, setUserEmail] = useState('')
-    const [userPass, setUserPass] = useState('')
+    const [userName, setUserName] = useState<string>('')
+    const [userEmail, setUserEmail] = useState<string>('')
+    const [userPass, setUserPass] = useState<string>('')
 
-    const { isLogged } = useSelector(store => store.auth);
+    const { isLogged } = useSelector((store: any) => store.auth);
 
     useEffect(() => {
         if(isLogged) {
@@ -23,7 +23,7 @@ const RegisterPage = () => {
   
     const dispatch = useDispatch();
 
-    const onSubmitRegistrationForm = (e) => {
+    const onSubmitRegistrationForm = (e: FormEvent) => {
         e.preventDefault()
         dispatch(registerUser(userName, userEmail, userPass))
     }
