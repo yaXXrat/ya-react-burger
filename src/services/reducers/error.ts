@@ -9,7 +9,7 @@ type TErrorState = {
     errorMessage: string
   } 
 
-export const initialState:TErrorState = {
+export const initialState: TErrorState = {
     errorMessage: ''
 };
 

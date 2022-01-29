@@ -1,11 +1,21 @@
+import type { TOrderActions } from '../actions/order';
+
 import {
     ERASE_ORDER,    
     MAKE_ORDER_REQUEST ,
     MAKE_ORDER_SUCCESS,
     MAKE_ORDER_ERROR,
-} from '../actions/order';
+} from '../constants/order';
 
-export const initialState = {
+import { TOrder } from '../../utils/types'
+
+type TOrderState = {
+    orderCreated: boolean,
+    currentOrder: TOrder,
+    isLoading: boolean
+  } 
+
+export const initialState: TOrderState = {
     orderCreated: false,
     currentOrder:{
         number: 0,
@@ -17,7 +27,7 @@ export const initialState = {
     isLoading: false
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: TOrderActions) => {
     switch (action.type) {
         case MAKE_ORDER_REQUEST:
             return {
