@@ -88,3 +88,16 @@ export type TOrder = {
 export type TIngredientsIds = {
     ingredients: any;
 }
+
+export type TUser = {
+    name: string,
+    email: string
+}
+export type TUserData = {
+    user: TUser,
+}
+export type TAuthUserData = {
+    user: TUser,
+    accessToken: string,
+    refreshToken: string,
+}

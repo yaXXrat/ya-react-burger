@@ -12,7 +12,6 @@ export type TErrorActions =
     | ISetErrorMessageAction
     | IResetErrorMessageAction;  
 
-
 export const setErrorMessage = (text: string): TErrorActions => ({
     type: SET_ERROR_MESSAGE,
     text

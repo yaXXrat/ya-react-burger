@@ -1,3 +1,6 @@
+import type { TAuthActions } from '../actions/auth';
+import { TUser } from '../../utils/types';
+
 import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
@@ -8,9 +11,20 @@ import {
     REFRESH_TOKEN_SUCCESS,
     UPDATE_PROFILE_SUCCESS,
     PROFILE_SUCCESS
-} from '../actions/auth';
+} from '../constants/auth';
 
-const initialState = {
+type TAuthState = {
+    user: TUser,
+    accessToken: string,
+    refreshToken: string,
+    updatePasswordSuccess: boolean,
+    isLogged: boolean,
+    resetSuccess: boolean,
+    forgotSuccess: boolean,
+    isTokenRefreshed: boolean
+}
+
+const initialState: TAuthState = {
     user: {
         name: "",
         email: ""
@@ -24,7 +38,7 @@ const initialState = {
     isTokenRefreshed: true
 }
 
-export const AuthReducer = (state = initialState, action) => {
+export const AuthReducer = (state = initialState, action: TAuthActions) => {
     switch (action.type){
         case LOGIN_SUCCESS:
             return {
@@ -68,37 +82,31 @@ export const AuthReducer = (state = initialState, action) => {
                 refreshToken: action.data.refreshToken,
                 isLogged: true
             };
-        case FORGOT_PASS_SUCCESS: {
+        case FORGOT_PASS_SUCCESS:
             return {
                 ...state,
                 forgotSuccess: true
             };
-
-        }
-        case CLEAR_FORGOT_PASS_SUCCESS: {
+        case CLEAR_FORGOT_PASS_SUCCESS:
             return {
                 ...state,
                 forgotSuccess: false
             };
-
-        }
-        case CLEAR_RESET_PASS_SUCCESS: {
+        case CLEAR_RESET_PASS_SUCCESS: 
             return {
                 ...state,
                 resetSuccess: false
             };
-
-        }
-        case REFRESH_TOKEN_REQUEST:
+        case REFRESH_TOKEN_REQUEST: 
             return {
                 ...state,
                 isTokenRefreshed: false
-            }
+            };
         case REFRESH_TOKEN_SUCCESS:
             return {
                 ...state,
                 isTokenRefreshed: true
-            }
+            };
         case UPDATE_PROFILE_SUCCESS:
             return {
                 ...state,
@@ -106,7 +114,7 @@ export const AuthReducer = (state = initialState, action) => {
                     name: action.data.name,
                     email: action.data.email
                 }
-            }
+            };
         default:
             return state;
     }
