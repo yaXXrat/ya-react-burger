@@ -1,12 +1,20 @@
-import { REMOVE_ORDER_INGREDIENT, SET_ORDER_INGREDIENT, UPDATE_INGREDIENTS_ORDER, ERASE_INGREDIENTS_ORDER } from '../actions/constructor';
+import { REMOVE_ORDER_INGREDIENT, SET_ORDER_INGREDIENT, UPDATE_INGREDIENTS_ORDER, ERASE_INGREDIENTS_ORDER } from '../constants/constructor';
+import { TIngredient } from '../../utils/types'
+import { TConstructorActions } from '../actions/constructor'
 
-export const initialState = {
+type TConstructorState = {
+    lastIndex: number,
+    constructorBun: TIngredient | undefined,
+    constructorIngredients: Array<TIngredient>
+}
+
+export const initialState: TConstructorState = {
     lastIndex: 0,
     constructorBun: undefined,
     constructorIngredients: [],
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action: TConstructorActions) => {
     switch (action.type) {
         case SET_ORDER_INGREDIENT:
             let newState = undefined;
@@ -16,9 +24,9 @@ export const constructorReducer = (state = initialState, action) => {
                     constructorBun: action.ingredient
                 }
             } else {
-                let newIngredient = {...action.ingredient};
+                let newIngredient: TIngredient = {...action.ingredient};
                 let tmpIndex = state.lastIndex + 1;
-                newIngredient.id = tmpIndex;
+                newIngredient._id = tmpIndex;
                 newState = {
                     ...state,
                     lastIndex: tmpIndex,
@@ -36,18 +44,18 @@ export const constructorReducer = (state = initialState, action) => {
             return {
                 ...state,
                 constructorIngredients: newIngredients
-            }
+            };
         case UPDATE_INGREDIENTS_ORDER:
             let temp = [...state.constructorIngredients];
             [temp[action.dragIndex], temp[action.hoverIndex]] = [ temp[action.hoverIndex], temp[action.dragIndex]];
             return {
                 ...state,
                 constructorIngredients: [...temp]
-            }
+            };
         case ERASE_INGREDIENTS_ORDER:
             return {
                 ...initialState
-            }
+            };
         default: return state;
     }
 }
