@@ -47,6 +47,4 @@ export const setOrderIngredient = (): TOrderActions => ({
 });    
 export const removeOrderIngredient = (): TOrderActions => ({
     type: REMOVE_ORDER_INGREDIENT
-});    
-            
-
+});
