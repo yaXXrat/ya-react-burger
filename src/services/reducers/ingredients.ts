@@ -6,7 +6,7 @@ import {
     LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_ERROR,
 } from '../constants/ingredients';
 
-type TIngredientsState = {
+export type TIngredientsState = {
     allIngredients: Array<TIngredient>,
     isLoading: boolean
 }

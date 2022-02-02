@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "../../services/hooks";
 
 import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage } from '../../pages';
 import ProtectedRoute from '../protected-route';
@@ -15,14 +15,16 @@ import style from "./app.module.css";
 import {RESET_ERROR_MESSAGE} from "../../services/constants/error";
 import {ERASE_ORDER} from "../../services/constants/order";
 import {ERASE_INGREDIENTS_ORDER} from "../../services/constants/constructor";
+import {TIngredientsState} from "../../services/reducers/ingredients";
 
 function App() {
     const dispatch = useDispatch();
 
-    const errorMessage = useSelector<any>(store => store.errorInfo.errorMessage);
-    const orderCreated = useSelector<any>(store => store.order.orderCreated);
-    const isWaitingIngredients  = useSelector<any>(store => store.burgerIngredients.isLoading);
-    const isWaitingOrder = useSelector<any>(store => store.order.isLoading);
+    const errorMessage = useSelector(store => store.errorInfo.errorMessage);
+    const orderCreated = useSelector(store => store.order.orderCreated);
+    const burgerIngredients  = useSelector<TIngredientsState>(store => store.burgerIngredients);
+    const isWaitingIngredients = burgerIngredients.isLoading;
+    const isWaitingOrder = useSelector(store => store.order.isLoading);
     const isWaiting = isWaitingIngredients || isWaitingOrder;
 
     useEffect(() => {
@@ -38,10 +40,17 @@ function App() {
         dispatch({type: ERASE_INGREDIENTS_ORDER});
     };
 
+    interface LocationParams {
+        pathname: string;
+        state: {background: boolean};
+        search: string;
+        hash: string;
+        key: string;
+    }
 
     const ModalSwitch = () => {
-        const location = useLocation();
-        const state = location.state as any;
+        const location = useLocation() as LocationParams;
+        const state = location.state;
         const history = useHistory();
         let background = state && state.background;
         const handleModalClose = () => {

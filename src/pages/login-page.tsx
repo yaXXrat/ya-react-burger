@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC, FormEvent } from 'react'
 import { login } from '../services/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from "../services/hooks";
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
     Link, useHistory
@@ -8,11 +8,11 @@ import {
 import style from "./shared.module.css";
 
 const LoginPage: FC = () => {
-    const history = useHistory<any>();
+    const history = useHistory();
     const [userEmail, setUserEmail] = useState<string>('');
     const [userPass, setUserPassword] = useState<string>('');
 
-    const { isLogged } = useSelector((store: any) => store.auth);
+    const { isLogged } = useSelector(state => state.auth);
     const dest = history?.location?.state?.from || "/";
 
     useEffect(() => {

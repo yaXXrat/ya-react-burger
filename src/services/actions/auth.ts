@@ -1,16 +1,16 @@
-import { TUser, TAuthUserData, TUserData } from '../types/types';
+import {TUser, TAuthUserData, TUserData, TResult} from '../types/types';
 import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     RESET_PASS_SUCCESS,
     REGISTER_SUCCESS,
-    FORGOT_PASS_SUCCESS, 
-    CLEAR_FORGOT_PASS_SUCCESS, 
+    FORGOT_PASS_SUCCESS,
+    CLEAR_FORGOT_PASS_SUCCESS,
     CLEAR_RESET_PASS_SUCCESS,
     REFRESH_TOKEN_REQUEST,
     REFRESH_TOKEN_SUCCESS,
     UPDATE_PROFILE_SUCCESS,
-    PROFILE_SUCCESS
+    PROFILE_SUCCESS, PROFILE_REQUEST, PROFILE_ERROR, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_ERROR
 } from '../constants/auth';
 
 export interface ILoginSuccessAction {
@@ -48,7 +48,7 @@ export interface IUpdateProfileSuccessAction {
 }
 export interface IProfileSuccessAction {
     readonly type: typeof PROFILE_SUCCESS;
-    readonly data: TUserData;
+    readonly data: TResult;
 }
 
 export type TAuthActions = 
@@ -97,7 +97,9 @@ export const updateProfileSuccess = (data: TUser): TAuthActions => ({
     type: UPDATE_PROFILE_SUCCESS,
     data
 });    
-export const profileSuccess = (data: TUserData): TAuthActions => ({
+export const profileSuccess = (data: TResult): TAuthActions => ({
     type: PROFILE_SUCCESS,
     data
-});    
+});
+
+

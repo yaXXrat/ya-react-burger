@@ -1,5 +1,4 @@
 import React,{ useCallback } from 'react';
-import {TypedUseSelectorHook, useDispatch, useSelector as selectorHook} from "react-redux";
 import style from './burger-constructor.module.css';
 import { Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from 'react-dnd';
@@ -11,23 +10,22 @@ import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-
 import { createOrder } from '../../services/api';
 import { useHistory } from "react-router-dom";
 import {TBurgerConstructorItem, TIngredient} from "../../services/types/types";
-import {RootState} from "../../services/types";
-
+import {useDispatch, useSelector} from "../../services/hooks";
+import {TConstructorState} from "../../services/reducers/constructor";
 const BurgerConstructor = () => {
 
-    const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const { user }  = useSelector((store:any) => store.auth);
-    const { constructorIngredients, constructorBun } = useSelector((store:any)=> store.orderConstructor);
-    const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun.ingredient) : constructorIngredients;
-    const calcTotalPrice = (ingredients: TIngredient[]) => ingredients.reduce((acc, current) => acc + current.price, 0);
+    const  { user } = useSelector(state => state.auth);
+    const { constructorIngredients, constructorBun } = useSelector<TConstructorState>(state => state.orderConstructor);
+    const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun) : constructorIngredients;
+    const calcTotalPrice = (ingredients: TBurgerConstructorItem[]) => ingredients.reduce((acc, current) => acc + current.ingredient.price, 0);
     const totalPrice = calcTotalPrice(allIngredients);
 
     function makeOrder() {
         if(user.name!==""){
-            const ingredientsIDs = {"ingredients": constructorIngredients.map((item:TIngredient) => item._id).concat(constructorBun?._id)};
+            const ingredientsIDs = {"ingredients": constructorIngredients.map(item => item.ingredient._id).concat(constructorBun ? constructorBun.ingredient._id : '')};
             dispatch(createOrder(ingredientsIDs, totalPrice));
         }else{
             history.push("/login");
@@ -38,14 +36,14 @@ const BurgerConstructor = () => {
         dispatch({type: UPDATE_INGREDIENTS_ORDER, dragIndex: dragIndex, hoverIndex: hoverIndex});
     }, [dispatch]);
 
-    const onDropHandler = (ingredient: any) => {
-        dispatch({type: SET_ORDER_INGREDIENT, ingredient: ingredient})    
+    const onDropHandler = (ingredient: TIngredient) => {
+        dispatch({type: SET_ORDER_INGREDIENT, ingredient: ingredient})
     }
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",
         drop(ingredient) {
-            onDropHandler(ingredient);
+            onDropHandler(ingredient as TIngredient);
         }
     });
 
@@ -59,7 +57,7 @@ const BurgerConstructor = () => {
 
         <div className={style.group}>
             {
-                constructorIngredients.map((item: TBurgerConstructorItem ,i: number) => (
+                constructorIngredients.map((item: TBurgerConstructorItem, i: number) => (
                     <BurgerConstructorItem ingredient={item.ingredient}
                     moveCard={moveCard} index={i} id={item.id} key={item.index}/>
             ))}

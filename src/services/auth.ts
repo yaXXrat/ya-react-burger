@@ -29,6 +29,7 @@ import {SET_ERROR_MESSAGE} from './constants/error'
 
 import { TResult, TOptions } from './types/types'
 import { Dispatch } from 'redux';
+import { AppDispatch } from "./types";
 
 const refreshToken = async ( ) => {
     try{
@@ -54,9 +55,9 @@ const refreshToken = async ( ) => {
 }
 
 export function getUser(){
-    return async function(dispatch: Dispatch<any>) {
+    return async function(dispatch: AppDispatch) {
         try{ 
-            dispatch({type:PROFILE_REQUEST});
+//            dispatch({type: PROFILE_REQUEST});
             const options: TOptions = {
                 method: 'GET',
                 headers: {
@@ -76,6 +77,7 @@ export function getUser(){
             
             if(result.success){
                 dispatch({type: PROFILE_SUCCESS, data: result });
+
             } else {
                 throw new Error("Error happened during profile update!");
             }
@@ -87,7 +89,7 @@ export function getUser(){
                     await refreshToken();
                     dispatch(getUser());
                 }else{
-                    dispatch({type: PROFILE_ERROR});
+//                    dispatch({type: PROFILE_ERROR});
                     dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
                 }
             }else{
@@ -99,9 +101,9 @@ export function getUser(){
 }
 
 export function updateUser(name: string, email: string, password: string){
-    return async function(dispatch: Dispatch<any>) {
+    return async function(dispatch: AppDispatch) {
         try {
-            dispatch({type:UPDATE_PROFILE_REQUEST});
+//            dispatch({type: UPDATE_PROFILE_REQUEST});
             const options: TOptions = {
                 method: 'PATCH',
                 headers: {
@@ -132,7 +134,7 @@ export function updateUser(name: string, email: string, password: string){
                     await refreshToken();
                     dispatch(updateUser(name, email, password));
                 }else{
-                    dispatch({type: UPDATE_PROFILE_ERROR});
+//                    dispatch({type: UPDATE_PROFILE_ERROR});
                     dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
                 }
             }else{

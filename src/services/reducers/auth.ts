@@ -10,7 +10,7 @@ import {
     REFRESH_TOKEN_REQUEST,
     REFRESH_TOKEN_SUCCESS,
     UPDATE_PROFILE_SUCCESS,
-    PROFILE_SUCCESS
+    PROFILE_SUCCESS, PROFILE_REQUEST, PROFILE_ERROR, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_ERROR
 } from '../constants/auth';
 
 export type TAuthState = {
@@ -115,6 +115,7 @@ export const AuthReducer = (state = initialState, action: TAuthActions) => {
                     email: action.data.email
                 }
             };
+
         default:
             return state;
     }

@@ -1,15 +1,17 @@
 import style from "./ingredient-details.module.css"
 import classNames from 'classnames';
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/hooks";
 import { useParams } from "react-router-dom";
 import {TIngredient} from "../../services/types/types";
 
 const IngredientDetails = () => {
 
-  const {ingredientId} = useParams<{ ingredientId?: any }>();
+  const { ingredientId } = useParams<{ ingredientId?: string }>();
 
-  const allIngredients = useSelector<any>(state => state.burgerIngredients.allIngredients) as TIngredient[];
-  let ingredient: TIngredient = allIngredients.filter(ingredient => ingredient._id === ingredientId)[0];
+  const { allIngredients } = useSelector(state => state.burgerIngredients);
+  const allIngredientsArray = allIngredients as TIngredient[];
+
+  let ingredient: TIngredient = allIngredientsArray.filter(ingredient => ingredient._id === ingredientId)[0];
   if (!ingredient) {
     return <></>
   }

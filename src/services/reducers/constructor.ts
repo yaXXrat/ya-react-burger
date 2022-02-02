@@ -1,10 +1,10 @@
 import { REMOVE_ORDER_INGREDIENT, SET_ORDER_INGREDIENT, UPDATE_INGREDIENTS_ORDER, ERASE_INGREDIENTS_ORDER } from '../constants/constructor';
-import {TBurgerConstructorItem, TIngredient} from '../types/types'
+import {TBurgerConstructorItem} from '../types/types'
 import { TConstructorActions } from '../actions/constructor'
 
-type TConstructorState = {
+export type TConstructorState = {
     lastIndex: number,
-    constructorBun: TIngredient | undefined,
+    constructorBun: TBurgerConstructorItem | undefined,
     constructorIngredients: Array<TBurgerConstructorItem>
 }
 
@@ -21,7 +21,7 @@ export const constructorReducer = (state = initialState, action: TConstructorAct
             if( action.ingredient.type === "bun") {
                 newState = {
                     ...state,
-                    constructorBun: {ingredient: action.ingredient}
+                    constructorBun: {ingredient: action.ingredient, index: 0, id: 0}
                 }
             } else {
                 let tmpIndex = state.lastIndex + 1;

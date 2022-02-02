@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import {TIconProps} from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils";
 
 export type TMenuItem = {
     itemDest: string,
@@ -10,7 +11,7 @@ export type TIngredient = {
     name: string,
     price: number,
     image: string,
-    _id: number,
+    _id: string,
     type?: string,
     image_mobile: string,
     image_large?: string,
@@ -87,7 +88,7 @@ export type TOrder = {
 }
 
 export type TIngredientsIds = {
-    ingredients: any;
+    ingredients: string[];
 }
 
 export type TUser = {
@@ -102,3 +103,5 @@ export type TAuthUserData = {
     accessToken: string,
     refreshToken: string,
 }
+
+
