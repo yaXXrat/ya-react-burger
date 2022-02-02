@@ -1,4 +1,4 @@
-import {TUser, TAuthUserData, TUserData, TResult} from '../types/types';
+import {TUser, TAuthUserData, TResult} from '../types/types';
 import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
@@ -10,7 +10,7 @@ import {
     REFRESH_TOKEN_REQUEST,
     REFRESH_TOKEN_SUCCESS,
     UPDATE_PROFILE_SUCCESS,
-    PROFILE_SUCCESS, PROFILE_REQUEST, PROFILE_ERROR, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_ERROR
+    PROFILE_SUCCESS
 } from '../constants/auth';
 
 export interface ILoginSuccessAction {

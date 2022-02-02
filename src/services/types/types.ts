@@ -55,6 +55,7 @@ export type TResult = {
     accessToken?: string;
     refreshToken?: string;
     message?: string;
+    user: TUser;
   };
 
 export type TOptions = {
