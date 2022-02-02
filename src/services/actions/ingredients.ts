@@ -1,5 +1,5 @@
 import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from '../constants/ingredients';
-import { TIngredient } from '../../utils/types';
+import { TIngredient } from '../types/types';
 
 export interface ILoadIngredientsRequestAction {
     readonly type: typeof LOAD_INGREDIENTS_REQUEST;

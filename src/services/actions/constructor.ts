@@ -1,5 +1,5 @@
 import { SET_ORDER_INGREDIENT, REMOVE_ORDER_INGREDIENT, UPDATE_INGREDIENTS_ORDER, ERASE_INGREDIENTS_ORDER } from '../constants/constructor';
-import { TIngredient } from '../../utils/types'
+import {TBurgerConstructorItem, TIngredient} from '../types/types'
 
 export interface ISetOrderIngredientAction {
     readonly type: typeof SET_ORDER_INGREDIENT;
@@ -7,7 +7,7 @@ export interface ISetOrderIngredientAction {
 }
 export interface IRemoveOrderIngredientAction {
     readonly type: typeof REMOVE_ORDER_INGREDIENT;
-    readonly ingredient: TIngredient;
+    readonly item: TBurgerConstructorItem;
 }
 export interface IUpdateIngredientsOrderAction {
     readonly type: typeof UPDATE_INGREDIENTS_ORDER;
@@ -28,9 +28,9 @@ export const setOrderIngredient = (ingredient: TIngredient): TConstructorActions
     type: SET_ORDER_INGREDIENT,
     ingredient
 });    
-export const removeOrderIngredient = (ingredient: TIngredient): TConstructorActions => ({
+export const removeOrderIngredient = (item: TBurgerConstructorItem): TConstructorActions => ({
     type: REMOVE_ORDER_INGREDIENT,
-    ingredient
+    item
 });
 export const updateIngredientsOrder = (dragIndex: number, hoverIndex: number): TConstructorActions => ({
     type: UPDATE_INGREDIENTS_ORDER,

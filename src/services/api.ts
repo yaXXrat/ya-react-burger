@@ -1,9 +1,9 @@
-import { SET_ERROR_MESSAGE } from './actions/error';
+import { SET_ERROR_MESSAGE } from './constants/error';
 import { SERVER_API_URL } from './config';
 import { Dispatch } from 'redux';
-import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from './actions/ingredients'
-import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from './actions/order'
-import {TIngredientsIds} from "../utils/types";
+import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from './constants/ingredients'
+import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from './constants/order'
+import {TIngredientsIds} from "./types/types";
 
 export function getIngredients() {
     return function(dispatch: Dispatch) {

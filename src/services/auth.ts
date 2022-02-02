@@ -24,10 +24,10 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_ERROR
-} from './actions/auth';
-import {SET_ERROR_MESSAGE} from './actions/error'
+} from './constants/auth';
+import {SET_ERROR_MESSAGE} from './constants/error'
 
-import { TResult, TOptions } from '../utils/types'
+import { TResult, TOptions } from './types/types'
 import { Dispatch } from 'redux';
 
 const refreshToken = async ( ) => {

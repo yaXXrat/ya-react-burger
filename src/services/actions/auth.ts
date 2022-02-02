@@ -1,4 +1,4 @@
-import { TUser, TAuthUserData, TUserData } from '../../utils/types';
+import { TUser, TAuthUserData, TUserData } from '../types/types';
 import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,

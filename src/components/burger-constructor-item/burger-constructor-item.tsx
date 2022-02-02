@@ -2,20 +2,21 @@ import React, { FC } from 'react'
 import { useDispatch } from "react-redux";
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { REMOVE_ORDER_INGREDIENT } from '../../services/actions/order';
+import { REMOVE_ORDER_INGREDIENT } from '../../services/constants/order';
 
 import style from './burger-constructor-item.module.css';
 
 import { useDrag, useDrop} from 'react-dnd';
 import { useRef } from 'react';
 
-import { TBurgerConstructorItem } from "../../utils/types";
+import { TBurgerConstructorItem, TBurgerConstructorItemProps } from "../../services/types/types";
 
 const ItemTypes = {
     CARD: 'card',
 }
 
-const BurgerConstructorItem: FC<TBurgerConstructorItem> = ( { ingredient, id, index, moveCard }) => {
+const BurgerConstructorItem: FC<TBurgerConstructorItemProps> = ( { ingredient, id, index, moveCard }) => {
+
     const dispatch = useDispatch();
     const removeConstructorItem = () => {
         dispatch({type: REMOVE_ORDER_INGREDIENT, ingredient: ingredient})

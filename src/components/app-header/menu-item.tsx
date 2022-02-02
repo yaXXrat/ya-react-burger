@@ -3,7 +3,7 @@ import style from './app-header.module.css'
 import { FC } from 'react';
 
 import {Link, useLocation} from 'react-router-dom';
-import {TMenuItem} from "../../utils/types";
+import {TMenuItem} from "../../services/types/types";
 
 const MenuItem: FC<TMenuItem> = ({ itemDest, Icon, itemText }) => {
     const location = useLocation();

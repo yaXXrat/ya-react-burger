@@ -1,5 +1,5 @@
 import type { TIngredientsActions } from '../actions/ingredients';
-import { TIngredient } from '../../utils/types';
+import { TIngredient } from '../types/types';
 
 import {
     LOAD_INGREDIENTS_SUCCESS,

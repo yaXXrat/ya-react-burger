@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RESET_ERROR_MESSAGE } from '../../services/actions/error'
-import { ERASE_ORDER } from '../../services/actions/order';
-import { ERASE_INGREDIENTS_ORDER } from '../../services/actions/constructor';
-
 
 import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage } from '../../pages';
 import ProtectedRoute from '../protected-route';
@@ -16,6 +12,9 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import DisplayWaiting from "../display-waiting/display-waiting";
 import style from "./app.module.css";
+import {RESET_ERROR_MESSAGE} from "../../services/constants/error";
+import {ERASE_ORDER} from "../../services/constants/order";
+import {ERASE_INGREDIENTS_ORDER} from "../../services/constants/constructor";
 
 function App() {
     const dispatch = useDispatch();

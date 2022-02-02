@@ -6,7 +6,7 @@ import {
     Link, useHistory
 } from "react-router-dom";
 import style from "./shared.module.css";
-import {CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS} from "../services/actions/auth";
+import {CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS} from "../services/constants/auth";
 
 function ResetPassPage() {
     const history = useHistory();

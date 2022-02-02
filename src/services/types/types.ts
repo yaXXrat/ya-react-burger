@@ -44,9 +44,10 @@ export type TBurgerBun = {
 export type TBurgerConstructorItem = {
     ingredient: TIngredient,
     id: number,
-    index: number
-    moveCard: (arg0: any, arg1: any) => void,
+    index: number,
 }
+
+export type TBurgerConstructorItemProps = TBurgerConstructorItem & {moveCard: (arg0: number, arg1: number) => void};
 
 export type TResult = {
     success: boolean;

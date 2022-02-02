@@ -2,7 +2,7 @@ import style from "./ingredient-details.module.css"
 import classNames from 'classnames';
 import {useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
-import {TIngredient} from "../../utils/types";
+import {TIngredient} from "../../services/types/types";
 
 const IngredientDetails = () => {
 

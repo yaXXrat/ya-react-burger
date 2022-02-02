@@ -9,7 +9,7 @@ import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-
 import {useSelector} from "react-redux";
 
 import { throttle } from '../../utils/throttle';
-import {TGroup, TIngredient} from "../../utils/types";
+import {TGroup, TIngredient} from "../../services/types/types";
 
 const ingredientGroups: TGroup[]  = [
     {type: 'bun', title: 'Булки'},

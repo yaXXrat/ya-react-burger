@@ -7,7 +7,7 @@ import {
     MAKE_ORDER_ERROR,
 } from '../constants/order';
 
-import { TOrder } from '../../utils/types'
+import { TOrder } from '../types/types'
 
 type TOrderState = {
     orderCreated: boolean,

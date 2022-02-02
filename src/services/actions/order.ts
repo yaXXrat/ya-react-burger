@@ -1,5 +1,5 @@
 import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from "../constants/order";
-import { TOrder } from '../../utils/types';
+import { TOrder } from '../types/types';
 
 export interface IMakeOrderRequestAction {
     readonly type: typeof MAKE_ORDER_REQUEST;

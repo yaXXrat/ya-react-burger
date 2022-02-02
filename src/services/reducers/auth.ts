@@ -1,5 +1,5 @@
 import type { TAuthActions } from '../actions/auth';
-import { TUser } from '../../utils/types';
+import { TUser } from '../types/types';
 
 import {
     LOGIN_SUCCESS,
@@ -13,7 +13,7 @@ import {
     PROFILE_SUCCESS
 } from '../constants/auth';
 
-type TAuthState = {
+export type TAuthState = {
     user: TUser,
     accessToken: string,
     refreshToken: string,

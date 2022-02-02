@@ -1,5 +1,5 @@
 import type { TIngredientActions } from '../actions/ingredient';
-import { TIngredient } from '../../utils/types';
+import { TIngredient } from '../types/types';
 
 import {
     SET_CURRENT_INGREDIENT,

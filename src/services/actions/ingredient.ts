@@ -1,5 +1,5 @@
 import { SET_CURRENT_INGREDIENT, RESET_CURRENT_INGREDIENT } from '../constants/ingredient';
-import { TIngredient } from '../../utils/types';
+import { TIngredient } from '../types/types';
 
 export interface ISetCurrentIngredientAction {
     readonly type: typeof SET_CURRENT_INGREDIENT;

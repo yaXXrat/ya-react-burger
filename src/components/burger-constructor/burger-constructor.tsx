@@ -1,24 +1,27 @@
 import React,{ useCallback } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import {TypedUseSelectorHook, useDispatch, useSelector as selectorHook} from "react-redux";
 import style from './burger-constructor.module.css';
 import { Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from 'react-dnd';
 
-import { UPDATE_INGREDIENTS_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/constructor';
+import { UPDATE_INGREDIENTS_ORDER, SET_ORDER_INGREDIENT } from '../../services/constants/constructor';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
 
 import { createOrder } from '../../services/api';
 import { useHistory } from "react-router-dom";
-import { TIngredient } from "../../utils/types";
+import {TBurgerConstructorItem, TIngredient} from "../../services/types/types";
+import {RootState} from "../../services/types";
 
 const BurgerConstructor = () => {
+
+    const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
 
     const dispatch = useDispatch();
     const history = useHistory();
     const { user }  = useSelector((store:any) => store.auth);
     const { constructorIngredients, constructorBun } = useSelector((store:any)=> store.orderConstructor);
-    const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun) : constructorIngredients;
+    const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun.ingredient) : constructorIngredients;
     const calcTotalPrice = (ingredients: TIngredient[]) => ingredients.reduce((acc, current) => acc + current.price, 0);
     const totalPrice = calcTotalPrice(allIngredients);
 
@@ -51,20 +54,20 @@ const BurgerConstructor = () => {
             <div className={style['main-block']}>
                 { constructorBun && <div className={style.bun}><BurgerBunConstructorItem
                     type="top"
-                    ingredient={constructorBun}
+                    ingredient={constructorBun.ingredient}
                 /></div>}
 
         <div className={style.group}>
             {
-                constructorIngredients.map((ingredient: any,i: number) => (
-                    <BurgerConstructorItem ingredient={ingredient}
-                    moveCard={moveCard} index={i} id={ingredient.id} key={ingredient.id}/>
+                constructorIngredients.map((item: TBurgerConstructorItem ,i: number) => (
+                    <BurgerConstructorItem ingredient={item.ingredient}
+                    moveCard={moveCard} index={i} id={item.id} key={item.index}/>
             ))}
         </div>
 
         { constructorBun && <div className={style.bun}><BurgerBunConstructorItem
             type="bottom"
-            ingredient={constructorBun}
+            ingredient={constructorBun.ingredient}
         /></div>}
          </div>
 

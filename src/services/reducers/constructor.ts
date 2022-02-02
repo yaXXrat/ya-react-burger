@@ -1,11 +1,11 @@
 import { REMOVE_ORDER_INGREDIENT, SET_ORDER_INGREDIENT, UPDATE_INGREDIENTS_ORDER, ERASE_INGREDIENTS_ORDER } from '../constants/constructor';
-import { TIngredient } from '../../utils/types'
+import {TBurgerConstructorItem, TIngredient} from '../types/types'
 import { TConstructorActions } from '../actions/constructor'
 
 type TConstructorState = {
     lastIndex: number,
     constructorBun: TIngredient | undefined,
-    constructorIngredients: Array<TIngredient>
+    constructorIngredients: Array<TBurgerConstructorItem>
 }
 
 export const initialState: TConstructorState = {
@@ -18,15 +18,15 @@ export const constructorReducer = (state = initialState, action: TConstructorAct
     switch (action.type) {
         case SET_ORDER_INGREDIENT:
             let newState = undefined;
-            if(action.ingredient.type === "bun") {
+            if( action.ingredient.type === "bun") {
                 newState = {
                     ...state,
-                    constructorBun: action.ingredient
+                    constructorBun: {ingredient: action.ingredient}
                 }
             } else {
-                let newIngredient: TIngredient = {...action.ingredient};
                 let tmpIndex = state.lastIndex + 1;
-                newIngredient._id = tmpIndex;
+                let newIngredient: TBurgerConstructorItem = {ingredient: action.ingredient, index: tmpIndex, id: state.constructorIngredients.length};
+                newIngredient.index = tmpIndex;
                 newState = {
                     ...state,
                     lastIndex: tmpIndex,
@@ -39,7 +39,7 @@ export const constructorReducer = (state = initialState, action: TConstructorAct
             return newState;
         case REMOVE_ORDER_INGREDIENT:
             const newIngredients = [...state.constructorIngredients];
-            let idx = newIngredients.indexOf(action.ingredient);
+            let idx = newIngredients.indexOf(action.item);
             newIngredients.splice(idx, 1);            
             return {
                 ...state,
