@@ -10,13 +10,14 @@ import {
 
 export type TWsConnectionStartAction = {
     readonly type: typeof WS_CONNECTION_START,
-    payload: string
+    url: string
 }
 
 export const wsConnectionStart = (url: string): TWsConnectionStartAction => {
+    console.log('=> wsConnectionStart');
     return {
         type: WS_CONNECTION_START,
-        payload: url
+        url
     };
 };
 

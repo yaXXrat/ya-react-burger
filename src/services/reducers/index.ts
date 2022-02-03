@@ -6,6 +6,7 @@ import { burgerIngredientsReducer } from "./ingredients";
 import { burgerIngredientReducer } from "./ingredient";
 import { AuthReducer } from "./auth";
 import { wsReducer } from "./websocket";
+import { ordersReducer } from "./orders";
 
 export const rootReducer = combineReducers({
     burgerIngredients: burgerIngredientsReducer,
@@ -14,5 +15,6 @@ export const rootReducer = combineReducers({
     order: orderReducer,
     errorInfo: errorReducer,
     auth: AuthReducer,
-    ws: wsReducer
+    ws: wsReducer,
+    orders: ordersReducer
 });

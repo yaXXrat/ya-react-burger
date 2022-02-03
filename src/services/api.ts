@@ -5,6 +5,11 @@ import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ER
 import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from './constants/order'
 import {TIngredientsIds} from "./types/types";
 
+import { clearOrders } from './actions/orders';
+import { wsConnectionStart } from './actions/websocket';
+import { AppDispatch } from './types';
+import { getAccessToken } from './auth';
+
 export function getIngredients() {
     return function(dispatch: Dispatch) {
         dispatch({type: LOAD_INGREDIENTS_REQUEST});
@@ -71,4 +76,35 @@ export function createOrder(ingredientsIDs: TIngredientsIds, totalPrice: number)
 
         })
     };
+}
+
+const FETCH_ALL_ORDERS_URL = `${SERVER_API_URL}/orders/all`;
+const FETCH_ORDERS_FOR_USER_URL = `${SERVER_API_URL}/orders`;
+
+const startFetching = async (dispatch: AppDispatch, url: string) => {
+    console.log('wsConnectionStart =>');
+    dispatch(wsConnectionStart(url));
+}
+
+export const fetchAllOrders = () => async (dispatch: AppDispatch)  => {
+    console.log('=> fetchAllOrders');
+    try {
+        dispatch(clearOrders());
+        await startFetching(dispatch, FETCH_ALL_ORDERS_URL);
+    } catch(ex){
+    }
+}
+
+export const fetchOrdersByUser = () => async (dispatch: AppDispatch)  => {
+    try {
+        dispatch(clearOrders());
+        let token = getAccessToken();
+        if (token){
+            token = token.replace('Bearer', '');
+            token = token.trim();
+        }
+        const url = `${FETCH_ORDERS_FOR_USER_URL}?token=${token}`;
+        await startFetching(dispatch, url);
+    } catch(ex){
+    }
 }

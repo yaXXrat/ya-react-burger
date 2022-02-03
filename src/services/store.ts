@@ -9,9 +9,10 @@ declare global {
         __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
     }
 }
+const webSocketMiddleware = socketMiddleware();
 
 export const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk,socketMiddleware()));
+const enhancer = composeEnhancers(applyMiddleware(thunk,webSocketMiddleware));
 
 export const store = createStore(rootReducer, enhancer);
