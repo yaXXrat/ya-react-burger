@@ -4,18 +4,19 @@ import {
     WS_CONNECTION_ERROR,
     WS_CONNECTION_CLOSED,
     WS_GET_MESSAGE,
-    WS_SEND_MESSAGE
+    WS_SEND_MESSAGE,
+    WS_CLOSE
 } from '../constants/websocket';
 
 export type TWsConnectionStartAction = {
     readonly type: typeof WS_CONNECTION_START,
-    url: string,
+    payload: string
 }
 
 export const wsConnectionStart = (url: string): TWsConnectionStartAction => {
     return {
         type: WS_CONNECTION_START,
-        url
+        payload: url
     };
 };
 
@@ -32,11 +33,13 @@ export const wsConnectionSuccess = (): TWsConnectionSuccessAction => {
 
 export type TWsConnectionErrorAction = {
     readonly type: typeof WS_CONNECTION_ERROR
+    payload: Event
 }
 
-export const wsConnectionError = (): TWsConnectionErrorAction => {
+export const wsConnectionError = (event: Event): TWsConnectionErrorAction => {
     return {
-        type: WS_CONNECTION_ERROR
+        type: WS_CONNECTION_ERROR,
+        payload: event
     };
 };
 
@@ -62,7 +65,7 @@ export const wsGetMessage = (message: string): TWsGetMessageAction => {
     };
 };
 
-export interface TWsSendMessageAction {
+export type TWsSendMessageAction = {
     readonly type: typeof WS_SEND_MESSAGE,
     payload: string
 }
@@ -74,10 +77,20 @@ export const wsSendMessage = (message: string) => {
     };
 };
 
+export type TWsCloseAction = {
+    readonly type: typeof WS_CLOSE
+}
+
+export const wsClose = () => {
+    return {
+        type: WS_CLOSE
+    };
+};
 export type TWebsocketActions = 
-    | TWsConnectionStartAction
+    TWsConnectionStartAction
     | TWsConnectionSuccessAction
     | TWsConnectionErrorAction
     | TWsConnectionClosedAction
     | TWsGetMessageAction
-    | TWsSendMessageAction;
+    | TWsSendMessageAction
+    | TWsCloseAction;
