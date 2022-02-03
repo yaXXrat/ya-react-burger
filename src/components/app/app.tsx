@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "../../services/hooks";
 
-import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage } from '../../pages';
+import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage, FeedPage } from '../../pages';
 import ProtectedRoute from '../protected-route';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/api';
@@ -61,6 +61,9 @@ function App() {
             <>
                 <AppHeader />
                 <Switch location={background || location}>
+                    <Route path="/feed" >
+                        <FeedPage />
+                    </Route>
                     <Route path="/login" >
                         <LoginPage />
                     </Route>
