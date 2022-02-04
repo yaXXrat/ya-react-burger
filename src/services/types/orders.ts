@@ -1,9 +1,9 @@
-export interface TOrder {
-    id: number,
-    createdAt: string,
-    fullname: string,
-    status: STATUS,
-    ingredientIds: TIngredientIds
+export type TFeedOrder = {
+    id: number;
+    createdAt: string;
+    fullname: string;
+    status: STATUS;
+    ingredientIds: TIngredientIds;
 };
 
 export type TIngredientIds = ReadonlyArray<string>;
@@ -31,4 +31,4 @@ export type IServerOrderReply = {
     totalToday: number
 };
 
-export type TOrders = ReadonlyArray<TOrder>;
+export type TOrders = ReadonlyArray<TFeedOrder>;

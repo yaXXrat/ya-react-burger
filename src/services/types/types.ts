@@ -105,4 +105,6 @@ export type TAuthUserData = {
     refreshToken: string,
 }
 
+export type TFeedData = { isLoading: boolean; orders: TOrder[]; total: number; todayTotal: number; };
 
+export type TFeedOrderData = { _id: string; ingredients: string[]; status: string; name: string; createdAt: string; updatedAt: string; number: number; };

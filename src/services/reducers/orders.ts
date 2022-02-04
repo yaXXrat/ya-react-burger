@@ -1,6 +1,6 @@
 import { TOrdersActions } from '../actions/orders';
 
-import { IServerOrder, TOrder } from '../types/orders';
+import { IServerOrder, TFeedOrder } from '../types/orders';
 
 import {
     UPDATE_ORDERS_TOTALS,    
@@ -9,11 +9,11 @@ import {
     NEW_ORDERS_ARRIVE,
 } from '../constants/orders';
 
-type TOrdersState = {
+export type TOrdersState = {
     isLoading: boolean,
     total: number,
     todayTotal: number,
-    orders: TOrder[]
+    orders: TFeedOrder[]
 }
 
 const initialState: TOrdersState = {
@@ -37,7 +37,7 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
                 totalToday: number
             };
 
-            const newOrders: TOrder[] = [];
+            const newOrders: TFeedOrder[] = [];
 
             data.orders.forEach((order: IServerOrder) => {
                 const hasOrder = state.orders.some(stateOrder => {
