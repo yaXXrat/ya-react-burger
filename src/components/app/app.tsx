@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "../../services/hooks";
 
-import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage, FeedPage } from '../../pages';
+import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage, FeedPage, OrderPage } from '../../pages';
 import ProtectedRoute from '../protected-route';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/api';
@@ -61,6 +61,9 @@ function App() {
             <>
                 <AppHeader />
                 <Switch location={background || location}>
+                    <Route path="/feed/:id" >
+                        <OrderPage />
+                    </Route>
                     <Route path="/feed" >
                         <FeedPage />
                     </Route>
@@ -76,11 +79,14 @@ function App() {
                     <Route path="/reset-password" >
                         <ResetPassPage />
                     </Route>
-                    <ProtectedRoute path="/profile" >
-                        <ProfilePage />
+                    <ProtectedRoute path="/profile/orders/:id" >
+                        <OrderPage />
                     </ProtectedRoute>
                     <ProtectedRoute path="/profile/orders" >
                         <ProfileOrdersPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/profile" >
+                        <ProfilePage />
                     </ProtectedRoute>
                     <Route path="/ingredients/:ingredientId" >
                         <div className={'mt-25'}>
