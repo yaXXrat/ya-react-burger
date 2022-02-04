@@ -1,5 +1,5 @@
 import { SET_ERROR_MESSAGE } from './constants/error';
-import { SERVER_API_URL } from './config';
+import { SERVER_API_URL, WS_API_URL } from './config';
 import { Dispatch } from 'redux';
 import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from './constants/ingredients'
 import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from './constants/order'
@@ -78,16 +78,14 @@ export function createOrder(ingredientsIDs: TIngredientsIds, totalPrice: number)
     };
 }
 
-const FETCH_ALL_ORDERS_URL = `${SERVER_API_URL}/orders/all`;
-const FETCH_ORDERS_FOR_USER_URL = `${SERVER_API_URL}/orders`;
+const FETCH_ALL_ORDERS_URL = `${WS_API_URL}/orders/all`;
+const FETCH_ORDERS_FOR_USER_URL = `${WS_API_URL}/orders`;
 
 const startFetching = async (dispatch: AppDispatch, url: string) => {
-    console.log('wsConnectionStart =>');
     dispatch(wsConnectionStart(url));
 }
 
 export const fetchAllOrders = () => async (dispatch: AppDispatch)  => {
-    console.log('=> fetchAllOrders');
     try {
         dispatch(clearOrders());
         await startFetching(dispatch, FETCH_ALL_ORDERS_URL);

@@ -1,5 +1,7 @@
-import { TOrders } from '../types/orders';
 import { TOrdersActions } from '../actions/orders';
+
+import { IServerOrder, TOrder } from '../types/orders';
+
 import {
     UPDATE_ORDERS_TOTALS,    
     FETCH_ORDERS ,
@@ -10,7 +12,7 @@ import {
 type TOrdersState = {
     total: number,
     todayTotal: number,
-    orders: TOrders
+    orders: TOrder[]
 }
 
 const initialState: TOrdersState = {
@@ -22,14 +24,31 @@ const initialState: TOrdersState = {
 export const ordersReducer = (state:TOrdersState = initialState, action: TOrdersActions) => {
     switch (action.type) {
         case FETCH_ORDERS:
+            console.log(' FETCH_ORDERS ');
             return {
                 ...state
             };
         case NEW_ORDERS_ARRIVE:
-            console.log('NEW_ORDERS_ARRIVE')
-            return state;    
+            const data = action.payload as {
+                orders: IServerOrder[],
+                total: number,
+                totalToday: number
+            };
+
+            const newOrders: TOrder[] = [];
+
+            data.orders.forEach((order: IServerOrder) => {
+                newOrders.push({
+                    id: order.number,
+                    fullname: order.name,
+                    status: order.status,
+                    createdAt: order.createdAt,
+                    ingredientIds: order.ingredients
+                });
+            });
+
+            return {...state, orders: [...state.orders, ...newOrders], total: data.total, todayTotal: data.totalToday};
         case UPDATE_ORDERS_TOTALS:
-            console.log('UPDATE_ORDERS_TOTALS')
             return state;    
         //     return {
         //         ...state,
@@ -37,6 +56,7 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
         //         todayTotal: action.todayTotal
         // };
         case CLEAR_ORDERS:
+            console.log(' CLEAR_ORDERS ')
             return {...initialState};
         default:
             return state;    

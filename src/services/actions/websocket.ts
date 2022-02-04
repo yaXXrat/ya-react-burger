@@ -14,7 +14,6 @@ export type TWsConnectionStartAction = {
 }
 
 export const wsConnectionStart = (url: string): TWsConnectionStartAction => {
-    console.log('=> wsConnectionStart');
     return {
         type: WS_CONNECTION_START,
         url
