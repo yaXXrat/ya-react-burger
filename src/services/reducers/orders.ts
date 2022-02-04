@@ -24,7 +24,6 @@ const initialState: TOrdersState = {
 export const ordersReducer = (state:TOrdersState = initialState, action: TOrdersActions) => {
     switch (action.type) {
         case FETCH_ORDERS:
-            console.log(' FETCH_ORDERS ');
             return {
                 ...state
             };
@@ -38,25 +37,35 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
             const newOrders: TOrder[] = [];
 
             data.orders.forEach((order: IServerOrder) => {
-                newOrders.push({
-                    id: order.number,
-                    fullname: order.name,
-                    status: order.status,
-                    createdAt: order.createdAt,
-                    ingredientIds: order.ingredients
+                const hasOrder = state.orders.some(stateOrder => {
+                    return stateOrder.id === order.number
                 });
-            });
 
+                if (hasOrder){
+                    let stateOrder = state.orders.find(stOrder => stOrder.id === order.number)
+                    if (stateOrder && stateOrder.status !== order.status){
+                        stateOrder.status = order.status;
+                        newOrders.push(stateOrder);
+                    }
+                } else {
+                    newOrders.push({
+                        id: order.number,
+                        fullname: order.name,
+                        status: order.status,
+                        createdAt: order.createdAt,
+                        ingredientIds: order.ingredients
+                    });
+                }
+
+            });
             return {...state, orders: [...state.orders, ...newOrders], total: data.total, todayTotal: data.totalToday};
         case UPDATE_ORDERS_TOTALS:
-            return state;    
-        //     return {
-        //         ...state,
-        //         total: action.total,
-        //         todayTotal: action.todayTotal
-        // };
+             return {
+                 ...state,
+                 total: action.total,
+                 todayTotal: action.todayTotal
+         };
         case CLEAR_ORDERS:
-            console.log(' CLEAR_ORDERS ')
             return {...initialState};
         default:
             return state;    

@@ -11,7 +11,6 @@ export const socketMiddleware = (): Middleware => {
  
       if (action.type === 'WS_CONNECTION_START') {
         socket = new WebSocket(action.url);
-        console.log('WS_CONNECTION_START with ',action.url)
         if(socket){
 
           socket.onopen = () => {
@@ -29,8 +28,7 @@ export const socketMiddleware = (): Middleware => {
           };
 
           socket.onclose = event => {
-            console.log('onclose')
-  //          dispatch({ type: 'WS_CONNECTION_CLOSED', payload: event });
+          dispatch({ type: 'WS_CONNECTION_CLOSED', payload: event });
           };
         }
       }else if (action.type === 'WS_SEND_MESSAGE') {
