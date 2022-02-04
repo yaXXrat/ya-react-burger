@@ -10,12 +10,14 @@ import {
 } from '../constants/orders';
 
 type TOrdersState = {
+    isLoading: boolean,
     total: number,
     todayTotal: number,
     orders: TOrder[]
 }
 
 const initialState: TOrdersState = {
+    isLoading: false,
     total: 0,
     todayTotal: 0,
     orders: []
@@ -25,7 +27,8 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
     switch (action.type) {
         case FETCH_ORDERS:
             return {
-                ...state
+                ...state,
+                isLoading: true
             };
         case NEW_ORDERS_ARRIVE:
             const data = action.payload as {
@@ -58,12 +61,13 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
                 }
 
             });
-            return {...state, orders: [...state.orders, ...newOrders], total: data.total, todayTotal: data.totalToday};
+            return {...state, orders: [...state.orders, ...newOrders], total: data.total, todayTotal: data.totalToday, isLoading: false};
         case UPDATE_ORDERS_TOTALS:
              return {
                  ...state,
                  total: action.total,
-                 todayTotal: action.todayTotal
+                 todayTotal: action.todayTotal,
+                 isLoading: false
          };
         case CLEAR_ORDERS:
             return {...initialState};

@@ -25,7 +25,8 @@ function App() {
     const burgerIngredients  = useSelector<TIngredientsState>(store => store.burgerIngredients);
     const isWaitingIngredients = burgerIngredients.isLoading;
     const isWaitingOrder = useSelector(store => store.order.isLoading);
-    const isWaiting = isWaitingIngredients || isWaitingOrder;
+//    const isWaitingOrders = useSelector(store => store.orders.isLoading);
+    const isWaiting = isWaitingIngredients || isWaitingOrder; // || isWaitingOrders ;
 
     useEffect(() => {
         dispatch(getIngredients())
