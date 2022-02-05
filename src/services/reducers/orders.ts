@@ -81,7 +81,7 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
                 // }
 
             });
-            return {...state, orders: [...state.orders, ...newOrders], total: data.total, todayTotal: data.totalToday, isLoading: false};
+            return {...state, orders: newOrders, total: data.total, todayTotal: data.totalToday, isLoading: false};
         case CLEAR_ORDERS:
             return {...state, orders: [], total: 0, todayTotal: 0};
         default:
