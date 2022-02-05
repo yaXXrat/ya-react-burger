@@ -17,7 +17,6 @@ const FeedOrderShort = ( {data}: {data: TFeedOrder}) => {
         if(i) return i.image_mobile; else return '';
     }
 
-    const bg = "https://code.s3.yandex.net/react/code/bun-02-mobile.png";
     const date: Date = new Date(data.createdAt);
     return (
         <div className={style.nohref}><Link
