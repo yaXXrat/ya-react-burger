@@ -1,31 +1,45 @@
 import { TOrdersActions } from '../actions/orders';
+import { TIngredient } from '../types/types';
 
 import { IServerOrder, TFeedOrder } from '../types/orders';
 
 import {
-    UPDATE_ORDERS_TOTALS,    
     FETCH_ORDERS ,
     CLEAR_ORDERS,
     NEW_ORDERS_ARRIVE,
+    LOAD_INGREDIENTS,
 } from '../constants/orders';
 
 export type TOrdersState = {
     isLoading: boolean,
     total: number,
     todayTotal: number,
-    orders: TFeedOrder[]
+    orders: TFeedOrder[],
+    ingredientPrices: Map<string, number>
 }
 
 const initialState: TOrdersState = {
     isLoading: false,
     total: 0,
     todayTotal: 0,
-    orders: []
+    orders: [],
+    ingredientPrices: new Map()
 };
 
 export const ordersReducer = (state:TOrdersState = initialState, action: TOrdersActions) => {
     switch (action.type) {
-        case FETCH_ORDERS:
+        case LOAD_INGREDIENTS:
+            console.log('LOAD_INGREDIENTS');
+            let ingredientPrices: Map<string, number> = new Map();
+            let ingredients: ReadonlyArray<TIngredient> = action.ingredients;
+            ingredients.forEach((ingredient: TIngredient) => {
+                ingredientPrices.set(ingredient._id, ingredient.price);
+
+            })
+            return { ...state,
+                ingredientPrices: ingredientPrices
+            }
+       case FETCH_ORDERS:
             return {
                 ...state,
                 isLoading: true
@@ -51,26 +65,27 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
                         newOrders.push(stateOrder);
                     }
                 } else {
+                    let ingredientsIds: ReadonlyArray<string> = order.ingredients;
+                    let ingredientPrices: Map<string,number> = state.ingredientPrices;
+                    let total: number = 0;
+                    ingredientsIds.forEach((id: string) =>{
+                        let ingredientPrice: number | undefined = ingredientPrices.get(id);
+                        total += ( typeof ingredientPrice == 'undefined') ? 0 : ingredientPrice;
+                    })
                     newOrders.push({
                         id: order.number,
                         fullname: order.name,
                         status: order.status,
                         createdAt: order.createdAt,
-                        ingredientIds: order.ingredients
+                        ingredientIds: ingredientsIds,
+                        total: total
                     });
                 }
 
             });
             return {...state, orders: [...state.orders, ...newOrders], total: data.total, todayTotal: data.totalToday, isLoading: false};
-        case UPDATE_ORDERS_TOTALS:
-             return {
-                 ...state,
-                 total: action.total,
-                 todayTotal: action.todayTotal,
-                 isLoading: false
-         };
         case CLEAR_ORDERS:
-            return {...initialState};
+            return {...state, orders: [], total: 0, todayTotal: 0, isLoading: false};
         default:
             return state;    
     }

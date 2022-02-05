@@ -2,6 +2,7 @@ import { SET_ERROR_MESSAGE } from './constants/error';
 import { SERVER_API_URL, WS_API_URL } from './config';
 import { Dispatch } from 'redux';
 import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from './constants/ingredients'
+import { LOAD_INGREDIENTS } from './constants/orders';
 import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from './constants/order'
 import {TIngredientsIds} from "./types/types";
 
@@ -23,6 +24,7 @@ export function getIngredients() {
             })
             .then((results) => {
                 dispatch({type: LOAD_INGREDIENTS_SUCCESS, ingredients: results.data});
+                dispatch({type: LOAD_INGREDIENTS, ingredients: results.data});
             })
             .catch((e) => {
                 dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});

@@ -4,6 +4,7 @@ export type TFeedOrder = {
     fullname: string;
     status: STATUS;
     ingredientIds: TIngredientIds;
+    total?: number
 };
 
 export type TIngredientIds = ReadonlyArray<string>;
