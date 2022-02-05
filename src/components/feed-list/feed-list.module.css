@@ -46,6 +46,7 @@ h3{
     display: block;
     overflow: auto;
     height: 700px;
+    padding-right: 10px;
 }
 
 .group::-webkit-scrollbar {

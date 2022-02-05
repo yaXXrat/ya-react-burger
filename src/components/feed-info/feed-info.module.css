@@ -8,9 +8,7 @@
 }
 
 .main-block{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    width: 600px;
 }
 
 .bun{
@@ -18,7 +16,6 @@
 }
 
 .group{
-    max-height: 442px;
     overflow: auto;
     display: flex;
     flex-direction: column;
@@ -29,6 +26,10 @@
 
 .group div:before{
 
+}
+
+.group span{
+    text-shadow: 0 0 2px #f5f0f0, 0 0 20px #2346f1, 0 0 30px #101010;
 }
 
 .group::-webkit-scrollbar {
@@ -53,17 +54,39 @@
 
 .px40{ width: 40px}
 
-:global(.constructor-element){
-    width:488px !important;
+.container{
+    max-height: 250px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    flex-direction: column;
 }
 
-:global(.svg_large svg){
-    width:48px !important;
-    height: 48px !important;
+.container div{
+    height: 25px;
+    width: 150px;
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+}
+.container div.done{
+    color: #00cccc;
 }
 
-:global(.empty_constructor){
-    width:100%;
-    margin-top:16px;
-    text-align:center;
+.flexgroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin-bottom: 20px;
+    flex-direction: row;
+}
+
+.flexdivs{
+    width: 300px;
 }
