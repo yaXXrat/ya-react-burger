@@ -9,6 +9,7 @@ import { getIngredients } from '../../services/api';
 import DisplayError from "../display-error/display-error";
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import FeedOrderDetails from '../feed-order-details/feed-order-details';
 import OrderDetails from '../order-details/order-details';
 import DisplayWaiting from "../display-waiting/display-waiting";
 import style from "./app.module.css";
@@ -26,7 +27,7 @@ function App() {
     const isWaitingIngredients = burgerIngredients.isLoading;
     const isWaitingOrder = useSelector(store => store.order.isLoading);
 //    const isWaitingOrders = useSelector(store => store.orders.isLoading);
-    const isWaiting = isWaitingIngredients || isWaitingOrder; // || isWaitingOrders ;
+    const isWaiting = isWaitingIngredients || isWaitingOrder;// || isWaitingOrders ;
 
     useEffect(() => {
         dispatch(getIngredients())
@@ -80,14 +81,14 @@ function App() {
                     <Route path="/reset-password" >
                         <ResetPassPage />
                     </Route>
-                    <ProtectedRoute path="/profile/orders/:id" >
-                        <OrderPage />
+                    <ProtectedRoute path="/profile" >
+                        <ProfilePage />
                     </ProtectedRoute>
                     <ProtectedRoute path="/profile/orders" >
                         <ProfileOrdersPage />
                     </ProtectedRoute>
-                    <ProtectedRoute path="/profile" >
-                        <ProfilePage />
+                    <ProtectedRoute path="/profile/orders/:id" >
+                        <OrderPage />
                     </ProtectedRoute>
                     <Route path="/ingredients/:ingredientId" >
                         <div className={'mt-25'}>
@@ -105,6 +106,16 @@ function App() {
                         children={
                             <Modal onClose={handleModalClose}>
                                 <IngredientDetails />
+                            </Modal>
+                        }
+                    />
+                )}
+                {background && (
+                    <Route
+                        path='/feed/:orderId'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <FeedOrderDetails />
                             </Modal>
                         }
                     />

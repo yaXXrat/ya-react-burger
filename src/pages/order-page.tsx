@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { FC } from 'react'
+import FeedOrderDetails from '../components/feed-order-details/feed-order-details';
 
-function OrderPage() {
+const OrderPage: FC = () => {
     return (
-        <h1>OrderPage</h1>
+        <>
+            <FeedOrderDetails />
+        </>
     )
 }
 

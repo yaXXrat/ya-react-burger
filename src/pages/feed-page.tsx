@@ -6,12 +6,14 @@ import style from './shared.module.css';
 
 import FeedInfo from "../components/feed-info/feed-info";
 import FeedList from "../components/feed-list/feed-list";
+import { TOrdersState } from '../services/reducers/orders';
 
 function FeedPage() {
     const dispatch = useDispatch();
-    const orders = useSelector(state => state.orders);
+    const orders = useSelector<TOrdersState>(state => state.orders);
 
     useEffect(() => {
+        console.log('fetchAllOrders()')
         dispatch(fetchAllOrders());
       return () => { dispatch(wsClose()) }
     }, [dispatch]);

@@ -1,5 +1,6 @@
 export type TFeedOrder = {
     id: number;
+    _id: string;
     createdAt: string;
     fullname: string;
     status: STATUS;

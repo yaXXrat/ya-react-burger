@@ -29,7 +29,6 @@ const initialState: TOrdersState = {
 export const ordersReducer = (state:TOrdersState = initialState, action: TOrdersActions) => {
     switch (action.type) {
         case LOAD_INGREDIENTS:
-            console.log('LOAD_INGREDIENTS');
             let ingredientPrices: Map<string, number> = new Map();
             let ingredients: ReadonlyArray<TIngredient> = action.ingredients;
             ingredients.forEach((ingredient: TIngredient) => {
@@ -50,21 +49,19 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
                 total: number,
                 totalToday: number
             };
-
             const newOrders: TFeedOrder[] = [];
+            data.orders.slice(0,20).forEach((order: IServerOrder) => {
+//                const hasOrder = state.orders.some(stateOrder => {
+//                    return stateOrder._id === order._id
+//                });
 
-            data.orders.forEach((order: IServerOrder) => {
-                const hasOrder = state.orders.some(stateOrder => {
-                    return stateOrder.id === order.number
-                });
-
-                if (hasOrder){
-                    let stateOrder = state.orders.find(stOrder => stOrder.id === order.number)
-                    if (stateOrder && stateOrder.status !== order.status){
-                        stateOrder.status = order.status;
-                        newOrders.push(stateOrder);
-                    }
-                } else {
+//                if (hasOrder){
+                //     let stateOrder = state.orders.find(stOrder => stOrder.id === order.number)
+                //     if (stateOrder && stateOrder.status !== order.status){
+                //         stateOrder.status = order.status;
+                //         newOrders.push(stateOrder);
+                //     }
+                // } else {
                     let ingredientsIds: ReadonlyArray<string> = order.ingredients;
                     let ingredientPrices: Map<string,number> = state.ingredientPrices;
                     let total: number = 0;
@@ -74,18 +71,19 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
                     })
                     newOrders.push({
                         id: order.number,
+                        _id: order._id,
                         fullname: order.name,
                         status: order.status,
                         createdAt: order.createdAt,
                         ingredientIds: ingredientsIds,
                         total: total
                     });
-                }
+                // }
 
             });
             return {...state, orders: [...state.orders, ...newOrders], total: data.total, todayTotal: data.totalToday, isLoading: false};
         case CLEAR_ORDERS:
-            return {...state, orders: [], total: 0, todayTotal: 0, isLoading: false};
+            return {...state, orders: [], total: 0, todayTotal: 0};
         default:
             return state;    
     }

@@ -1,0 +1,11 @@
+.details{
+    width: 640px;
+    text-align: left;
+}
+
+.feed-order-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
