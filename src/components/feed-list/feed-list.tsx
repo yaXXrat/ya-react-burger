@@ -12,7 +12,7 @@ const FeedList = ( {data}: {data: TOrdersState})=> {
             <div className={classNames(style['feed-list-title'],'mt-10 mb-5 text text_type_main-large ')}>
                 Лента заказов
             </div>
-            <div className={style['feed-list-selector']}>
+            <div className={style['group']}>
 
                 { data.orders.map( (order) => (
                     <FeedOrderShort
@@ -20,8 +20,6 @@ const FeedList = ( {data}: {data: TOrdersState})=> {
                         key={order.id}
                     />
                 ))}
-            </div>
-            <div className={style['feed-list-group-container']}>
             </div>
         </div>
     )
