@@ -24,7 +24,7 @@ import { profileSuccess } from './actions/auth'
 
 import { TResult, TOptions } from './types/types'
 import { Dispatch } from 'redux';
-import { AppDispatch } from "./types";
+import {AppDispatch, AppThunk} from "./types";
 
 const refreshToken = async ( ) => {
     try{
@@ -60,7 +60,8 @@ async function fetchUserInfo() {
 
     return response;
 }
-export function getUser() {
+
+export const getUser: AppThunk = () => {
     return async function(dispatch: AppDispatch) {
         try{ 
             let response = await fetchUserInfo();
@@ -105,7 +106,7 @@ async function fetchUpdateUserInfo(name: string, email: string, password: string
     return response;
 }
 
-export function updateUser(name: string, email: string, password: string){
+export const updateUser: AppThunk = (name: string, email: string, password: string) => {
     return async function(dispatch: AppDispatch) {
         try {
             let response = await fetchUpdateUserInfo(name, email, password);
@@ -136,7 +137,7 @@ export function updateUser(name: string, email: string, password: string){
 }
 
 
-export function registerUser(name: string, email: string, password: string){
+export const registerUser: AppThunk = (name: string, email: string, password: string) => {
     return function(dispatch: Dispatch) {
         dispatch({type:REGISTER_REQUEST});
         fetch(
@@ -175,7 +176,7 @@ export function registerUser(name: string, email: string, password: string){
     };
 }
 
-export function login(email: string, password: string){
+export const login: AppThunk = (email: string, password: string) => {
     return async function(dispatch: Dispatch) {
         try {
             dispatch({type:LOGIN_REQUEST});
@@ -213,7 +214,7 @@ export function login(email: string, password: string){
     };
 }
 
-export function logout(){
+export const logout: AppThunk = () => {
     return function(dispatch: Dispatch) {
         dispatch({type:LOGOUT_REQUEST});
         fetch(
@@ -250,7 +251,7 @@ export function logout(){
     };
 }
 
-export function forgot(email: string){
+export const forgot: AppThunk = (email: string) => {
     return function(dispatch: Dispatch) {
         dispatch({type:FORGOT_PASS_REQUEST});
         fetch(
@@ -286,7 +287,7 @@ export function forgot(email: string){
     };
 }
 
-export function reset( password: string, token: string ){
+export const reset: AppThunk = ( password: string, token: string ) => {
     return function(dispatch: Dispatch) {
         dispatch({type:RESET_PASS_REQUEST});
         fetch(

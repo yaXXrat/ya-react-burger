@@ -9,12 +9,12 @@ import {TFeedOrder,IServerOrder} from "./types/orders";
 
 import { clearOrders } from './actions/orders';
 import { wsConnectionStart } from './actions/websocket';
-import { AppDispatch } from './types';
+import {AppDispatch, AppThunk} from './types';
 import { getAccessToken } from './auth';
 
 import { loadOrderFromServer, setOrderLocal } from './actions/server-order';
 
-export function getIngredients() {
+export const getIngredients: AppThunk = () => {
     return function(dispatch: Dispatch) {
         dispatch({type: LOAD_INGREDIENTS_REQUEST});
             fetch(SERVER_API_URL+'ingredients')
@@ -36,7 +36,7 @@ export function getIngredients() {
     };
 }
 
-export function createOrder(ingredientsIDs: TIngredientsIds, totalPrice: number){
+export const createOrder: AppThunk = (ingredientsIDs: TIngredientsIds, totalPrice: number) => {
     return function(dispatch: Dispatch) {
         dispatch({type:MAKE_ORDER_REQUEST});
         const options: TOptions = {
@@ -94,7 +94,7 @@ async function fetchOrderInfo(orderID: string) {
 
     return response;
 }
-export function getOrderInfo(orderId: string | undefined) {
+export const getOrderInfo: AppThunk = (orderId: string | undefined) => {
     return async function(dispatch: AppDispatch) {
         dispatch(loadOrderFromServer());
         try{
@@ -140,7 +140,7 @@ const startFetching = async (dispatch: AppDispatch, url: string) => {
     dispatch(wsConnectionStart(url));
 }
 
-export const fetchAllOrders = () => async (dispatch: AppDispatch)  => {
+export const fetchAllOrders: AppThunk = () => async (dispatch: AppDispatch)  => {
     try {
         dispatch(clearOrders());
         await startFetching(dispatch, FETCH_ALL_ORDERS_URL);
@@ -148,7 +148,7 @@ export const fetchAllOrders = () => async (dispatch: AppDispatch)  => {
     }
 }
 
-export const fetchOrdersByUser = () => async (dispatch: AppDispatch)  => {
+export const fetchOrdersByUser: AppThunk = () => async (dispatch: AppDispatch)  => {
     try {
         dispatch(clearOrders());
         let token = getAccessToken();
