@@ -64,7 +64,7 @@ function ProfilePage() {
                 <div className={'mb-6 text text_type_main-default'}><span className={`${style["menu-link"]}`} onClick={() => logoutUser()}>
                     Выход
                 </span></div>
-                <div className={'mt-10 text text_type_main-small text_color_inactive'} >В этом разделе вы можете изменить свои персональные данные</div>
+                <div className={'mt-10 text text_type_main-small text_color_inactive'} >В этом разделе вы можете <br/>изменить свои персональные данные</div>
             </div>
             <form
                 onSubmit={onSubmitUpdateForm}>

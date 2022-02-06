@@ -7,7 +7,7 @@
 .main_blocks{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .ingredient-modal{
@@ -42,14 +42,25 @@
 }
 
 .block2{
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    width: 400px;
+    width: 700px;
     height: 400px;
     margin-top: 100px;
-    margin-right: 400px;
+    padding-right: 350px;
 }
+
+.block3{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 700px;
+    height: 600px;
+    margin-top: 100px;
+}
+
 
 .main-block{
     display: flex;

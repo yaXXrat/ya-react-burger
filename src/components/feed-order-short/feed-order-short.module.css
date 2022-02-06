@@ -21,6 +21,7 @@
     position: relative;
     width: 400px;
     height: 65px;
+    margin-top:20px;
 }
 
 .feed-order-short div.ingredients div.ingredient{
@@ -68,8 +69,15 @@
 .fullname{
     text-decoration: none;
     display: block;
-    padding-bottom: 20px;
     padding-top: 20px;
+    width: 100%;
+}
+
+.status{
+    text-decoration: none;
+    display: block;
+    padding-bottom: 0px;
+    padding-top: 0px;
     width: 100%;
 }
 
@@ -79,3 +87,10 @@
     cursor: pointer;
 }
 
+.cancel{
+    color: #aa0000;
+}
+
+.done{
+    color: #00cccc;
+}

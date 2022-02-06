@@ -6,7 +6,7 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from "../../services/hooks";
 import {TIngredient} from "../../services/types/types";
 
-const FeedOrderShort = ( {data}: {data: TFeedOrder}) => {
+const FeedOrderShort = ( {data, view}: {data: TFeedOrder, view: string}) => {
     const location = useLocation();
 
     const { allIngredients } = useSelector(state => state.burgerIngredients);
@@ -18,6 +18,7 @@ const FeedOrderShort = ( {data}: {data: TFeedOrder}) => {
     }
 
     const date: Date = new Date(data.createdAt);
+
     return (
         <div className={style.nohref}><Link
             to={{
@@ -28,6 +29,10 @@ const FeedOrderShort = ( {data}: {data: TFeedOrder}) => {
                     <div className={'text text_type_digits-default'}>#{data.id.toString().padStart(5, '0')}</div>
                  <div className={'text text_type_main-small text_color_inactive'}>{date.toLocaleString().slice(0,17)}</div>
             <div className={style.fullname}>{data.fullname}</div>
+            { view && data.status === 'done' && <div className={style.status + ' text_type_main-default '+ style.done}>Выполнен</div>}
+            { view && data.status === 'created' && <div className={style.status + ' text_type_main-default'}>Создан</div>}
+            { view && data.status === 'pending' && <div className={style.status + ' text_type_main-default'}>Готовится</div>}
+            { view && data.status === 'cancelled' && <div className={style.status + ' text_type_main-default '+ style.cancel}>Отменен</div>}
             <div className={style.ingredients}>
 
                 { data.ingredientIds.map( (id, index) => (

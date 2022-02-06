@@ -20,7 +20,7 @@ function FeedPage() {
     
     return (
         <div className={style.main_blocks}>
-            <FeedList data={orders}/>
+            <FeedList data={orders} view={''}/>
             <FeedInfo data={orders}/>
         </div>
     )

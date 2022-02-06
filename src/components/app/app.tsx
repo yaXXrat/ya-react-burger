@@ -81,14 +81,14 @@ function App() {
                     <Route path="/reset-password" >
                         <ResetPassPage />
                     </Route>
-                    <ProtectedRoute path="/profile" >
-                        <ProfilePage />
+                    <ProtectedRoute path="/profile/orders/:id" >
+                        <OrderPage />
                     </ProtectedRoute>
                     <ProtectedRoute path="/profile/orders" >
                         <ProfileOrdersPage />
                     </ProtectedRoute>
-                    <ProtectedRoute path="/profile/orders/:id" >
-                        <OrderPage />
+                    <ProtectedRoute path="/profile" >
+                        <ProfilePage />
                     </ProtectedRoute>
                     <Route path="/ingredients/:ingredientId" >
                         <div className={'mt-25'}>
