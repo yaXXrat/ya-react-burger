@@ -39,16 +39,16 @@ export function getIngredients() {
 export function createOrder(ingredientsIDs: TIngredientsIds, totalPrice: number){
     return function(dispatch: Dispatch) {
         dispatch({type:MAKE_ORDER_REQUEST});
-        fetch(
-            SERVER_API_URL+'orders',
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+        const options: TOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': getAccessToken()
+            },
             body: JSON.stringify(ingredientsIDs)
-            }
+        };
+            fetch(
+            SERVER_API_URL+'orders',options
         )
         .then((res) => {
             if (res.ok) {
