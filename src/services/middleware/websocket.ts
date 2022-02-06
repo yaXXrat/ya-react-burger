@@ -2,6 +2,7 @@ import type { Middleware, MiddlewareAPI } from 'redux';
 import type { AppDispatch, RootState } from '../types';
 import type { TWebsocketActions } from '../actions/websocket';
 import { newOrdersArrive, fetchOrders } from '../actions/orders';
+import {WS_CONNECTION_START} from "../constants/websocket";
 
 export const socketMiddleware = (): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -9,7 +10,7 @@ export const socketMiddleware = (): Middleware => {
     return next => (action: TWebsocketActions) => {
       const { dispatch } = store;
  
-      if (action.type === 'WS_CONNECTION_START') {
+      if (action.type === WS_CONNECTION_START) {
         socket = new WebSocket(action.url);
         if(socket){
 

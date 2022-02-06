@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { useDispatch } from "react-redux";
+import {useDispatch} from "../../services/hooks";
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { REMOVE_ORDER_INGREDIENT } from '../../services/constants/order';

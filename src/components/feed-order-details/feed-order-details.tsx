@@ -47,15 +47,20 @@ const FeedOrderDetails = () => {
               <div className={style.ingredients}>
 
                   { currentOrder.ingredients.map( (id, index) => (
-                      <>
-                      <div className={style.over + ' text_type_main-default' }><div className={style.ingredient + ' ' + style.i1} key={index}><div><img src={findUrl(id)} alt={""}/></div></div>
-                          {ingredientsMap.get(id)?.name} </div><div className={style.iprice + ' text_type_main-default'}>{ingredientsMap.get(id)?.price.toLocaleString('ru-ru', {minimumFractionDigits: 0})}&nbsp;<CurrencyIcon type="primary" /></div>
-                      </>
+
+                      <div className={style.over + ' text_type_main-default' } key={index}>
+                          <div className={style.ingredient + ' ' + style.i1}>
+                              <div><img src={findUrl(id)} alt={""}/></div>
+                          </div>
+                          <div className={style.middle}>{ingredientsMap.get(id)?.name}</div>
+                          <div className={style.iprice + ' text_type_main-default'}>{ingredientsMap.get(id)?.price.toLocaleString('ru-ru', {minimumFractionDigits: 0})}&nbsp;<CurrencyIcon type="primary" />
+                          </div>
+                      </div>
                   ))}
 
               </div>
               <div className={'text text_type_main-small text_color_inactive'}><br/>{date.toLocaleString().slice(0,17)}</div>
-              <div className={style.fullname + 'text text_type_digits-default'}>{ingredientsMap.get("sum").toLocaleString('ru-ru', {minimumFractionDigits: 0})}&nbsp;<CurrencyIcon type="primary" /></div>
+              <div className={style.date}>{ingredientsMap.get("sum").toLocaleString('ru-ru', {minimumFractionDigits: 0})}&nbsp;<CurrencyIcon type="primary" /></div>
 
           </div>
       </div>

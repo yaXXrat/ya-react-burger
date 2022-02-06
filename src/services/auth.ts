@@ -56,7 +56,7 @@ async function fetchUserInfo() {
             'Authorization': getAccessToken()
         }
     };
-    let response = await fetch(SERVER_API_URL+'auth/user',options);
+    let response = await fetch(SERVER_API_URL+'auth/user', options);
 
     return response;
 }
