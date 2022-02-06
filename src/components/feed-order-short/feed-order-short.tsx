@@ -22,7 +22,7 @@ const FeedOrderShort = ( {data, view}: {data: TFeedOrder, view: string}) => {
     return (
         <div className={style.nohref}><Link
             to={{
-                pathname: `/feed/${data._id}`,
+                pathname: `/feed/${data.id}`,
                 state: { background: location },
             }}
         ><div className={style['feed-order-short'] + ' text_type_main-medium'}>
@@ -35,11 +35,11 @@ const FeedOrderShort = ( {data, view}: {data: TFeedOrder, view: string}) => {
             { view && data.status === 'cancelled' && <div className={style.status + ' text_type_main-default '+ style.cancel}>Отменен</div>}
             <div className={style.ingredients}>
 
-                { data.ingredientIds.map( (id, index) => (
+                { data.ingredients.map( (id, index) => (
                     index<6 &&  <div className={style.ingredient + ' ' + style['i'+(index+1).toString()]} key={index}><div><img src={findUrl(id)} alt={""}/></div></div>
                 ))}
 
-                {data.ingredientIds.length>6 && <div className={style.ingredient + ' ' + style.i7 }><div className={'text text_type_main-default '}>+{data.ingredientIds.length-5}</div></div>}
+                {data.ingredients.length>6 && <div className={style.ingredient + ' ' + style.i7 }><div className={'text text_type_main-default '}>+{data.ingredients.length-5}</div></div>}
             </div>
                 <div className={style.fullname + 'text text_type_digits-default'}>{data.total}&nbsp;<CurrencyIcon type="primary" /></div>
         </div>

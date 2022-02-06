@@ -4,12 +4,15 @@ import { Dispatch } from 'redux';
 import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from './constants/ingredients'
 import { LOAD_INGREDIENTS } from './constants/orders';
 import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from './constants/order'
-import {TIngredientsIds} from "./types/types";
+import {TIngredientsIds, TOptions} from "./types/types";
+import {TFeedOrder,IServerOrder} from "./types/orders";
 
 import { clearOrders } from './actions/orders';
 import { wsConnectionStart } from './actions/websocket';
 import { AppDispatch } from './types';
 import { getAccessToken } from './auth';
+
+import { loadOrderFromServer, setOrderLocal } from './actions/server-order';
 
 export function getIngredients() {
     return function(dispatch: Dispatch) {
@@ -78,6 +81,56 @@ export function createOrder(ingredientsIDs: TIngredientsIds, totalPrice: number)
 
         })
     };
+}
+
+async function fetchOrderInfo(orderID: string) {
+    const options: TOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    let response = await fetch(SERVER_API_URL+'orders/'+orderID,options);
+
+    return response;
+}
+export function getOrderInfo(orderId: string | undefined) {
+    return async function(dispatch: AppDispatch) {
+        dispatch(loadOrderFromServer());
+        try{
+            if(typeof orderId == 'undefined') {
+                throw new Error("Error: no orderId!");
+            }
+            let response = await fetchOrderInfo(orderId);
+            const result: any = await response.json();
+            
+            if(result.success){
+                let inOrder: IServerOrder = result.orders[0];
+                let newOrder: TFeedOrder = {
+                    id: inOrder.number,
+                    _id: inOrder._id,
+                    createdAt: inOrder.createdAt,
+                    fullname: inOrder.name,
+                    ingredients: inOrder.ingredients,
+                    status: inOrder.status,
+                    total: 0
+                }
+    
+                dispatch(setOrderLocal(newOrder));
+            } else {
+                console.log(result)
+                throw new Error("Error happened during order info fetch!");
+            }
+        }
+        catch(err) {
+            if (err instanceof Error) {
+                    dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
+            }else{
+                console.log('err ',err)
+            }
+        }
+    };
+
 }
 
 const FETCH_ALL_ORDERS_URL = `${WS_API_URL}/orders/all`;

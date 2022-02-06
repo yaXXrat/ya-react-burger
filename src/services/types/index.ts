@@ -8,8 +8,9 @@ import {TErrorActions} from "../actions/error";
 import {TIngredientActions} from "../actions/ingredient";
 import {TIngredientsActions} from "../actions/ingredients";
 import {TOrdersActions} from "../actions/orders";
+import {TLoadOrderFromServerActions} from "../actions/server-order";
 
-export type TApplicationActions = TAuthActions | TConstructorActions | TErrorActions | TIngredientActions | TIngredientsActions | TWebsocketActions | TOrdersActions;
+export type TApplicationActions = TAuthActions | TConstructorActions | TErrorActions | TIngredientActions | TIngredientsActions | TWebsocketActions | TOrdersActions | TLoadOrderFromServerActions;
 
 export type AppThunk<TReturn = void> = ActionCreator<
     ThunkAction<TReturn, Action, RootState, TApplicationActions>

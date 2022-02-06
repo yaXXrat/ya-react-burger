@@ -1,21 +1,21 @@
+import React from 'react';
 import style from "./feed-order-details.module.css"
 import classNames from 'classnames';
-import {useSelector} from "../../services/hooks";
-import { useParams } from "react-router-dom";
-import { TOrdersState } from "../../services/reducers/orders";
-import { TFeedOrder } from "../../services/types/orders";
+import {useSelector, useDispatch} from "../../services/hooks";
+import { useLocation } from "react-router-dom";
+import { getOrderInfo } from '../../services/api';
+
 
 const FeedOrderDetails = () => {
-  const { orderId } = useParams<{ orderId?: string }>();
+  const dispatch = useDispatch();
+  const { isLoaded, currentOrder  } = useSelector(store => store.serverOrder);
+  const location = useLocation();
+  const orderNumber = location.pathname.split('/')[location.pathname.split('/').length-1];
 
-  const { orders } = useSelector<TOrdersState>(state => state.orders);
-
-  let order: TFeedOrder = orders.filter(order => order._id === orderId)[0];
-
-  if (!order) {
-    return <></>
-  }
-
+  if (currentOrder._id === "" && !isLoaded) {
+    dispatch(getOrderInfo(orderNumber));
+    return null;
+  }  
   return (
       <div className={classNames(style['feed-order-block'])} >
         <div
@@ -24,10 +24,10 @@ const FeedOrderDetails = () => {
           Детали заказа
         </div>
         <div>
-          <h3 className={classNames(style['ingredient-details-image'], 'text', 'text_type_main-medium', 'pb-8')}>{order.fullname}</h3>
+          <h3 className={classNames(style['ingredient-details-image'], 'text', 'text_type_main-medium', 'pb-8')}>{currentOrder.fullname}</h3>
         </div>
       </div>
-  );
+    )
 };
 
 export default FeedOrderDetails;

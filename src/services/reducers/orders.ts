@@ -75,7 +75,7 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
                         fullname: order.name,
                         status: order.status,
                         createdAt: order.createdAt,
-                        ingredientIds: ingredientsIds,
+                        ingredients: ingredientsIds,
                         total: total
                     });
                 // }

@@ -4,7 +4,7 @@ export type TFeedOrder = {
     createdAt: string;
     fullname: string;
     status: STATUS;
-    ingredientIds: TIngredientIds;
+    ingredients: TIngredientIds;
     total?: number
 };
 
