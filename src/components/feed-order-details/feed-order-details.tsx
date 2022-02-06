@@ -26,8 +26,6 @@ const FeedOrderDetails = () => {
     const ingredientsMap = new Map();
     ingredientsMap.set('sum', 0 );
 
-    console.log(currentOrder);
-
     allIngredientsArray.map( (ingredient) => {
         ingredientsMap.set(ingredient._id, ingredient);
         if(currentOrder.ingredients.find(item => item === ingredient._id))ingredientsMap.set('sum', ingredientsMap.get("sum") + ingredient.price);
