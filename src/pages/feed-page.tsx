@@ -13,7 +13,6 @@ function FeedPage() {
     const orders = useSelector<TOrdersState>(state => state.orders);
 
     useEffect(() => {
-        console.log('fetchAllOrders()')
         dispatch(fetchAllOrders());
       return () => { dispatch(wsClose()) }
     }, [dispatch]);

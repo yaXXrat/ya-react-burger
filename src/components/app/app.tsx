@@ -69,7 +69,9 @@ function App() {
                         </div>
                     </Route>
                     <Route path="/feed/:orderId" >
-                        <OrderPage />
+                        <div className={'mt-25'}>
+                            <OrderPage />
+                        </div>
                     </Route>
                     <Route path="/feed" >
                         <FeedPage />
