@@ -63,7 +63,12 @@ function App() {
             <>
                 <AppHeader />
                 <Switch location={background || location}>
-                    <Route path="/feed/:id" >
+                    <Route path="/ingredients/:ingredientId" >
+                        <div className={'mt-25'}>
+                            <IngredientDetails />
+                        </div>
+                    </Route>
+                    <Route path="/feed/:orderId" >
                         <OrderPage />
                     </Route>
                     <Route path="/feed" >
@@ -90,11 +95,6 @@ function App() {
                     <ProtectedRoute path="/profile" >
                         <ProfilePage />
                     </ProtectedRoute>
-                    <Route path="/ingredients/:ingredientId" >
-                        <div className={'mt-25'}>
-                            <IngredientDetails />
-                        </div>
-                    </Route>
                     <Route path="/" >
                         <MainPage />
                     </Route>

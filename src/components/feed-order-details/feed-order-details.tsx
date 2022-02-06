@@ -2,18 +2,17 @@ import React from 'react';
 import style from "./feed-order-details.module.css"
 import classNames from 'classnames';
 import {useSelector, useDispatch} from "../../services/hooks";
-import { useLocation } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import { getOrderInfo } from '../../services/api';
 
-
 const FeedOrderDetails = () => {
-  const dispatch = useDispatch();
-  const { isLoaded, currentOrder  } = useSelector(store => store.serverOrder);
-  const location = useLocation();
-  const orderNumber = location.pathname.split('/')[location.pathname.split('/').length-1];
+    const { orderId } = useParams<{ orderId?: string }>();
+    console.log(orderId);
+    const dispatch = useDispatch();
+    const { isLoaded, currentOrder  } = useSelector(store => store.serverOrder);
 
-  if (currentOrder._id === "" && !isLoaded) {
-    dispatch(getOrderInfo(orderNumber));
+    if (currentOrder._id === "" && !isLoaded) {
+    dispatch(getOrderInfo(orderId));
     return null;
   }  
   return (
