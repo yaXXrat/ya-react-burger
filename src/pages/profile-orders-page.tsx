@@ -7,6 +7,8 @@ import style from "./shared.module.css";
 import {logout} from "../services/auth";
 import FeedList from "../components/feed-list/feed-list";
 import {TOrdersState} from "../services/reducers/orders";
+import {fetchOrdersByUser} from "../services/api";
+import {wsClose} from "../services/actions/websocket";
 
 function ProfileOrdersPage() {
 
@@ -14,6 +16,12 @@ function ProfileOrdersPage() {
     const { isLogged } = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const orders = useSelector<TOrdersState>(state => state.orders);
+
+    useEffect(() => {
+        dispatch(fetchOrdersByUser());
+        return () => { dispatch(wsClose()) }
+    }, [dispatch]);
+
 
     const logoutUser = () => {
         dispatch(logout());
