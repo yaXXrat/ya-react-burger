@@ -4,13 +4,12 @@ import type { TWebsocketActions } from '../actions/websocket';
 import {
     WS_CLOSE,
     WS_CONNECTION_CLOSED,
-    WS_CONNECTION_ERROR,
     WS_CONNECTION_START,
     WS_SEND_MESSAGE
 } from "../constants/websocket";
 import { TWsActions, } from '../types';
 
-export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middleware => {
+export const socketMiddleware = (wsActions: TWsActions): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
     return next => (action: TWebsocketActions) => {
@@ -18,21 +17,21 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middlewa
       const { onOpen, onMessage, onError } = wsActions;
 
       if (action.type === WS_CONNECTION_START) {
-        socket = new WebSocket(wsUrl);
+        socket = new WebSocket(action.url);
         if(socket){
 
           socket.onopen = () => {
-            dispatch(onOpen());
+            dispatch({type: onOpen});
           };
 
           socket.onerror = event => {
-            dispatch(onError(event));
+            dispatch({ type: onError, payload: event});
           };
     
           socket.onmessage = event => {
             const { data } = event;
             const parsedData = JSON.parse(data);
-            dispatch(onMessage(parsedData));
+            dispatch({type: onMessage, payload: parsedData});
           };
 
           socket.onclose = event => {

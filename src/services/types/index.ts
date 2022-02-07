@@ -10,13 +10,13 @@ import {TIngredientsActions} from "../actions/ingredients";
 import {TOrdersActions} from "../actions/orders";
 import {TLoadOrderFromServerActions} from "../actions/server-order";
 
-import { fetchOrders, newOrdersArrive } from "../actions/orders"
-import { wsConnectionError } from "../actions/websocket"
+import { FETCH_ORDERS, NEW_ORDERS_ARRIVE } from "../constants/orders";
+import { WS_CONNECTION_ERROR } from "../constants/websocket";
 
 export type TWsActions = {
-  readonly onOpen: typeof fetchOrders,
-  readonly onMessage: typeof newOrdersArrive,
-  readonly onError: typeof wsConnectionError
+  readonly onOpen: typeof FETCH_ORDERS,
+  readonly onMessage: typeof NEW_ORDERS_ARRIVE,
+  readonly onError: typeof WS_CONNECTION_ERROR
 }
 
 export type TApplicationActions = TAuthActions | TConstructorActions | TErrorActions | TIngredientActions | TIngredientsActions | TWebsocketActions | TOrdersActions | TLoadOrderFromServerActions;
