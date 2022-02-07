@@ -1,9 +1,7 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import {useDispatch, useSelector} from "../services/hooks";
 import {Input, Button, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-    Link, useHistory
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import style from "./shared.module.css";
 import {updateUser, logout, getUser} from "../services/auth";
 
@@ -14,13 +12,6 @@ function ProfilePage() {
     const [userEmail, setUserEmail] = useState<string>(email);
     const [userName, setUserName] = useState<string>(name);
     const [userEdited, setUserEdited] = useState<boolean>(false);
-
-    const history = useHistory();
-    const { isLogged } = useSelector(store => store.auth);
-
-    useEffect( () => {
-        if(!isLogged) history.push("/login");
-    }, [isLogged, history]);
 
     useEffect(() => {
         if(name === userName && userPassword === '' && email === userEmail)

@@ -16,11 +16,12 @@ const LoginPage: FC = () => {
     const dest = history?.location?.state?.from || "/";
 
     useEffect(() => {
-        if(isLogged) {
-            history.push(dest);
-        }
+         if(isLogged) {
+             history.push(dest);
+         }
     }, [isLogged, history, dest]);
-  
+    console.log('isLogged ',isLogged)
+
     const dispatch = useDispatch();
     const onSubmitLoginForm = async (e: FormEvent) => {
         e.preventDefault();

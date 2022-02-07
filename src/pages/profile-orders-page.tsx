@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import {useDispatch, useSelector} from "../services/hooks";
-import {
-    Link, useHistory
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import style from "./shared.module.css";
 import {logout} from "../services/auth";
 import FeedList from "../components/feed-list/feed-list";
@@ -12,8 +10,6 @@ import {wsClose} from "../services/actions/websocket";
 
 function ProfileOrdersPage() {
 
-    const history = useHistory();
-    const { isLogged } = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const orders = useSelector<TOrdersState>(state => state.orders);
 
@@ -26,11 +22,6 @@ function ProfileOrdersPage() {
     const logoutUser = () => {
         dispatch(logout());
     }
-
-
-    useEffect( () => {
-        if(!isLogged) history.push("/login");
-    }, [isLogged, history]);
 
 
     return (
