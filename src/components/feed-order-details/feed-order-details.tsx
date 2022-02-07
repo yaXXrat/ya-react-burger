@@ -9,7 +9,6 @@ import {TIngredient} from "../../services/types/types";
 
 const FeedOrderDetails = () => {
     const {orderId} = useParams<{ orderId?: string }>();
-    console.log(orderId);
     const dispatch = useDispatch();
     const {currentOrder} = useSelector(store => store.serverOrder);
 

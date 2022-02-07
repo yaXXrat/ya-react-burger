@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "../../services/hooks";
 
-import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage, FeedPage, OrderPage } from '../../pages';
+import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage, FeedPage} from '../../pages';
 import ProtectedRoute from '../protected-route';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/api';
@@ -73,9 +73,14 @@ function App() {
                             <IngredientDetails />
                         </div>
                     </Route>
+                    <Route path="/profile/orders/:orderId" >
+                        <div className={'mt-25'}>
+                            <FeedOrderDetails />
+                        </div>
+                    </Route>
                     <Route path="/feed/:orderId" >
                         <div className={'mt-25'}>
-                            <OrderPage />
+                            <FeedOrderDetails />
                         </div>
                     </Route>
                     <Route path="/feed" >
@@ -92,9 +97,6 @@ function App() {
                     </Route>
                     <Route path="/reset-password" >
                         <ResetPassPage />
-                    </Route>
-                    <Route path="/profile/orders/:orderId" >
-                        <OrderPage />
                     </Route>
                     <ProtectedRoute path="/profile/orders" >
                         <ProfileOrdersPage />

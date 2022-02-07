@@ -22,7 +22,7 @@ const FeedOrderShort = ({data, view}: { data: TFeedOrder, view: string }) => {
     return (
         <div className={style.nohref}><Link
             to={{
-                pathname: view ? `/profile/orders/${data.id}` : `/feed/${data.id}`,
+                pathname: `/feed/${data.id}`,
                 state: {background: location},
             }}
         >
