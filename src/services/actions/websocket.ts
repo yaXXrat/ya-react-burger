@@ -9,14 +9,12 @@ import {
 } from '../constants/websocket';
 
 export type TWsConnectionStartAction = {
-    readonly type: typeof WS_CONNECTION_START,
-    url: string
+    readonly type: typeof WS_CONNECTION_START
 }
 
 export const wsConnectionStart = (url: string): TWsConnectionStartAction => {
     return {
-        type: WS_CONNECTION_START,
-        url
+        type: WS_CONNECTION_START
     };
 };
 

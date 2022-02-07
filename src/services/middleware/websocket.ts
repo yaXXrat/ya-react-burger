@@ -1,7 +1,6 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
 import type { AppDispatch, RootState } from '../types';
 import type { TWebsocketActions } from '../actions/websocket';
-import { newOrdersArrive, fetchOrders } from '../actions/orders';
 import {
     WS_CLOSE,
     WS_CONNECTION_CLOSED,
@@ -9,29 +8,31 @@ import {
     WS_CONNECTION_START,
     WS_SEND_MESSAGE
 } from "../constants/websocket";
+import { TWsActions, } from '../types';
 
-export const socketMiddleware = (): Middleware => {
+export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
     return next => (action: TWebsocketActions) => {
       const { dispatch } = store;
- 
+      const { onOpen, onMessage, onError } = wsActions;
+
       if (action.type === WS_CONNECTION_START) {
-        socket = new WebSocket(action.url);
+        socket = new WebSocket(wsUrl);
         if(socket){
 
           socket.onopen = () => {
-            dispatch(fetchOrders());
+            dispatch(onOpen());
           };
 
           socket.onerror = event => {
-            dispatch({ type: WS_CONNECTION_ERROR, payload: event });
+            dispatch(onError(event));
           };
     
           socket.onmessage = event => {
             const { data } = event;
             const parsedData = JSON.parse(data);
-            dispatch(newOrdersArrive(parsedData));
+            dispatch(onMessage(parsedData));
           };
 
           socket.onclose = event => {
