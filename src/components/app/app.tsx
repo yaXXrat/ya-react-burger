@@ -6,6 +6,8 @@ import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPa
 import ProtectedRoute from '../protected-route';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/api';
+import { getUser, getRefreshToken } from '../../services/auth';
+
 import DisplayError from "../display-error/display-error";
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -20,7 +22,7 @@ import {TIngredientsState} from "../../services/reducers/ingredients";
 
 function App() {
     const dispatch = useDispatch();
-
+    const loggedIn = !!getRefreshToken();
     const errorMessage = useSelector(store => store.errorInfo.errorMessage);
     const orderCreated = useSelector(store => store.order.orderCreated);
     const burgerIngredients  = useSelector<TIngredientsState>(store => store.burgerIngredients);
@@ -30,8 +32,11 @@ function App() {
     const isWaiting = isWaitingIngredients || isWaitingOrder;// || isWaitingOrders ;
 
     useEffect(() => {
-        dispatch(getIngredients())
-    }, [dispatch]);
+        dispatch(getIngredients());
+        if(loggedIn){
+            dispatch(getUser());
+        }
+    }, [dispatch, loggedIn]);
 
     const hideDisplayError = () => {
         dispatch({type: RESET_ERROR_MESSAGE});

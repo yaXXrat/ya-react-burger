@@ -58,7 +58,8 @@ export const AuthReducer = (state = initialState, action: TAuthActions) => {
                 user: {
                     name: action.data.user.name,
                     email: action.data.user.email
-                }
+                },
+                isLogged: true
             };
         case LOGOUT_SUCCESS:
             return {
