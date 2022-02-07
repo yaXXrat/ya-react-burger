@@ -1,4 +1,4 @@
-.details{
+.details {
     width: 640px;
     text-align: left;
 }
@@ -23,18 +23,18 @@
     justify-content: space-between;
 }
 
-.feed-order-short div{
+.feed-order-short div {
     display: flex;
     align-content: flex-start;
     align-items: center;
 }
 
-div.ingredients{
+div.ingredients {
     display: block;
     width: 100%;
     height: 400px;
     overflow: auto;
-    margin-top:20px;
+    margin-top: 20px;
 }
 
 div.over {
@@ -43,24 +43,24 @@ div.over {
     align-items: center;
 }
 
-div.over div.middle{
+div.over div.middle {
     width: 440px;
     text-align: left;
 }
 
-div.over .iprice{
+div.over .iprice {
     width: 90px;
     justify-content: flex-end;
     margin-right: 5px;
     text-align: right;
 }
 
-.date{
+.date {
     display: block;
     padding-right: 20px;
 }
 
-div.ingredient{
+div.ingredient {
     width: 64px;
     height: 64px;
     display: inline-block;
@@ -69,7 +69,7 @@ div.ingredient{
     text-align: center;
     line-height: 64px;
     vertical-align: middle;
-    top:0;
+    top: 0;
     background-image: linear-gradient(#1d1526, #1d1526), radial-gradient(circle at left, #8a26e5, #5742f0);
     background-origin: border-box;
     background-clip: content-box, border-box;
@@ -79,20 +79,21 @@ div.ingredient{
     margin-top: 5px;
 }
 
-.i1{ }
+.i1 {
+}
 
-.ingredient div{
+.ingredient div {
     margin: 0 auto;
 }
 
-.ingredient div img{
+.ingredient div img {
     display: block;
     margin-left: -27px;
     width: 120px;
 }
 
 
-.sum{
+.sum {
     margin-top: 40px;
     padding-right: 20px;
     display: flex;
@@ -100,7 +101,7 @@ div.ingredient{
     align-items: center;
 }
 
-.fullname{
+.fullname {
     text-decoration: none;
     display: block;
     text-align: left;
@@ -108,7 +109,7 @@ div.ingredient{
     width: 100%;
 }
 
-.status{
+.status {
     text-decoration: none;
     display: block;
     padding-bottom: 0;
@@ -122,22 +123,23 @@ div.ingredient{
     cursor: pointer;
 }
 
-.cancel{
+.cancel {
     color: #aa0000;
 }
 
-.done{
+.done {
     color: #00cccc;
 }
-
 
 
 .ingredients::-webkit-scrollbar {
     width: 12px;
 }
+
 .ingredientsr::-webkit-scrollbar-track {
     background: #1c1c21;
 }
+
 .ingredients::-webkit-scrollbar-thumb {
     background: #8585AD;
     border: 0 solid #1c1c21;

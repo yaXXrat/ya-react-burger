@@ -93,9 +93,9 @@ function App() {
                     <Route path="/reset-password" >
                         <ResetPassPage />
                     </Route>
-                    <ProtectedRoute path="/profile/orders/:id" >
+                    <Route path="/profile/orders/:orderId" >
                         <OrderPage />
-                    </ProtectedRoute>
+                    </Route>
                     <ProtectedRoute path="/profile/orders" >
                         <ProfileOrdersPage />
                     </ProtectedRoute>
@@ -120,6 +120,16 @@ function App() {
                 {background && (
                     <Route
                         path='/feed/:orderId'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <FeedOrderDetails />
+                            </Modal>
+                        }
+                    />
+                )}
+                {background && (
+                    <Route
+                        path='/profile/orders/:orderId'
                         children={
                             <Modal onClose={handleModalClose}>
                                 <FeedOrderDetails />
