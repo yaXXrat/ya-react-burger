@@ -1,12 +1,12 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import {useDispatch, useSelector} from "../services/hooks";
 import {Input, Button, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import style from "./shared.module.css";
 import {updateUser, logout, getUser} from "../services/auth";
 
 function ProfilePage() {
-
+    const history = useHistory();
     const { name, email} = useSelector(store => store.auth.user);
     const [userPassword, setUserPassword] = useState<string>('');
     const [userEmail, setUserEmail] = useState<string>(email);
@@ -35,6 +35,7 @@ function ProfilePage() {
 
     const logoutUser = () => {
         dispatch(logout());
+        history.push('/');
     }
 
     const onSubmitUpdateForm = (e: FormEvent) => {

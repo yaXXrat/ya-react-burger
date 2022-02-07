@@ -20,7 +20,6 @@ const LoginPage: FC = () => {
              history.push(dest);
          }
     }, [isLogged, history, dest]);
-    console.log('isLogged ',isLogged)
 
     const dispatch = useDispatch();
     const onSubmitLoginForm = async (e: FormEvent) => {
