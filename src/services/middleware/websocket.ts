@@ -1,12 +1,6 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
 import type { AppDispatch, RootState } from '../types';
 import type { TWebsocketActions } from '../actions/websocket';
-import {
-    WS_CLOSE,
-    WS_CONNECTION_CLOSED,
-    WS_CONNECTION_START,
-    WS_SEND_MESSAGE
-} from "../constants/websocket";
 import { TWsActions, } from '../types';
 
 export const socketMiddleware = (wsActions: TWsActions): Middleware => {
@@ -14,9 +8,9 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
         let socket: WebSocket | null = null;
     return next => (action: TWebsocketActions) => {
       const { dispatch } = store;
-      const { onOpen, onMessage, onError } = wsActions;
+      const { onInit, onOpen, onMessage, onError, onClose, onClosed, onSend } = wsActions;
 
-      if (action.type === WS_CONNECTION_START) {
+      if (action.type === onInit) {
         socket = new WebSocket(action.url);
         if(socket){
 
@@ -35,15 +29,15 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
           };
 
           socket.onclose = event => {
-          dispatch({ type: WS_CONNECTION_CLOSED, payload: event });
+            dispatch({ type: onClosed, payload: event });
           };
         }
-      }else if (action.type === WS_SEND_MESSAGE) {
+      }else if (action.type === onSend) {
           if (socket) {
             const message = action.payload;
             socket.send(JSON.stringify(message));
           }
-      } else if (action.type === WS_CLOSE ) {
+      } else if (action.type === onClose ) {
           if (socket){
               socket.close();
             }

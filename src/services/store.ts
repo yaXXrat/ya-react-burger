@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { TWsActions } from './types';
 
 import { FETCH_ORDERS, NEW_ORDERS_ARRIVE } from './constants/orders';
-import { WS_CONNECTION_ERROR } from './constants/websocket';
+import { WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CLOSE, WS_CONNECTION_CLOSED, WS_SEND_MESSAGE } from './constants/websocket';
 
 
 declare global {
@@ -15,10 +15,14 @@ declare global {
     }
 }
 const wsActions: TWsActions = {
+    onInit: WS_CONNECTION_START,
     onOpen: FETCH_ORDERS,
     onMessage: NEW_ORDERS_ARRIVE,
-    onError: WS_CONNECTION_ERROR
-}
+    onError: WS_CONNECTION_ERROR,
+    onClose: WS_CLOSE,
+    onClosed: WS_CONNECTION_CLOSED,
+    onSend: WS_SEND_MESSAGE
+  }
     
 const webSocketMiddleware = socketMiddleware(wsActions);
 
