@@ -1,26 +1,17 @@
 import React, { useState, useEffect, FormEvent } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from "../services/hooks";
 import {Input, Button, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-    Link, useHistory
-} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import style from "./shared.module.css";
 import {updateUser, logout, getUser} from "../services/auth";
 
 function ProfilePage() {
-
-    const { name, email} = useSelector((store: any) => store.auth.user);
+    const history = useHistory();
+    const { name, email} = useSelector(store => store.auth.user);
     const [userPassword, setUserPassword] = useState<string>('');
     const [userEmail, setUserEmail] = useState<string>(email);
     const [userName, setUserName] = useState<string>(name);
     const [userEdited, setUserEdited] = useState<boolean>(false);
-
-    const history = useHistory();
-    const { isLogged } = useSelector((store: any) => store.auth);
-
-    useEffect( () => {
-        if(!isLogged) history.push("/login");
-    }, [isLogged, history]);
 
     useEffect(() => {
         if(name === userName && userPassword === '' && email === userEmail)
@@ -44,6 +35,7 @@ function ProfilePage() {
 
     const logoutUser = () => {
         dispatch(logout());
+        history.push('/');
     }
 
     const onSubmitUpdateForm = (e: FormEvent) => {
@@ -64,7 +56,7 @@ function ProfilePage() {
                 <div className={'mb-6 text text_type_main-default'}><span className={`${style["menu-link"]}`} onClick={() => logoutUser()}>
                     Выход
                 </span></div>
-                <div className={'mt-10 text text_type_main-small text_color_inactive'} >В этом разделе вы можете изменить свои персональные данные</div>
+                <div className={'mt-10 text text_type_main-small text_color_inactive'} >В этом разделе вы можете <br/>изменить свои персональные данные</div>
             </div>
             <form
                 onSubmit={onSubmitUpdateForm}>

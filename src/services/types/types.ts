@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import {TIconProps} from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils";
 
 export type TMenuItem = {
     itemDest: string,
@@ -10,7 +11,7 @@ export type TIngredient = {
     name: string,
     price: number,
     image: string,
-    _id: number,
+    _id: string,
     type?: string,
     image_mobile: string,
     image_large?: string,
@@ -44,15 +45,17 @@ export type TBurgerBun = {
 export type TBurgerConstructorItem = {
     ingredient: TIngredient,
     id: number,
-    index: number
-    moveCard: (arg0: any, arg1: any) => void,
+    index: number,
 }
+
+export type TBurgerConstructorItemProps = TBurgerConstructorItem & {moveCard: (arg0: number, arg1: number) => void};
 
 export type TResult = {
     success: boolean;
     accessToken?: string;
     refreshToken?: string;
     message?: string;
+    user: TUser;
   };
 
 export type TOptions = {
@@ -86,5 +89,22 @@ export type TOrder = {
 }
 
 export type TIngredientsIds = {
-    ingredients: any;
+    ingredients: string[];
 }
+
+export type TUser = {
+    name: string,
+    email: string
+}
+export type TUserData = {
+    user: TUser,
+}
+export type TAuthUserData = {
+    user: TUser,
+    accessToken: string,
+    refreshToken: string,
+}
+
+export type TFeedData = { isLoading: boolean; orders: TOrder[]; total: number; todayTotal: number; };
+
+export type TFeedOrderData = { _id: string; ingredients: string[]; status: string; name: string; createdAt: string; updatedAt: string; number: number; };

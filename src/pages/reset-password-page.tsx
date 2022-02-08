@@ -1,12 +1,12 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import { reset } from '../services/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from "../services/hooks";
 import {Input, Button, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {
     Link, useHistory
 } from "react-router-dom";
 import style from "./shared.module.css";
-import {CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS} from "../services/actions/auth";
+import {CLEAR_FORGOT_PASS_SUCCESS, CLEAR_RESET_PASS_SUCCESS} from "../services/constants/auth";
 
 function ResetPassPage() {
     const history = useHistory();
@@ -14,7 +14,7 @@ function ResetPassPage() {
     const [userPassword, setUserPassword] = useState<string>('');
     const [userToken, setUserToken] = useState<string>('');
 
-    const { isLogged, user, resetSuccess, forgotSuccess } = useSelector((store: any) => store.auth);
+    const { isLogged, user, resetSuccess, forgotSuccess } = useSelector(store => store.auth);
 
     const dispatch = useDispatch();
 

@@ -1,34 +1,42 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RESET_ERROR_MESSAGE } from '../../services/actions/error'
-import { ERASE_ORDER } from '../../services/actions/order';
-import { ERASE_INGREDIENTS_ORDER } from '../../services/actions/constructor';
+import {useDispatch, useSelector} from "../../services/hooks";
 
-
-import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage } from '../../pages';
+import { MainPage, LoginPage, ForgotPassPage, ProfilePage, RegisterPage, ResetPassPage, ProfileOrdersPage, FeedPage} from '../../pages';
 import ProtectedRoute from '../protected-route';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/api';
+import { getUser, getRefreshToken } from '../../services/auth';
+
 import DisplayError from "../display-error/display-error";
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import FeedOrderDetails from '../feed-order-details/feed-order-details';
 import OrderDetails from '../order-details/order-details';
 import DisplayWaiting from "../display-waiting/display-waiting";
 import style from "./app.module.css";
+import {RESET_ERROR_MESSAGE} from "../../services/constants/error";
+import {ERASE_ORDER} from "../../services/constants/order";
+import {ERASE_INGREDIENTS_ORDER} from "../../services/constants/constructor";
+import {TIngredientsState} from "../../services/reducers/ingredients";
 
 function App() {
     const dispatch = useDispatch();
-
-    const errorMessage = useSelector<any>(store => store.errorInfo.errorMessage);
-    const orderCreated = useSelector<any>(store => store.order.orderCreated);
-    const isWaitingIngredients  = useSelector<any>(store => store.burgerIngredients.isLoading);
-    const isWaitingOrder = useSelector<any>(store => store.order.isLoading);
-    const isWaiting = isWaitingIngredients || isWaitingOrder;
+    const loggedIn = !!getRefreshToken();
+    const errorMessage = useSelector(store => store.errorInfo.errorMessage);
+    const orderCreated = useSelector(store => store.order.orderCreated);
+    const burgerIngredients  = useSelector<TIngredientsState>(store => store.burgerIngredients);
+    const isWaitingIngredients = burgerIngredients.isLoading;
+    const isWaitingOrder = useSelector(store => store.order.isLoading);
+//    const isWaitingOrders = useSelector(store => store.orders.isLoading);
+    const isWaiting = isWaitingIngredients || isWaitingOrder;// || isWaitingOrders ;
 
     useEffect(() => {
-        dispatch(getIngredients())
-    }, [dispatch]);
+        dispatch(getIngredients());
+        if(loggedIn){
+            dispatch(getUser());
+        }
+    }, [dispatch, loggedIn]);
 
     const hideDisplayError = () => {
         dispatch({type: RESET_ERROR_MESSAGE});
@@ -39,10 +47,17 @@ function App() {
         dispatch({type: ERASE_INGREDIENTS_ORDER});
     };
 
+    interface LocationParams {
+        pathname: string;
+        state: {background: boolean};
+        search: string;
+        hash: string;
+        key: string;
+    }
 
     const ModalSwitch = () => {
-        const location = useLocation();
-        const state = location.state as any;
+        const location = useLocation() as LocationParams;
+        const state = location.state;
         const history = useHistory();
         let background = state && state.background;
         const handleModalClose = () => {
@@ -53,6 +68,24 @@ function App() {
             <>
                 <AppHeader />
                 <Switch location={background || location}>
+                    <Route path="/ingredients/:ingredientId" >
+                        <div className={'mt-25'}>
+                            <IngredientDetails />
+                        </div>
+                    </Route>
+                    <Route path="/profile/orders/:orderId" >
+                        <div className={'mt-25'}>
+                            <FeedOrderDetails />
+                        </div>
+                    </Route>
+                    <Route path="/feed/:orderId" >
+                        <div className={'mt-25'}>
+                            <FeedOrderDetails />
+                        </div>
+                    </Route>
+                    <Route path="/feed" >
+                        <FeedPage />
+                    </Route>
                     <Route path="/login" >
                         <LoginPage />
                     </Route>
@@ -65,17 +98,12 @@ function App() {
                     <Route path="/reset-password" >
                         <ResetPassPage />
                     </Route>
-                    <ProtectedRoute path="/profile" >
-                        <ProfilePage />
-                    </ProtectedRoute>
                     <ProtectedRoute path="/profile/orders" >
                         <ProfileOrdersPage />
                     </ProtectedRoute>
-                    <Route path="/ingredients/:ingredientId" >
-                        <div className={'mt-25'}>
-                            <IngredientDetails />
-                        </div>
-                    </Route>
+                    <ProtectedRoute path="/profile" >
+                        <ProfilePage />
+                    </ProtectedRoute>
                     <Route path="/" >
                         <MainPage />
                     </Route>
@@ -87,6 +115,26 @@ function App() {
                         children={
                             <Modal onClose={handleModalClose}>
                                 <IngredientDetails />
+                            </Modal>
+                        }
+                    />
+                )}
+                {background && (
+                    <Route
+                        path='/feed/:orderId'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <FeedOrderDetails />
+                            </Modal>
+                        }
+                    />
+                )}
+                {background && (
+                    <Route
+                        path='/profile/orders/:orderId'
+                        children={
+                            <Modal onClose={handleModalClose}>
+                                <FeedOrderDetails />
                             </Modal>
                         }
                     />

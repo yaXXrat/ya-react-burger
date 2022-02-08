@@ -1,11 +1,20 @@
-import { SET_ERROR_MESSAGE } from './actions/error';
-import { SERVER_API_URL } from './config';
+import { SET_ERROR_MESSAGE } from './constants/error';
+import { SERVER_API_URL, WS_API_URL } from './config';
 import { Dispatch } from 'redux';
-import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from './actions/ingredients'
-import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from './actions/order'
-import {TIngredientsIds} from "../utils/types";
+import { LOAD_INGREDIENTS_REQUEST, LOAD_INGREDIENTS_SUCCESS, LOAD_INGREDIENTS_ERROR } from './constants/ingredients'
+import { LOAD_INGREDIENTS } from './constants/orders';
+import { MAKE_ORDER_REQUEST, MAKE_ORDER_SUCCESS, MAKE_ORDER_ERROR, ERASE_ORDER } from './constants/order'
+import {TIngredientsIds, TOptions} from "./types/types";
+import {TFeedOrder,IServerOrder} from "./types/orders";
 
-export function getIngredients() {
+import { clearOrders } from './actions/orders';
+import { wsConnectionStart } from './actions/websocket';
+import {AppDispatch, AppThunk} from './types';
+import { getAccessToken } from './auth';
+
+import { loadOrderFromServer, setOrderLocal } from './actions/server-order';
+
+export const getIngredients: AppThunk = () => {
     return function(dispatch: Dispatch) {
         dispatch({type: LOAD_INGREDIENTS_REQUEST});
             fetch(SERVER_API_URL+'ingredients')
@@ -18,6 +27,7 @@ export function getIngredients() {
             })
             .then((results) => {
                 dispatch({type: LOAD_INGREDIENTS_SUCCESS, ingredients: results.data});
+                dispatch({type: LOAD_INGREDIENTS, ingredients: results.data});
             })
             .catch((e) => {
                 dispatch({type: SET_ERROR_MESSAGE, errorMessage: e.name + ': ' + e.message});
@@ -26,19 +36,19 @@ export function getIngredients() {
     };
 }
 
-export function createOrder(ingredientsIDs: TIngredientsIds, totalPrice: number){
+export const createOrder: AppThunk = (ingredientsIDs: TIngredientsIds, totalPrice: number) => {
     return function(dispatch: Dispatch) {
         dispatch({type:MAKE_ORDER_REQUEST});
-        fetch(
-            SERVER_API_URL+'orders',
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+        const options: TOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': getAccessToken()
+            },
             body: JSON.stringify(ingredientsIDs)
-            }
+        };
+            fetch(
+            SERVER_API_URL+'orders',options
         )
         .then((res) => {
             if (res.ok) {
@@ -71,4 +81,83 @@ export function createOrder(ingredientsIDs: TIngredientsIds, totalPrice: number)
 
         })
     };
+}
+
+async function fetchOrderInfo(orderID: string) {
+    const options: TOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    let response = await fetch(SERVER_API_URL+'orders/'+orderID,options);
+
+    return response;
+}
+export const getOrderInfo: AppThunk = (orderId: string | undefined) => {
+    return async function(dispatch: AppDispatch) {
+        dispatch(loadOrderFromServer());
+        try{
+            if(typeof orderId == 'undefined') {
+                throw new Error("Error: no orderId!");
+            }
+            let response = await fetchOrderInfo(orderId);
+            const result: any = await response.json();
+            
+            if(result.success){
+                let inOrder: IServerOrder = result.orders[0];
+                let newOrder: TFeedOrder = {
+                    id: inOrder.number,
+                    _id: inOrder._id,
+                    createdAt: inOrder.createdAt,
+                    fullname: inOrder.name,
+                    ingredients: inOrder.ingredients,
+                    status: inOrder.status,
+                    total: 0
+                }
+    
+                dispatch(setOrderLocal(newOrder));
+            } else {
+                console.log(result)
+                throw new Error("Error happened during order info fetch!");
+            }
+        }
+        catch(err) {
+            if (err instanceof Error) {
+                    dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
+            }else{
+                console.log('err ',err)
+            }
+        }
+    };
+
+}
+
+const FETCH_ALL_ORDERS_URL = `${WS_API_URL}/orders/all`;
+const FETCH_ORDERS_FOR_USER_URL = `${WS_API_URL}/orders`;
+
+const startFetching = async (dispatch: AppDispatch, url: string) => {
+    dispatch(wsConnectionStart(url));
+}
+
+export const fetchAllOrders: AppThunk = () => async (dispatch: AppDispatch)  => {
+    try {
+        dispatch(clearOrders());
+        await startFetching(dispatch, FETCH_ALL_ORDERS_URL);
+    } catch(ex){
+    }
+}
+
+export const fetchOrdersByUser: AppThunk = () => async (dispatch: AppDispatch)  => {
+    try {
+        dispatch(clearOrders());
+        let token = getAccessToken();
+        if (token){
+            token = token.replace('Bearer', '');
+            token = token.trim();
+        }
+        const url = `${FETCH_ORDERS_FOR_USER_URL}?token=${token}`;
+        await startFetching(dispatch, url);
+    } catch(ex){
+    }
 }

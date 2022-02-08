@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { TBurgerBun } from '../../utils/types'
+import { TBurgerBun } from '../../services/types/types'
 
 const BurgerBunConstructorItem: FC<TBurgerBun> = ( { type, ingredient }) => {
     const suffix = (type==="top" ? ' (верх)' : ' (низ)');

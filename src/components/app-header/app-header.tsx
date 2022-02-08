@@ -15,7 +15,7 @@ const AppHeader = () => {
                     itemText="Конструктор"
                   />
                   <MenuItem
-                    itemDest="/list" 
+                    itemDest="/feed" 
                     Icon={ListIcon}
                     itemText="Лента заказов"
                   />

@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import style from './burger-ingredient.module.css';
 
 import { Link, useLocation } from "react-router-dom";
-import {TBurgerIngredient} from "../../utils/types";
+import {TBurgerIngredient} from "../../services/types/types";
 
 
 const BurgerIngredient : FC<TBurgerIngredient> = ( { ingredient, className, selectedCount }) => {

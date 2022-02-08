@@ -1,13 +1,20 @@
+import type { TIngredientActions } from '../actions/ingredient';
+import { TIngredient } from '../types/types';
+
 import {
     SET_CURRENT_INGREDIENT,
     RESET_CURRENT_INGREDIENT
-} from '../actions/ingredient';
+} from '../constants/ingredient';
 
-export const initialState = {
+type TIngredientState = {
+    selectedIngredient: TIngredient | undefined
+  } 
+
+export const initialState: TIngredientState = {
     selectedIngredient: undefined
 };
 
-export const burgerIngredientReducer = (state = initialState, action) => {
+export const burgerIngredientReducer = (state = initialState, action: TIngredientActions) => {
     switch (action.type) {
         case SET_CURRENT_INGREDIENT:
             return {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import { forgot } from '../services/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from "../services/hooks";
 import { Input, Button}  from "@ya.praktikum/react-developer-burger-ui-components";
 import {
     Link, useHistory
@@ -12,7 +12,7 @@ function ForgotPassPage() {
 
     const [userEmail, setUserEmail] = useState<string>('')
 
-    const { isLogged, user, forgotSuccess } = useSelector((store: any) => store.auth);
+    const { isLogged, user, forgotSuccess } = useSelector(store => store.auth);
 
     const dispatch = useDispatch();
 

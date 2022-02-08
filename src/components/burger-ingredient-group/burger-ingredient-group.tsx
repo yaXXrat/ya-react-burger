@@ -1,17 +1,17 @@
 
 import React, { FC } from 'react'
-import { useSelector } from "react-redux";
+import {useSelector} from "../../services/hooks";
 import style from './burger-ingredient-group.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
-import {TBurgerIngredientGroup, TIngredient} from "../../utils/types";
+import {TBurgerIngredientGroup, TIngredient} from "../../services/types/types";
 
 const BurgerIngredientGroup : FC<TBurgerIngredientGroup> = ( {title, ingredients } ) => {
 
-    const { constructorIngredients, constructorBun } = useSelector((store: any) => store.orderConstructor);
+    const { constructorIngredients, constructorBun } = useSelector(state => state.orderConstructor);
     const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun) : constructorIngredients;
 
-    const getSelectedCount = (id: number) => {
-        let currentIngredient = allIngredients.filter((ingredient: TIngredient) => ingredient._id === id);
+    const getSelectedCount = (id: string) => {
+        let currentIngredient = allIngredients.filter(item => item.ingredient._id === id);
         return currentIngredient ? currentIngredient.length : 0;
     }
 

@@ -1,11 +1,11 @@
 import style from "./order-details.module.css"
 import classNames from 'classnames';
 import orderReady from '../../images/tick.png';
-import {useSelector} from "react-redux";
-import {TOrder} from "../../utils/types";
+import {useSelector} from "../../services/hooks";
+import {TOrder} from "../../services/types/types";
 
 const OrderDetails = () => {
-  const order = useSelector<any>(store => store.order.currentOrder) as TOrder;
+  const order = useSelector(store => store.order.currentOrder) as TOrder;
   return (
     <div className={classNames(style['order-details'])}>
       <h2 className={classNames(style['order-h2'], 'text', 'text_type_digits-large')}>

@@ -1,10 +1,19 @@
-import { SET_ERROR_MESSAGE, RESET_ERROR_MESSAGE } from '../actions/error';
+import type { TErrorActions } from '../actions/error';
 
-export const initialState = {
+import { 
+    SET_ERROR_MESSAGE,
+    RESET_ERROR_MESSAGE
+} from '../constants/error';
+
+type TErrorState = {
+    errorMessage: string
+  } 
+
+export const initialState: TErrorState = {
     errorMessage: ''
 };
 
-export const errorReducer = (state = initialState, action) => {
+export const errorReducer = (state = initialState, action: TErrorActions) => {
     switch (action.type) {
         case SET_ERROR_MESSAGE:
             return {

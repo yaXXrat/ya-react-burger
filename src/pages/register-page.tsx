@@ -1,5 +1,5 @@
 import React, { useEffect, useState, FC, FormEvent } from 'react'
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../services/hooks";
 
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory } from "react-router-dom";
@@ -13,7 +13,7 @@ const RegisterPage: FC = () => {
     const [userEmail, setUserEmail] = useState<string>('')
     const [userPass, setUserPass] = useState<string>('')
 
-    const { isLogged } = useSelector((store: any) => store.auth);
+    const { isLogged } = useSelector(store => store.auth);
 
     useEffect(() => {
         if(isLogged) {

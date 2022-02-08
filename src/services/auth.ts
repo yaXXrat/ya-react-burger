@@ -13,22 +13,18 @@ import {
     RESET_PASS_SUCCESS,
     RESET_PASS_ERROR,
     REFRESH_TOKEN_REQUEST,
-//    REFRESH_TOKEN_SUCCESS,
-//    REFRESH_TOKEN_ERROR,
-    UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
-    UPDATE_PROFILE_ERROR,
-    PROFILE_REQUEST,
-    PROFILE_SUCCESS,
-    PROFILE_ERROR,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_ERROR
-} from './actions/auth';
-import {SET_ERROR_MESSAGE} from './actions/error'
+} from './constants/auth';
+import {SET_ERROR_MESSAGE} from './constants/error'
 
-import { TResult, TOptions } from '../utils/types'
+import { profileSuccess } from './actions/auth'
+
+import { TResult, TOptions } from './types/types'
 import { Dispatch } from 'redux';
+import {AppDispatch, AppThunk} from "./types";
 
 const refreshToken = async ( ) => {
     try{
@@ -40,7 +36,7 @@ const refreshToken = async ( ) => {
             body: JSON.stringify({token: getRefreshToken()})
         };
         const response = await fetch(SERVER_API_URL+'auth/token',options);
-        const result: TResult = await response.json();
+        const result = await response.json();
         if(result.success){
             setAccessToken(result.accessToken)
             setRefreshToken(result.refreshToken)
@@ -52,22 +48,28 @@ const refreshToken = async ( ) => {
         console.log(err);
     }
 }
+async function fetchUserInfo() {
+    const options: TOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        }
+    };
+    let response = await fetch(SERVER_API_URL+'auth/user', options);
 
-export function getUser(){
-    return async function(dispatch: Dispatch<any>) {
+    return response;
+}
+
+export const getUser: AppThunk = () => {
+    return async function(dispatch: AppDispatch) {
         try{ 
-            dispatch({type:PROFILE_REQUEST});
-            const options: TOptions = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': getAccessToken()
-                }
-            };
-            let response = await fetch(SERVER_API_URL+'auth/user',options);
+            let response = await fetchUserInfo();
             if(!response.ok){
                 if(response.status === 403 || response.status === 401){
-                    throw new Error("403");
+                    dispatch({type:REFRESH_TOKEN_REQUEST});
+                    await refreshToken();
+                    response = await fetchUserInfo();
                 }else{
                     throw new Error("Error happened during data fetching while getting user data! " + response.status);
                 }
@@ -75,21 +77,14 @@ export function getUser(){
             const result: TResult = await response.json();
             
             if(result.success){
-                dispatch({type: PROFILE_SUCCESS, data: result });
+                dispatch(profileSuccess(result));
             } else {
                 throw new Error("Error happened during profile update!");
             }
         }
         catch(err) {
             if (err instanceof Error) {
-                if(err.message==="403"){
-                    dispatch({type:REFRESH_TOKEN_REQUEST});
-                    await refreshToken();
-                    dispatch(getUser());
-                }else{
-                    dispatch({type: PROFILE_ERROR});
                     dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
-                }
             }else{
                 console.log('err ',err)
             }
@@ -97,23 +92,29 @@ export function getUser(){
     };
 
 }
+async function fetchUpdateUserInfo(name: string, email: string, password: string) {
+    const options: TOptions = {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+        body: JSON.stringify({email, name, password})
+    };
+    let response = await fetch(SERVER_API_URL+'auth/user',options);
 
-export function updateUser(name: string, email: string, password: string){
-    return async function(dispatch: Dispatch<any>) {
+    return response;
+}
+
+export const updateUser: AppThunk = (name: string, email: string, password: string) => {
+    return async function(dispatch: AppDispatch) {
         try {
-            dispatch({type:UPDATE_PROFILE_REQUEST});
-            const options: TOptions = {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': getAccessToken()
-                },
-                body: JSON.stringify({email, name, password})
-            };
-            const response = await fetch(SERVER_API_URL+'auth/user',options);
+            let response = await fetchUpdateUserInfo(name, email, password);
             if(!response.ok){
                 if(response.status === 403 || response.status === 401){
-                    throw new Error("403");
+                    dispatch({type:REFRESH_TOKEN_REQUEST});
+                    await refreshToken();
+                    response = await fetchUpdateUserInfo(name, email, password);
                 }else{
                     throw new Error("Error happened during data fetching while user data update! " + response.status);
                 }
@@ -127,14 +128,7 @@ export function updateUser(name: string, email: string, password: string){
         }
         catch(err) {
             if (err instanceof Error) {
-                if(err.message==="403"){
-                    dispatch({type:REFRESH_TOKEN_REQUEST});
-                    await refreshToken();
-                    dispatch(updateUser(name, email, password));
-                }else{
-                    dispatch({type: UPDATE_PROFILE_ERROR});
-                    dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
-                }
+                dispatch({type: SET_ERROR_MESSAGE, errorMessage: err.name+ ' ' + err.message});
             }else{
                 console.log('err ',err)
             }
@@ -143,7 +137,7 @@ export function updateUser(name: string, email: string, password: string){
 }
 
 
-export function registerUser(name: string, email: string, password: string){
+export const registerUser: AppThunk = (name: string, email: string, password: string) => {
     return function(dispatch: Dispatch) {
         dispatch({type:REGISTER_REQUEST});
         fetch(
@@ -182,7 +176,7 @@ export function registerUser(name: string, email: string, password: string){
     };
 }
 
-export function login(email: string, password: string){
+export const login: AppThunk = (email: string, password: string) => {
     return async function(dispatch: Dispatch) {
         try {
             dispatch({type:LOGIN_REQUEST});
@@ -220,7 +214,7 @@ export function login(email: string, password: string){
     };
 }
 
-export function logout(){
+export const logout: AppThunk = () => {
     return function(dispatch: Dispatch) {
         dispatch({type:LOGOUT_REQUEST});
         fetch(
@@ -257,7 +251,7 @@ export function logout(){
     };
 }
 
-export function forgot(email: string){
+export const forgot: AppThunk = (email: string) => {
     return function(dispatch: Dispatch) {
         dispatch({type:FORGOT_PASS_REQUEST});
         fetch(
@@ -293,7 +287,7 @@ export function forgot(email: string){
     };
 }
 
-export function reset( password: string, token: string ){
+export const reset: AppThunk = ( password: string, token: string ) => {
     return function(dispatch: Dispatch) {
         dispatch({type:RESET_PASS_REQUEST});
         fetch(

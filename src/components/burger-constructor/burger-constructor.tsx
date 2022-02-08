@@ -1,30 +1,31 @@
 import React,{ useCallback } from 'react';
-import { useDispatch, useSelector } from "react-redux";
 import style from './burger-constructor.module.css';
 import { Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from 'react-dnd';
 
-import { UPDATE_INGREDIENTS_ORDER, SET_ORDER_INGREDIENT } from '../../services/actions/constructor';
+import { UPDATE_INGREDIENTS_ORDER, SET_ORDER_INGREDIENT } from '../../services/constants/constructor';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import BurgerBunConstructorItem from '../burger-bun-constructor-item/burger-bun-constructor-item';
 
 import { createOrder } from '../../services/api';
 import { useHistory } from "react-router-dom";
-import { TIngredient } from "../../utils/types";
-
+import {TBurgerConstructorItem, TIngredient} from "../../services/types/types";
+import {useDispatch, useSelector} from "../../services/hooks";
+import {TConstructorState} from "../../services/reducers/constructor";
 const BurgerConstructor = () => {
+
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const { user }  = useSelector((store:any) => store.auth);
-    const { constructorIngredients, constructorBun } = useSelector((store:any)=> store.orderConstructor);
+    const  { user } = useSelector(state => state.auth);
+    const { constructorIngredients, constructorBun } = useSelector<TConstructorState>(state => state.orderConstructor);
     const allIngredients = constructorBun ? constructorIngredients.concat(constructorBun) : constructorIngredients;
-    const calcTotalPrice = (ingredients: TIngredient[]) => ingredients.reduce((acc, current) => acc + current.price, 0);
+    const calcTotalPrice = (ingredients: TBurgerConstructorItem[]) => ingredients.reduce((acc, current) => acc + current.ingredient.price, 0);
     const totalPrice = calcTotalPrice(allIngredients);
 
     function makeOrder() {
         if(user.name!==""){
-            const ingredientsIDs = {"ingredients": constructorIngredients.map((item:TIngredient) => item._id).concat(constructorBun?._id)};
+            const ingredientsIDs = {"ingredients": constructorIngredients.map(item => item.ingredient._id).concat(constructorBun ? constructorBun.ingredient._id : '')};
             dispatch(createOrder(ingredientsIDs, totalPrice));
         }else{
             history.push("/login");
@@ -35,14 +36,14 @@ const BurgerConstructor = () => {
         dispatch({type: UPDATE_INGREDIENTS_ORDER, dragIndex: dragIndex, hoverIndex: hoverIndex});
     }, [dispatch]);
 
-    const onDropHandler = (ingredient: any) => {
-        dispatch({type: SET_ORDER_INGREDIENT, ingredient: ingredient})    
+    const onDropHandler = (ingredient: TIngredient) => {
+        dispatch({type: SET_ORDER_INGREDIENT, ingredient: ingredient})
     }
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",
         drop(ingredient) {
-            onDropHandler(ingredient);
+            onDropHandler(ingredient as TIngredient);
         }
     });
 
@@ -51,20 +52,20 @@ const BurgerConstructor = () => {
             <div className={style['main-block']}>
                 { constructorBun && <div className={style.bun}><BurgerBunConstructorItem
                     type="top"
-                    ingredient={constructorBun}
+                    ingredient={constructorBun.ingredient}
                 /></div>}
 
         <div className={style.group}>
             {
-                constructorIngredients.map((ingredient: any,i: number) => (
-                    <BurgerConstructorItem ingredient={ingredient}
-                    moveCard={moveCard} index={i} id={ingredient.id} key={ingredient.id}/>
+                constructorIngredients.map((item: TBurgerConstructorItem, i: number) => (
+                    <BurgerConstructorItem ingredient={item.ingredient}
+                    moveCard={moveCard} index={i} id={item.id} key={item.index}/>
             ))}
         </div>
 
         { constructorBun && <div className={style.bun}><BurgerBunConstructorItem
             type="bottom"
-            ingredient={constructorBun}
+            ingredient={constructorBun.ingredient}
         /></div>}
          </div>
 

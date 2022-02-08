@@ -6,6 +6,7 @@ import ProfilePage from "./profile-page";
 import RegisterPage from "./register-page";
 import ResetPassPage from "./reset-password-page";
 import ProfileOrdersPage from "./profile-orders-page";
+import FeedPage from "./feed-page";
 
 export {
     MainPage,
@@ -15,5 +16,6 @@ export {
     ProfilePage,
     RegisterPage,
     ResetPassPage,
-    ProfileOrdersPage 
+    ProfileOrdersPage,
+    FeedPage
 }

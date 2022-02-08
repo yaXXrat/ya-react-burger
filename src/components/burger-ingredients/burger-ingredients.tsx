@@ -6,10 +6,10 @@ import style from './burger-ingredients.module.css';
 
 import BurgerIngredientGroup from '../burger-ingredient-group/burger-ingredient-group';
 
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/hooks";
 
 import { throttle } from '../../utils/throttle';
-import {TGroup, TIngredient} from "../../utils/types";
+import {TGroup, TIngredient} from "../../services/types/types";
 
 const ingredientGroups: TGroup[]  = [
     {type: 'bun', title: 'Булки'},
@@ -19,14 +19,14 @@ const ingredientGroups: TGroup[]  = [
 
 const BurgerIngredients = () => {
 
-    const ingredientsData = useSelector((store: any) => store.burgerIngredients.allIngredients);
-
+    const { allIngredients } = useSelector(state => state.burgerIngredients);
+    const allIngredientsArray = allIngredients as TIngredient[];
     const [currentIngredientsType, setCurrentIngredientsType] = useState<string>('bun');
     const filteredIngredientsData = (type: string) => {
-        return ingredientsData.filter((item: TIngredient) => item.type === type);
+        return allIngredientsArray.filter((item: TIngredient) => item.type === type);
     }
 
-    const tabsRef: Record<string, React.MutableRefObject<any>> = useMemo( () => (
+    const tabsRef: Record<string, React.MutableRefObject<HTMLDivElement | null>> = useMemo( () => (
         {
         bun: createRef(),
         sauce: createRef(),
@@ -36,13 +36,13 @@ const BurgerIngredients = () => {
 
     const clickTab = (tab: string) => {
         setCurrentIngredientsType(tab);
-        tabsRef[tab].current.scrollIntoView({ behavior: "smooth" });
+        tabsRef[tab].current?.scrollIntoView({ behavior: "smooth" });
       };
 
-    function getRefTop(ref: React.MutableRefObject<any>) {
+    function getRefTop(ref: React.MutableRefObject<HTMLDivElement | null>) {
         return (ref.current) ? ref.current.getBoundingClientRect().top : 0;
     }
-    const groupContainerRef = useRef<HTMLDivElement>();
+    const groupContainerRef = useRef<null | HTMLDivElement>(null);
 //    const groupContainerTop: number = getRefTop(groupContainerRef);
 
     const updateTab = useCallback( () => {
@@ -50,7 +50,7 @@ const BurgerIngredients = () => {
         const activeTab = Object.entries(tabsRef)
           .map(([name, ref]): [string, number] => [
             name,
-            Math.abs(groupContainerTop - ref.current.getBoundingClientRect().top),
+            Math.abs(groupContainerTop - (ref.current ? ref.current.getBoundingClientRect().top : 0)),
           ])
           .sort((a, b) => a[1] - b[1])[0][0];
 
