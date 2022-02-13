@@ -50,7 +50,7 @@ export const ordersReducer = (state:TOrdersState = initialState, action: TOrders
                 totalToday: number
             };
             const newOrders: TFeedOrder[] = [];
-            data.orders.slice(0,20).forEach((order: IServerOrder) => {
+            data.orders && data.orders.slice(0,20).forEach((order: IServerOrder) => {
 //                const hasOrder = state.orders.some(stateOrder => {
 //                    return stateOrder._id === order._id
 //                });
