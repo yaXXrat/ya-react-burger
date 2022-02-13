@@ -43,10 +43,7 @@ export const orderReducer = (state = initialState, action: TOrderActions) => {
             return {
                 ...state,
                 orderCreated: true,
-                currentOrder: {
-                    ...state.currentOrder,
-                    ...action.order
-                },
+                currentOrder: action.order,
                 isLoading: false
             }
         case ERASE_ORDER:
