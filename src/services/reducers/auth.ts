@@ -24,7 +24,7 @@ export type TAuthState = {
     isTokenRefreshed: boolean
 }
 
-const initialState: TAuthState = {
+export const initialState: TAuthState = {
     user: {
         name: "",
         email: ""
@@ -38,7 +38,7 @@ const initialState: TAuthState = {
     isTokenRefreshed: true
 }
 
-export const AuthReducer = (state = initialState, action: TAuthActions) => {
+export const authReducer = (state = initialState, action: TAuthActions) => {
     switch (action.type){
         case LOGIN_SUCCESS:
             return {
@@ -71,18 +71,6 @@ export const AuthReducer = (state = initialState, action: TAuthActions) => {
                 ...state,
                 resetSuccess: true
             };
-        case REGISTER_SUCCESS:
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    name: action.data.user.name,
-                    email: action.data.user.email,
-                },
-                accessToken: action.data.accessToken,
-                refreshToken: action.data.refreshToken,
-                isLogged: true
-            };
         case FORGOT_PASS_SUCCESS:
             return {
                 ...state,
@@ -107,6 +95,18 @@ export const AuthReducer = (state = initialState, action: TAuthActions) => {
             return {
                 ...state,
                 isTokenRefreshed: true
+            };
+        case REGISTER_SUCCESS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    name: action.data.user.name,
+                    email: action.data.user.email,
+                },
+                accessToken: action.data.accessToken,
+                refreshToken: action.data.refreshToken,
+                isLogged: true
             };
         case UPDATE_PROFILE_SUCCESS:
             return {

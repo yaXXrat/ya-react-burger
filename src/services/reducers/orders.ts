@@ -18,7 +18,7 @@ export type TOrdersState = {
     ingredientPrices: Map<string, number>
 }
 
-const initialState: TOrdersState = {
+export const initialState: TOrdersState = {
     isLoading: false,
     total: 0,
     todayTotal: 0,
