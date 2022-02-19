@@ -1,9 +1,0 @@
-.burger-ingredient-parent-group
-{
-    height: auto;
-}
-.burger-ingredients-group {
-    flex-wrap: wrap;
-    display: flex;
-    height: auto;
-}
