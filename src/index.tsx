@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.render(
     <Provider store={store}>
       <React.StrictMode>
-        <BrowserRouter basename='/ya-react-burger/'>
+        <BrowserRouter basename='/ya-react-burger'>
           <App />
         </BrowserRouter>
       </React.StrictMode>
