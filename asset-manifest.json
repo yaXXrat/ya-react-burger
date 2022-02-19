@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/ya-react-burger/static/css/main.77b5184f.chunk.css",
-    "main.js": "/ya-react-burger/static/js/main.3eaee180.chunk.js",
-    "main.js.map": "/ya-react-burger/static/js/main.3eaee180.chunk.js.map",
-    "runtime-main.js": "/ya-react-burger/static/js/runtime-main.755a18fa.js",
-    "runtime-main.js.map": "/ya-react-burger/static/js/runtime-main.755a18fa.js.map",
-    "static/css/2.d1a1684d.chunk.css": "/ya-react-burger/static/css/2.d1a1684d.chunk.css",
-    "static/js/2.912dbe4c.chunk.js": "/ya-react-burger/static/js/2.912dbe4c.chunk.js",
-    "static/js/2.912dbe4c.chunk.js.map": "/ya-react-burger/static/js/2.912dbe4c.chunk.js.map",
-    "index.html": "/ya-react-burger/index.html",
-    "static/css/2.d1a1684d.chunk.css.map": "/ya-react-burger/static/css/2.d1a1684d.chunk.css.map",
-    "static/css/main.77b5184f.chunk.css.map": "/ya-react-burger/static/css/main.77b5184f.chunk.css.map",
-    "static/js/2.912dbe4c.chunk.js.LICENSE.txt": "/ya-react-burger/static/js/2.912dbe4c.chunk.js.LICENSE.txt",
-    "static/media/fonts.css": "/ya-react-burger/static/media/iceland.77ad7fc2.woff",
-    "static/media/waiting.1b139aa8.gif": "/ya-react-burger/static/media/waiting.1b139aa8.gif"
+    "main.css": "./static/css/main.77b5184f.chunk.css",
+    "main.js": "./static/js/main.83e32da2.chunk.js",
+    "main.js.map": "./static/js/main.83e32da2.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.e14d1c1c.js",
+    "runtime-main.js.map": "./static/js/runtime-main.e14d1c1c.js.map",
+    "static/css/2.765abc5f.chunk.css": "./static/css/2.765abc5f.chunk.css",
+    "static/js/2.912dbe4c.chunk.js": "./static/js/2.912dbe4c.chunk.js",
+    "static/js/2.912dbe4c.chunk.js.map": "./static/js/2.912dbe4c.chunk.js.map",
+    "index.html": "./index.html",
+    "static/css/2.765abc5f.chunk.css.map": "./static/css/2.765abc5f.chunk.css.map",
+    "static/css/main.77b5184f.chunk.css.map": "./static/css/main.77b5184f.chunk.css.map",
+    "static/js/2.912dbe4c.chunk.js.LICENSE.txt": "./static/js/2.912dbe4c.chunk.js.LICENSE.txt",
+    "static/media/fonts.css": "./static/media/iceland.77ad7fc2.woff",
+    "static/media/waiting.1b139aa8.gif": "./static/media/waiting.1b139aa8.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.755a18fa.js",
-    "static/css/2.d1a1684d.chunk.css",
+    "static/js/runtime-main.e14d1c1c.js",
+    "static/css/2.765abc5f.chunk.css",
     "static/js/2.912dbe4c.chunk.js",
     "static/css/main.77b5184f.chunk.css",
-    "static/js/main.3eaee180.chunk.js"
+    "static/js/main.83e32da2.chunk.js"
   ]
 }
