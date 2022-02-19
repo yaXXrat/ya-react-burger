@@ -104,7 +104,7 @@ function App() {
                     <ProtectedRoute path="/profile" >
                         <ProfilePage />
                     </ProtectedRoute>
-                    <Route>
+                    <Route path="/" >
                         <MainPage />
                     </Route>
                 </Switch>
