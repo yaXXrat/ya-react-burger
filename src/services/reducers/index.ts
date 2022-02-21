@@ -4,7 +4,7 @@ import { constructorReducer } from "./constructor";
 import { errorReducer } from "./error";
 import { burgerIngredientsReducer } from "./ingredients";
 import { burgerIngredientReducer } from "./ingredient";
-import { AuthReducer } from "./auth";
+import { authReducer } from "./auth";
 import { wsReducer } from "./websocket";
 import { ordersReducer } from "./orders";
 import { serverOrderReducer } from "./server-order";
@@ -15,7 +15,7 @@ export const rootReducer = combineReducers({
     orderConstructor: constructorReducer,
     order: orderReducer,
     errorInfo: errorReducer,
-    auth: AuthReducer,
+    auth: authReducer,
     ws: wsReducer,
     orders: ordersReducer,
     serverOrder: serverOrderReducer

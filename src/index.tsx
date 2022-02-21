@@ -5,11 +5,14 @@ import App from './components/app/app';
 import { Provider } from 'react-redux';
 
 import { store } from './services/store';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
     <Provider store={store}>
       <React.StrictMode>
-        <App />
+        <BrowserRouter basename='/ya-react-burger/'>
+          <App />
+        </BrowserRouter>
       </React.StrictMode>
     </Provider>,
   document.getElementById('root')

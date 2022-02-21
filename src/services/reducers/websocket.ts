@@ -15,9 +15,10 @@ import {
     error?: Event;
   }
   
-  const initialState: TWSState = {
+  export const initialState: TWSState = {
     wsConnected: false,
-    messages: []
+    messages: [],
+    error: undefined
   };
   
   // Создадим редьюсер для WebSocket
@@ -46,7 +47,7 @@ import {
       case WS_CONNECTION_CLOSED:
         return {
           ...state,
-                  error: undefined,
+          error: undefined,
           wsConnected: false
         };
   
@@ -56,7 +57,7 @@ import {
       case WS_GET_MESSAGE:
         return {
           ...state,
-                  error: undefined,
+          error: undefined,
           messages: [...state.messages, action.payload]
         };
       default:
