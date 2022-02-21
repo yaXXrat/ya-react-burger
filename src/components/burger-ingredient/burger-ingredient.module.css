@@ -11,6 +11,7 @@
 }
 
 .burger-ingredient-currency,
+.burger-ingredient-image,
 .burger-ingredient-price {
     display: flex;
 }

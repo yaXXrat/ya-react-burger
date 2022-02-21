@@ -21,7 +21,7 @@ const Modal: React.FC<TModalProps> = ({ children, onClose= function() {}, classN
     ReactDOM.createPortal(
       <>
             <div className={classNames(style.modal, className)}>
-              { typeof onClose === 'function' ? <div className={classNames(style['close'], 'mt-10', 'mr-10')}>
+              { typeof onClose === 'function' ? <div data-cy="closeIcon" className={classNames(style['close'], 'mt-10', 'mr-10')}>
                 <CloseIcon type="primary" onClick={onClose} />
               </div> : ''}
               {children}

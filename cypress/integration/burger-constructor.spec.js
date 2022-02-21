@@ -1,6 +1,6 @@
 describe('making order', function() {
     before(function() {
-      cy.visit('http://localhost:3000');
+      cy.visit('http://localhost:3000/ya-react-burger/');
     });
   
     it('should open burger constructor by default', function() {
@@ -36,6 +36,8 @@ describe('making order', function() {
       cy.get('@createOrderButton').click().wait(20000);
 
       cy.contains('Ваш заказ начали готовить');
+      cy.get('[data-cy="closeIcon"]').click();
+      cy.get('Ваш заказ начали готовить').should('not.exist')
      
     });    
 
