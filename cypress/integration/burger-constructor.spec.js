@@ -30,10 +30,11 @@ describe('making order', function() {
     });    
 
     it('should created order after login', function() {
+      cy.intercept('POST', 'https://norma.nomoreparties.space/api/orders', { fixture: 'order.json' })
       cy.get('[class^=burger-constructor_burger-constructor__]').as('burgerConstructorArea')
       cy.get('@burgerConstructorArea').get('button').contains('Оформить заказ').as('createOrderButton');
 
-      cy.get('@createOrderButton').click().wait(20000);
+      cy.get('@createOrderButton').click().wait(1000);
 
       cy.contains('Ваш заказ начали готовить');
       cy.get('[data-cy="closeIcon"]').click();
